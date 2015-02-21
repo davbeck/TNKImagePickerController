@@ -50,7 +50,7 @@
     
     _thumbnailView = [[UIImageView alloc] init];
     [self addSubview:_thumbnailView];
-    _thumbnailView.contentMode = UIViewContentModeScaleAspectFill;
+    _thumbnailView.contentMode = UIViewContentModeCenter;
     _thumbnailView.clipsToBounds = YES;
     _thumbnailView.constrainedTop = @4.0;
     _thumbnailView.constrainedLeading = @4.0;
@@ -77,6 +77,15 @@
         [self _init];
     }
     return self;
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.titleLabel.text = nil;
+    self.subtitleLabel.text = nil;
+    self.thumbnailView.image = nil;
 }
 
 @end

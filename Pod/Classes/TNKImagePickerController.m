@@ -11,7 +11,6 @@
 @import Photos;
 
 #import "TNKImagePickerControllerBundle.h"
-#import "TNKImageCollectionCell.h"
 #import "UIImageView+TNKAssets.h"
 #import "TNKCollectionCell.h"
 #import "PHCollection+TNKThumbnail.h"
@@ -84,9 +83,7 @@
     [super viewDidLoad];
     
     
-    NSBundle *bundle = TNKImagePickerControllerBundle();
-    [self.tableView registerNib:[UINib nibWithNibName:@"TNKImageCollectionCell" bundle:bundle] forCellReuseIdentifier:@"CollectionCell"];
-    [self.tableView registerClass:[TNKCollectionCell class] forCellReuseIdentifier:@"CollectionListCell"];
+    [self.tableView registerClass:[TNKCollectionCell class] forCellReuseIdentifier:@"CollectionCell"];
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0, 95.0, 0.0, 0.0);
     
     
@@ -139,28 +136,23 @@
     return [_collectionsFetchResults[section - 1] count];
 }
 
-- (void)_setupCell:(TNKImageCollectionCell *)cell withFetchResult:(PHFetchResult *)result
+- (NSCache *)_assetCountCache
 {
-    [cell.imageViews enumerateObjectsUsingBlock:^(UIImageView *imageView, NSUInteger index, BOOL *stop) {
-        if (result.count > index) {
-            imageView.asset = result[index];
-        } else {
-            imageView.asset = nil;
-            
-            if (index > 0) {
-                imageView.image = nil;
-            }
-        }
-    }];
+    static NSCache *cache = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cache = [NSCache new];
+    });
+    
+    return cache;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        TNKImageCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+        TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
         
-//        cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
-//        cell.subtitleLabel.text = nil;
-//        
+        cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
+        
 //        PHFetchResult *moments = [PHAssetCollection fetchMomentsWithOptions:nil];
 //        PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:moments.lastObject options:nil];
         
@@ -172,6 +164,8 @@
         
 //        [self _setupCell:cell withFetchResult:result];
         
+        cell.thumbnailView.image = [UIImage imageNamed:@"default-collection" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+        
         return cell;
     } else {
         PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
@@ -179,44 +173,51 @@
         
         
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
-            TNKImageCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+            TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
             
-//            cell.titleLabel.text = collection.localizedTitle;
-//            
-//            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
-//            
-//            PHFetchOptions *options = [[PHFetchOptions alloc] init];
-//            options.sortDescriptors = @[
-//                                        [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO],
-//                                        ];
-//            PHFetchResult *keyResult = [PHAsset fetchKeyAssetsInAssetCollection:assetCollection options:nil];
-//            PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
-//            if (keyResult.count <= 0) {
-//                keyResult = result;
-//            }
-//            
-//            
-////            [self _setupCell:cell withFetchResult:keyResult];
-//            
-//            
-//            static NSNumberFormatter *numberFormatter = nil;
-//            static dispatch_once_t onceToken;
-//            dispatch_once(&onceToken, ^{
-//                numberFormatter = [[NSNumberFormatter alloc] init];
-//                numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-//                numberFormatter.usesGroupingSeparator = YES;
-//            });
-//            cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(result.count)];
+            cell.titleLabel.text = collection.localizedTitle;
+            
+            NSInteger count = assetCollection.estimatedAssetCount;
+            if (count == NSNotFound) {
+                NSNumber *countNumber = [[self _assetCountCache] objectForKey:assetCollection.localIdentifier];
+                if (countNumber == nil) {
+                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+                    countNumber = @(result.count);
+                    [[self _assetCountCache] setObject:countNumber forKey:assetCollection.localIdentifier];
+                }
+                
+                count = [countNumber integerValue];
+            }
+            
+            static NSNumberFormatter *numberFormatter = nil;
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                numberFormatter = [[NSNumberFormatter alloc] init];
+                numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+                numberFormatter.usesGroupingSeparator = YES;
+            });
+            cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(count)];
+            
+            cell.thumbnailView.image = [UIImage imageNamed:@"default-collection" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+            [collection requestThumbnail:^(UIImage *result) {
+                if (result != nil) {
+                    cell.thumbnailView.image = result;
+                }
+            }];
+            
             
             return cell;
         } else {
-            TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionListCell" forIndexPath:indexPath];
+            TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
             
             cell.titleLabel.text = collection.localizedTitle;
             
             cell.thumbnailView.image = nil;
             [collection requestThumbnail:^(UIImage *result) {
-                cell.thumbnailView.image = result;
+                if (result != nil) {
+                    cell.thumbnailView.image = result;
+                }
             }];
             
             return cell;
@@ -266,7 +267,8 @@
 #pragma mark - PHPhotoLibraryChangeObserver
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    // Call might come on any background queue. Re-dispatch to the main queue to handle it.
+    [[self _assetCountCache] removeAllObjects];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
 //        NSMutableArray *updatedCollectionsFetchResults = nil;
 //        

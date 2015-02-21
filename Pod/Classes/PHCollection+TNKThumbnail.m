@@ -8,6 +8,8 @@
 
 #import "PHCollection+TNKThumbnail.h"
 
+#import "UIImage+TNKAspectDraw.h"
+
 
 #define TNKCollectionThumbnailFormat @"PHCollectionThumbnail"
 
@@ -38,7 +40,11 @@
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self _requestThumbnail:^(UIImage *result) {
-                [[[self class] _thumbnailImageCache] setObject:result forKey:self.localIdentifier];
+                if (result == nil) {
+                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:self.localIdentifier];
+                } else {
+                    [[[self class] _thumbnailImageCache] setObject:result forKey:self.localIdentifier];
+                }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     resultHandler(result);
@@ -46,7 +52,11 @@
             }];
         });
     } else {
-        resultHandler(thumbnail);
+        if ([thumbnail isKindOfClass:[NSNull class]]) {
+            resultHandler(nil);
+        } else {
+            resultHandler(thumbnail);
+        }
     }
 }
 
@@ -60,7 +70,74 @@
 
 @implementation PHAssetCollection (TNKThumbnail)
 
-
+- (void)_requestThumbnail:(void (^)(UIImage *result))resultHandler {
+    CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
+    assetSize.width *= [UIScreen mainScreen].scale;
+    assetSize.height *= [UIScreen mainScreen].scale;
+    
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    
+    PHFetchResult *keyResult = [PHAsset fetchKeyAssetsInAssetCollection:self options:nil];
+    if (keyResult.count <= 0) {
+        PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+        fetchOptions.sortDescriptors = @[
+                                         [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO],
+                                         ];
+        keyResult = [PHAsset fetchAssetsInAssetCollection:self options:fetchOptions];
+    }
+    
+    if (keyResult.count == 0) {
+        resultHandler(nil);
+        return;
+    }
+    
+    NSMutableArray *assets = [NSMutableArray new];
+    for (NSUInteger i = 0; i < 3; i++) {
+        if (keyResult.count > i) {
+            [assets addObject:[keyResult objectAtIndex:i]];
+        }
+    }
+    
+    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
+        
+        for (NSInteger index = 2; index >= 0; index--) {
+            CGRect assetFrame;
+            assetFrame.origin.y = (2 - index) * 2.0;
+            assetFrame.origin.x = index * 2.0 + 4.0;
+            assetFrame.size.width = TNKPrimaryThumbnailWidth - index * 4.0;
+            assetFrame.size.height = TNKPrimaryThumbnailWidth - index * 4.0;
+            
+            UIImage *image = nil;
+            if (assets.count > index) {
+                PHAsset *asset = assets[index];
+                image = results[asset.localIdentifier];
+            }
+            
+            if (image != nil) {
+                [image drawInRectWithAspectFill:assetFrame];
+            } else {
+                [[UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000] setFill];
+                [[UIBezierPath bezierPathWithRect:assetFrame] fill];
+            }
+            
+            CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
+            CGRect borderRect = CGRectInset(assetFrame, -lineWidth / 2.0, -lineWidth / 2.0);
+            UIBezierPath *border = [UIBezierPath bezierPathWithRect:borderRect];
+            border.lineWidth = lineWidth;
+            [[UIColor whiteColor] setStroke];
+            [border stroke];
+        }
+        
+        UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        
+        resultHandler(retImage);
+    }];
+}
 
 @end
 
@@ -116,10 +193,14 @@
                 assetFrame.origin.y = row * (assetFrame.size.height + 1.0) + 4.0;
                 assetFrame.origin.x = column * (assetFrame.size.width + 1.0) + 4.0;
                 
-                PHAsset *asset = assets[row * 3 + column];
-                UIImage *image = results[asset.localIdentifier];
+                UIImage *image = nil;
+                if (assets.count > assetIndex) {
+                    PHAsset *asset = assets[assetIndex];
+                    image = results[asset.localIdentifier];
+                }
+                
                 if (image != nil) {
-                    [image drawInRect:assetFrame];
+                    [image drawInRectWithAspectFill:assetFrame];
                 } else {
                     [[UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000] setFill];
                     [[UIBezierPath bezierPathWithRect:assetFrame] fill];
@@ -150,6 +231,10 @@
                                  options:(PHImageRequestOptions *)options
                            resultHandler:(void (^)(NSDictionary *results,
                                                    NSDictionary *infos))resultHandler {
+    if (options.deliveryMode == PHImageRequestOptionsDeliveryModeOpportunistic) {
+        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    }
+    
     NSMutableDictionary *results = [NSMutableDictionary new];
     NSMutableDictionary *infos = [NSMutableDictionary new];
     NSMutableDictionary *requestIDs = [NSMutableDictionary new];
@@ -165,7 +250,7 @@
             dispatch_group_leave(group);
         }];
         
-        requestIDs[asset.localIdentifier] = @(requestID);
+//        requestIDs[asset.localIdentifier] = @(requestID);
     }];
     
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
