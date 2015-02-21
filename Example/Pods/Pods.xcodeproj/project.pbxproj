@@ -1,1474 +1,3760 @@
-// !$*UTF8*$!
-{
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		0148150442AEE7B790F20518 /* UIImage+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF6BD932B6625B94287AF2B /* UIImage+Compare.m */; };
-		0AC486BF837C4540DF60EA39 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEED5015445980CDF6EFE37B /* XCTest.framework */; };
-		0B5EEE8766A3FC4FEEAB55FB /* default-collection@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D014C847B2EB31F779BFA5 /* default-collection@3x.png */; };
-		1126106D1A99101C007E530F /* UIImage+TNKAspectDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 1126106C1A99101C007E530F /* UIImage+TNKAspectDraw.m */; };
-		17017A7F680DA7789531ECEF /* UIImage+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = 80877FC2FEC040D887DEB124 /* UIImage+Compare.h */; };
-		1C6B1652FF5C0F6A64CBAC0D /* TNKImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3D5824E0622973A72F79084 /* TNKImagePickerController.h */; };
-		1D4FB0DC9DD552D54459DC12 /* PHCollection+TNKThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4684A5A3E098F54D522064CC /* PHCollection+TNKThumbnail.m */; };
-		1F916CA9215C9224BB935C09 /* UIView+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D271AE296E7116E650E008 /* UIView+TULayoutAdditions.h */; };
-		284A53FCB3C411F31276E2B1 /* PHCollection+TNKThumbnail.h in Headers */ = {isa = PBXBuildFile; fileRef = 518604B7473CDF2EA42DB265 /* PHCollection+TNKThumbnail.h */; };
-		28D91F4960AD61CB388D5462 /* NSNumber+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E2823221394277D75CE9A64B /* NSNumber+TULayoutAdditions.h */; };
-		29DDBA3E685DED41C28B6978 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		2B66943A1EFBD02C634A4C46 /* UIView+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D271AE296E7116E650E008 /* UIView+TULayoutAdditions.h */; };
-		342B083297F6DC9BBD824841 /* UIViewController+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DFF8F07DB33389D4EB3DA27 /* UIViewController+TULayoutAdditions.m */; };
-		39AD9A8B8C19DE858D21FE77 /* UIImageView+TNKAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE6890659C6E07537D9296 /* UIImageView+TNKAssets.m */; };
-		3A0A7C048696E56A6BFC202D /* UIViewController+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CB71A7AC4C4410537D05C138 /* UIViewController+TULayoutAdditions.h */; };
-		3FCBAF15AE2954461383085D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		40E8D3D392B6C5F6C9215745 /* PHCollection+TNKThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4684A5A3E098F54D522064CC /* PHCollection+TNKThumbnail.m */; };
-		4BF92A3DFF73A6B8CD9ACA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		4F7D29F9EE4E7877A4708902 /* NSNumber+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5467DC42073736C6468FF3EC /* NSNumber+TULayoutAdditions.m */; };
-		525A2A744CDEC520D89CDBCF /* UIImageView+TNKAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE6890659C6E07537D9296 /* UIImageView+TNKAssets.m */; };
-		5AC66A9AE099F3B2C4835D57 /* NSNumber+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E2823221394277D75CE9A64B /* NSNumber+TULayoutAdditions.h */; };
-		63892FEA905AB68EA4E8CC04 /* TUConstraintInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E29541594FB253E1F9F9C6 /* TUConstraintInfo.m */; };
-		641D1F946059ED5CF65B8CBD /* Pods-TNKImagePickerController-TNKImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5CB51D2B5C70F900A5B2BF /* Pods-TNKImagePickerController-TNKImagePickerController-dummy.m */; };
-		64AE074943E705D7C9A7AAD4 /* UIView+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B295D1F935183C6281C751 /* UIView+TULayoutAdditions.m */; };
-		69274E8F959749CA42DF9008 /* TNKImagePickerControllerBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = DD0DE5CCE527415F6DF746BC /* TNKImagePickerControllerBundle.h */; };
-		6C0B6625979396E19C138F8E /* UIImageView+TNKAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA067216AD925D6F9EA3AA8 /* UIImageView+TNKAssets.h */; };
-		6F5D7C8C01416E0A5EA96ACF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		70B2F5A046074DB4FC05E9C4 /* Pods-Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CAB3782517C9DDD0137DBB /* Pods-Tests-dummy.m */; };
-		72FE18D0404B3D7C082A5FD1 /* NSLayoutConstraint+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D30D990231B5122646DA917 /* NSLayoutConstraint+TULayoutAdditions.h */; };
-		7440EEED80A90BA7518A3E74 /* Pods-Tests-FBSnapshotTestCase-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 14555DB96A44FEB9CF83972B /* Pods-Tests-FBSnapshotTestCase-dummy.m */; };
-		791700589697F8C98041F1BA /* NSLayoutConstraint+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E1096D71379F9FB29D8610 /* NSLayoutConstraint+TULayoutAdditions.m */; };
-		7A8779516C5DC2142AA5882D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		7C95D363EDD4C90B822513FE /* TNKImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1724D65FD8D24BD098EF5C87 /* TNKImagePickerController.m */; };
-		8028CE864C80A394FB57A27F /* UIView+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B295D1F935183C6281C751 /* UIView+TULayoutAdditions.m */; };
-		8E04D374578F7B9033907340 /* NSLayoutConstraint+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E1096D71379F9FB29D8610 /* NSLayoutConstraint+TULayoutAdditions.m */; };
-		91B1505A191D5BCEE06D3931 /* UIImage+Diff.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AB84D065DC8E9E74D65CF96 /* UIImage+Diff.h */; };
-		968691218A164E7C935F6E6E /* TUConstraintInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2703ADFE9D413A2DDBC17F59 /* TUConstraintInfo.h */; };
-		972D578D6F6305CA5698EF17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		9DB846AA15D7CCDF63A8E167 /* default-collection.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EB7291AB1A8659E37A88DC /* default-collection.png */; };
-		9E6443237B41E6D723BEBC5E /* Pods-TNKImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F3C54D6F08D8C758B18CE /* Pods-TNKImagePickerController-dummy.m */; };
-		A173CF762EF39F93BBD902C8 /* UIViewController+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CB71A7AC4C4410537D05C138 /* UIViewController+TULayoutAdditions.h */; };
-		A5ADC7746C41CE830D967F8C /* NSNumber+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5467DC42073736C6468FF3EC /* NSNumber+TULayoutAdditions.m */; };
-		AA1220235455E49C2D151019 /* TNKImagePickerControllerBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = DD0DE5CCE527415F6DF746BC /* TNKImagePickerControllerBundle.h */; };
-		AB5595BD610A69D5E78998C5 /* UIImage+Diff.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0DC43EF3723EA7C41F3B54 /* UIImage+Diff.m */; };
-		ADC4212B02891E60D0EF5D31 /* TNKImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1724D65FD8D24BD098EF5C87 /* TNKImagePickerController.m */; };
-		AFB3B28B61195009C4085380 /* FBSnapshotTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 04219D7F1B8B94EC16B9BEC2 /* FBSnapshotTestCase.h */; };
-		B0280EB8AC72CD590D6370DF /* UIImageView+TNKAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA067216AD925D6F9EA3AA8 /* UIImageView+TNKAssets.h */; };
-		B23968BACA9AB86D314A9328 /* TNKImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3D5824E0622973A72F79084 /* TNKImagePickerController.h */; };
-		B42F089F09BD0D631C91F499 /* Pods-Tests-TNKImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3305DB0DA376BDD58B6435BA /* Pods-Tests-TNKImagePickerController-dummy.m */; };
-		BA834CEEC04E6B9659669276 /* TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E0BA90DCDBD77E564A2F063 /* TULayoutAdditions.h */; };
-		BE7D6B031ADAAE1CABDD1EDB /* FBSnapshotTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FBA8428CABC03D32C8C4A5 /* FBSnapshotTestCase.m */; };
-		C00EC25F433F6C6188628A5B /* TNKImagePickerControllerBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCB881F32A7BC79F56FD58 /* TNKImagePickerControllerBundle.m */; };
-		C3DEBA2FFE5E3A88070C7C08 /* NSLayoutConstraint+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D30D990231B5122646DA917 /* NSLayoutConstraint+TULayoutAdditions.h */; };
-		C68D53053264EAAC621641E1 /* TNKCollectionCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C6EB55A74D7C3D7230CF299 /* TNKCollectionCell.h */; };
-		C94F7C00398F6B05CAC90291 /* Pods-Tests-TULayoutAdditions-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A42C2D51B289B1A6DEDD339 /* Pods-Tests-TULayoutAdditions-dummy.m */; };
-		CEEF9CF0928720AA4550D452 /* PHCollection+TNKThumbnail.h in Headers */ = {isa = PBXBuildFile; fileRef = 518604B7473CDF2EA42DB265 /* PHCollection+TNKThumbnail.h */; };
-		D3BAFA6EFAABBCE2EA59F632 /* TNKImagePickerControllerBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCB881F32A7BC79F56FD58 /* TNKImagePickerControllerBundle.m */; };
-		D86F3E80E58A281B86A3C322 /* TNKCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CDB5BC63DCEBC7A9956456 /* TNKCollectionCell.m */; };
-		D9260A7D7E11CE4816A4F7B5 /* UIViewController+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DFF8F07DB33389D4EB3DA27 /* UIViewController+TULayoutAdditions.m */; };
-		E1E7015DB6D88319CA71ED68 /* TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E0BA90DCDBD77E564A2F063 /* TULayoutAdditions.h */; };
-		E7DBE0CF23B22CA93ADC76A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26943327D7FCEB887C9DAE20 /* Foundation.framework */; };
-		EA50835B8C8A0A5A52AD1723 /* TNKCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CDB5BC63DCEBC7A9956456 /* TNKCollectionCell.m */; };
-		EC32D1D8EF29842377D4ECF9 /* FBSnapshotTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D0E64E384879EDF6A604E /* FBSnapshotTestController.m */; };
-		EEFA2040AE79817A1D6471F9 /* FBSnapshotTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = EBE2AB823A28E3FB6DA2CA38 /* FBSnapshotTestController.h */; };
-		F0A344B1D5C2D7FEDEBB20AF /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7963F35156C4DA727386BA12 /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m */; };
-		F33A8975CD6C1BD9748D6A11 /* TUConstraintInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2703ADFE9D413A2DDBC17F59 /* TUConstraintInfo.h */; };
-		FA1552766FBA064D190862A5 /* TNKCollectionCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C6EB55A74D7C3D7230CF299 /* TNKCollectionCell.h */; };
-		FA1F5FE3A3930968E0482A73 /* default-collection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC1D6B9B7D00C0320A6F11AA /* default-collection@2x.png */; };
-		FD275F713056A1E8509A44A8 /* TUConstraintInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E29541594FB253E1F9F9C6 /* TUConstraintInfo.m */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		013A0C43DD23814DABEA2348 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1D39E41EC9DE0C8B13359A95;
-			remoteInfo = "Pods-TNKImagePickerController-TNKImagePickerController";
-		};
-		0656CA848B5CDBEE78AB3AAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E0CE4B8CFB7543F1DCA225C8;
-			remoteInfo = "Pods-Tests-TULayoutAdditions";
-		};
-		092D2583B984A0247DB484ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AC80FAC2937E42E91B89E74F;
-			remoteInfo = "Pods-TNKImagePickerController-TULayoutAdditions";
-		};
-		2E223AE4063CA0C4841CF0D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5A23C426448AE32199A569EF;
-			remoteInfo = TNKImagePickerController;
-		};
-		49DAB36DD5FEA1594054207B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AC80FAC2937E42E91B89E74F;
-			remoteInfo = "Pods-TNKImagePickerController-TULayoutAdditions";
-		};
-		6425413B8978A47AB7353727 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5A23C426448AE32199A569EF;
-			remoteInfo = TNKImagePickerController;
-		};
-		B949800A5AB287F017D6C9DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 89B8C5A417173740429876F0;
-			remoteInfo = "Pods-Tests-TNKImagePickerController";
-		};
-		CC2759DAFEBF808BF148E829 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E0CE4B8CFB7543F1DCA225C8;
-			remoteInfo = "Pods-Tests-TULayoutAdditions";
-		};
-		E6EDD2350409EBC3EB32B2CB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A29387E64285B6839F31C30C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AD9976767BA1568FBFEA673B;
-			remoteInfo = "Pods-Tests-FBSnapshotTestCase";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXFileReference section */
-		026EE5A40AF6BCE537934DA7 /* Pods-TNKImagePickerController-TNKImagePickerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController-TNKImagePickerController.xcconfig"; sourceTree = "<group>"; };
-		04219D7F1B8B94EC16B9BEC2 /* FBSnapshotTestCase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = FBSnapshotTestCase.h; sourceTree = "<group>"; };
-		092004BB90F1EB218D78A27C /* Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig"; sourceTree = "<group>"; };
-		0B7CFBA5F2A2D105ED81C95B /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
-		0C2F3C54D6F08D8C758B18CE /* Pods-TNKImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TNKImagePickerController-dummy.m"; sourceTree = "<group>"; };
-		1126106B1A99101C007E530F /* UIImage+TNKAspectDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+TNKAspectDraw.h"; path = "Pod/Classes/UIImage+TNKAspectDraw.h"; sourceTree = "<group>"; };
-		1126106C1A99101C007E530F /* UIImage+TNKAspectDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+TNKAspectDraw.m"; path = "Pod/Classes/UIImage+TNKAspectDraw.m"; sourceTree = "<group>"; };
-		11A522F57E5890C6836387EF /* libPods-TNKImagePickerController-TNKImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TNKImagePickerController-TNKImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		11E29541594FB253E1F9F9C6 /* TUConstraintInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TUConstraintInfo.m; path = TULayoutAdditions/TUConstraintInfo.m; sourceTree = "<group>"; };
-		14555DB96A44FEB9CF83972B /* Pods-Tests-FBSnapshotTestCase-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Tests-FBSnapshotTestCase-dummy.m"; sourceTree = "<group>"; };
-		1724D65FD8D24BD098EF5C87 /* TNKImagePickerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNKImagePickerController.m; path = Pod/Classes/TNKImagePickerController.m; sourceTree = "<group>"; };
-		18807CA98990AD9D94F63B38 /* Pods-TNKImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController.debug.xcconfig"; sourceTree = "<group>"; };
-		1A42C2D51B289B1A6DEDD339 /* Pods-Tests-TULayoutAdditions-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Pods-Tests-TULayoutAdditions-dummy.m"; path = "../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-dummy.m"; sourceTree = "<group>"; };
-		1BA067216AD925D6F9EA3AA8 /* UIImageView+TNKAssets.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+TNKAssets.h"; path = "Pod/Classes/UIImageView+TNKAssets.h"; sourceTree = "<group>"; };
-		1CB2B1DEAFFCBCF65999BA51 /* Pods-Tests-TNKImagePickerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-TNKImagePickerController.xcconfig"; path = "../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController.xcconfig"; sourceTree = "<group>"; };
-		26943327D7FCEB887C9DAE20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		2703ADFE9D413A2DDBC17F59 /* TUConstraintInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TUConstraintInfo.h; path = TULayoutAdditions/TUConstraintInfo.h; sourceTree = "<group>"; };
-		2910AF66C9D9A8EC5B904F06 /* Pods-Tests-TNKImagePickerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Pods-Tests-TNKImagePickerController-prefix.pch"; path = "../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch"; sourceTree = "<group>"; };
-		2CCCB881F32A7BC79F56FD58 /* TNKImagePickerControllerBundle.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNKImagePickerControllerBundle.m; path = Pod/Classes/TNKImagePickerControllerBundle.m; sourceTree = "<group>"; };
-		3305DB0DA376BDD58B6435BA /* Pods-Tests-TNKImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Pods-Tests-TNKImagePickerController-dummy.m"; path = "../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-dummy.m"; sourceTree = "<group>"; };
-		33B253DB9E7C156D7B739B11 /* Pods-Tests-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Tests-environment.h"; sourceTree = "<group>"; };
-		3E0BA90DCDBD77E564A2F063 /* TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TULayoutAdditions.h; path = TULayoutAdditions/TULayoutAdditions.h; sourceTree = "<group>"; };
-		3F6AA148474AF6CEEE7EA412 /* Pods-Tests-TULayoutAdditions-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Pods-Tests-TULayoutAdditions-prefix.pch"; path = "../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch"; sourceTree = "<group>"; };
-		45B295D1F935183C6281C751 /* UIView+TULayoutAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+TULayoutAdditions.m"; path = "TULayoutAdditions/UIView+TULayoutAdditions.m"; sourceTree = "<group>"; };
-		4684A5A3E098F54D522064CC /* PHCollection+TNKThumbnail.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "PHCollection+TNKThumbnail.m"; path = "Pod/Classes/PHCollection+TNKThumbnail.m"; sourceTree = "<group>"; };
-		47CAB3782517C9DDD0137DBB /* Pods-Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Tests-dummy.m"; sourceTree = "<group>"; };
-		4E92568A9AA76EBD3BC8BCE7 /* Pods-Tests-TULayoutAdditions.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-TULayoutAdditions.xcconfig"; path = "../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions.xcconfig"; sourceTree = "<group>"; };
-		518604B7473CDF2EA42DB265 /* PHCollection+TNKThumbnail.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PHCollection+TNKThumbnail.h"; path = "Pod/Classes/PHCollection+TNKThumbnail.h"; sourceTree = "<group>"; };
-		5467DC42073736C6468FF3EC /* NSNumber+TULayoutAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+TULayoutAdditions.m"; path = "TULayoutAdditions/NSNumber+TULayoutAdditions.m"; sourceTree = "<group>"; };
-		58EB7291AB1A8659E37A88DC /* default-collection.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "default-collection.png"; path = "Pod/Assets/default-collection.png"; sourceTree = "<group>"; };
-		5ACCB21ECC635B08BEA80E07 /* libPods-TNKImagePickerController-TULayoutAdditions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TNKImagePickerController-TULayoutAdditions.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DFF8F07DB33389D4EB3DA27 /* UIViewController+TULayoutAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+TULayoutAdditions.m"; path = "TULayoutAdditions/UIViewController+TULayoutAdditions.m"; sourceTree = "<group>"; };
-		5ED4716A069AEEC9DB3B8C3A /* Pods-TNKImagePickerController-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TNKImagePickerController-environment.h"; sourceTree = "<group>"; };
-		60B49EAB15A8D1388B1D2997 /* Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch"; sourceTree = "<group>"; };
-		7963F35156C4DA727386BA12 /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TNKImagePickerController-TULayoutAdditions-dummy.m"; sourceTree = "<group>"; };
-		7AB84D065DC8E9E74D65CF96 /* UIImage+Diff.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIImage+Diff.h"; sourceTree = "<group>"; };
-		7C28E4528187317B3D2CE2AF /* Pods-Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		80877FC2FEC040D887DEB124 /* UIImage+Compare.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIImage+Compare.h"; sourceTree = "<group>"; };
-		824B61881BA62497C850B99E /* libPods-Tests-TULayoutAdditions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-TULayoutAdditions.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		82741D7FC73B0FDD03413A7A /* Pods-TNKImagePickerController-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TNKImagePickerController-resources.sh"; sourceTree = "<group>"; };
-		86E22BC4C7F051BF5C0DCB4E /* Pods-Tests-FBSnapshotTestCase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests-FBSnapshotTestCase.xcconfig"; sourceTree = "<group>"; };
-		86FBA8428CABC03D32C8C4A5 /* FBSnapshotTestCase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = FBSnapshotTestCase.m; sourceTree = "<group>"; };
-		8F8AB797CF12BE3FE02CB158 /* Pods-TNKImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
-		8FEB72DAB3884C672D5D257A /* Pods-TNKImagePickerController-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TNKImagePickerController-acknowledgements.plist"; sourceTree = "<group>"; };
-		95CDB5BC63DCEBC7A9956456 /* TNKCollectionCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNKCollectionCell.m; path = Pod/Classes/TNKCollectionCell.m; sourceTree = "<group>"; };
-		9C6EB55A74D7C3D7230CF299 /* TNKCollectionCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNKCollectionCell.h; path = Pod/Classes/TNKCollectionCell.h; sourceTree = "<group>"; };
-		9D30D990231B5122646DA917 /* NSLayoutConstraint+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+TULayoutAdditions.h"; path = "TULayoutAdditions/NSLayoutConstraint+TULayoutAdditions.h"; sourceTree = "<group>"; };
-		9E0D0E64E384879EDF6A604E /* FBSnapshotTestController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = FBSnapshotTestController.m; sourceTree = "<group>"; };
-		A3D5824E0622973A72F79084 /* TNKImagePickerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNKImagePickerController.h; path = Pod/Classes/TNKImagePickerController.h; sourceTree = "<group>"; };
-		A4143ED78B77C3B07DE5B872 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		A5BE6890659C6E07537D9296 /* UIImageView+TNKAssets.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+TNKAssets.m"; path = "Pod/Classes/UIImageView+TNKAssets.m"; sourceTree = "<group>"; };
-		A705603471F3B2A441A219B6 /* Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch"; sourceTree = "<group>"; };
-		B235DA400B0A31FB3043B2E0 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		B2D014C847B2EB31F779BFA5 /* default-collection@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "default-collection@3x.png"; path = "Pod/Assets/default-collection@3x.png"; sourceTree = "<group>"; };
-		BCF6BD932B6625B94287AF2B /* UIImage+Compare.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Compare.m"; sourceTree = "<group>"; };
-		BD2079B74ABA059E036A5806 /* libPods-Tests-FBSnapshotTestCase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-FBSnapshotTestCase.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C09B83A0F6D2D0E015552C4B /* Pods-Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Tests-resources.sh"; sourceTree = "<group>"; };
-		C4E1096D71379F9FB29D8610 /* NSLayoutConstraint+TULayoutAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+TULayoutAdditions.m"; path = "TULayoutAdditions/NSLayoutConstraint+TULayoutAdditions.m"; sourceTree = "<group>"; };
-		CB71A7AC4C4410537D05C138 /* UIViewController+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+TULayoutAdditions.h"; path = "TULayoutAdditions/UIViewController+TULayoutAdditions.h"; sourceTree = "<group>"; };
-		CC1D6B9B7D00C0320A6F11AA /* default-collection@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "default-collection@2x.png"; path = "Pod/Assets/default-collection@2x.png"; sourceTree = "<group>"; };
-		D23D744368E41805F683634C /* Pods-Tests-FBSnapshotTestCase-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Tests-FBSnapshotTestCase-prefix.pch"; sourceTree = "<group>"; };
-		D25F5EDD307B39CFFA3D7EE8 /* Pods-Tests-TULayoutAdditions-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-TULayoutAdditions-Private.xcconfig"; path = "../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-Private.xcconfig"; sourceTree = "<group>"; };
-		D2EC0DB9A6EECE520491AFEA /* Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig"; sourceTree = "<group>"; };
-		D37ACFEEE8C0D4CA5C5D2E50 /* Pods-TNKImagePickerController-TULayoutAdditions.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController-TULayoutAdditions.xcconfig"; sourceTree = "<group>"; };
-		D37C3294B3CB116AE00EAB2F /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D5641B63EB602741BAB3B7D4 /* Pods-TNKImagePickerController-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TNKImagePickerController-acknowledgements.markdown"; sourceTree = "<group>"; };
-		DD0DC43EF3723EA7C41F3B54 /* UIImage+Diff.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Diff.m"; sourceTree = "<group>"; };
-		DD0DE5CCE527415F6DF746BC /* TNKImagePickerControllerBundle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNKImagePickerControllerBundle.h; path = Pod/Classes/TNKImagePickerControllerBundle.h; sourceTree = "<group>"; };
-		DE5CB51D2B5C70F900A5B2BF /* Pods-TNKImagePickerController-TNKImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TNKImagePickerController-TNKImagePickerController-dummy.m"; sourceTree = "<group>"; };
-		DEB664F1CCF76A93A71D2E32 /* Pods-Tests-TNKImagePickerController-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-TNKImagePickerController-Private.xcconfig"; path = "../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-Private.xcconfig"; sourceTree = "<group>"; };
-		E158B097492BFD62174FD48B /* libPods-Tests-TNKImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-TNKImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2823221394277D75CE9A64B /* NSNumber+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSNumber+TULayoutAdditions.h"; path = "TULayoutAdditions/NSNumber+TULayoutAdditions.h"; sourceTree = "<group>"; };
-		E54B9717953B6279FBAEF584 /* Pods-Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		E7D271AE296E7116E650E008 /* UIView+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+TULayoutAdditions.h"; path = "TULayoutAdditions/UIView+TULayoutAdditions.h"; sourceTree = "<group>"; };
-		EBE2AB823A28E3FB6DA2CA38 /* FBSnapshotTestController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = FBSnapshotTestController.h; sourceTree = "<group>"; };
-		EE105D4D5FD085F74056C1BD /* TNKImagePickerController.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TNKImagePickerController.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2DD986753167145EBEB9ED9 /* Pods-Tests-FBSnapshotTestCase-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests-FBSnapshotTestCase-Private.xcconfig"; sourceTree = "<group>"; };
-		F9F90CDA7920A9D6C1D131EF /* libPods-TNKImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TNKImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FEED5015445980CDF6EFE37B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		061B1D982E76B1EF8EBAA34E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4BF92A3DFF73A6B8CD9ACA46 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27DC0D2227459C55C857B174 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3FCBAF15AE2954461383085D /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4F0A7C31A95D285383F590D0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E7DBE0CF23B22CA93ADC76A3 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5D99C2F7F0FCDC4A787F2122 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				972D578D6F6305CA5698EF17 /* Foundation.framework in Frameworks */,
-				0AC486BF837C4540DF60EA39 /* XCTest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8705DEF0CE168483029CE150 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6F5D7C8C01416E0A5EA96ACF /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9888BBD98A40C80D3968CB75 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A8779516C5DC2142AA5882D /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9AF49722121DD46A7760299 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				29DDBA3E685DED41C28B6978 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6CE1B2166D1A0740A9C027 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		1B017A04840DEB78AAC6360B /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				D37ACFEEE8C0D4CA5C5D2E50 /* Pods-TNKImagePickerController-TULayoutAdditions.xcconfig */,
-				092004BB90F1EB218D78A27C /* Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig */,
-				7963F35156C4DA727386BA12 /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m */,
-				A705603471F3B2A441A219B6 /* Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch */,
-				4E92568A9AA76EBD3BC8BCE7 /* Pods-Tests-TULayoutAdditions.xcconfig */,
-				D25F5EDD307B39CFFA3D7EE8 /* Pods-Tests-TULayoutAdditions-Private.xcconfig */,
-				1A42C2D51B289B1A6DEDD339 /* Pods-Tests-TULayoutAdditions-dummy.m */,
-				3F6AA148474AF6CEEE7EA412 /* Pods-Tests-TULayoutAdditions-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions";
-			sourceTree = "<group>";
-		};
-		6A88753313289A9974FE7217 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A4568B99BFD5604E604A3EDC /* FBSnapshotTestCase */,
-				EE7BE8AAEED18ECE49A960FE /* TULayoutAdditions */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		7394C242C0685EAACBC1339E /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9B3DE5213AB47091132A60A1 /* TNKImagePickerController */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		884CDD8EF1D84F0247596607 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				86E22BC4C7F051BF5C0DCB4E /* Pods-Tests-FBSnapshotTestCase.xcconfig */,
-				F2DD986753167145EBEB9ED9 /* Pods-Tests-FBSnapshotTestCase-Private.xcconfig */,
-				14555DB96A44FEB9CF83972B /* Pods-Tests-FBSnapshotTestCase-dummy.m */,
-				D23D744368E41805F683634C /* Pods-Tests-FBSnapshotTestCase-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-Tests-FBSnapshotTestCase";
-			sourceTree = "<group>";
-		};
-		8EB1BA016633D6663CD449A0 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				58EB7291AB1A8659E37A88DC /* default-collection.png */,
-				CC1D6B9B7D00C0320A6F11AA /* default-collection@2x.png */,
-				B2D014C847B2EB31F779BFA5 /* default-collection@3x.png */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		99043179C6F80239DF52D329 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				E1C0B10291E477F79C4079FC /* Pods-TNKImagePickerController */,
-				EC9A0A22840C968C6F0BAABD /* Pods-Tests */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		9B3DE5213AB47091132A60A1 /* TNKImagePickerController */ = {
-			isa = PBXGroup;
-			children = (
-				518604B7473CDF2EA42DB265 /* PHCollection+TNKThumbnail.h */,
-				4684A5A3E098F54D522064CC /* PHCollection+TNKThumbnail.m */,
-				9C6EB55A74D7C3D7230CF299 /* TNKCollectionCell.h */,
-				95CDB5BC63DCEBC7A9956456 /* TNKCollectionCell.m */,
-				A3D5824E0622973A72F79084 /* TNKImagePickerController.h */,
-				1724D65FD8D24BD098EF5C87 /* TNKImagePickerController.m */,
-				DD0DE5CCE527415F6DF746BC /* TNKImagePickerControllerBundle.h */,
-				2CCCB881F32A7BC79F56FD58 /* TNKImagePickerControllerBundle.m */,
-				1BA067216AD925D6F9EA3AA8 /* UIImageView+TNKAssets.h */,
-				A5BE6890659C6E07537D9296 /* UIImageView+TNKAssets.m */,
-				1126106B1A99101C007E530F /* UIImage+TNKAspectDraw.h */,
-				1126106C1A99101C007E530F /* UIImage+TNKAspectDraw.m */,
-				8EB1BA016633D6663CD449A0 /* Resources */,
-				E4E00A2AB6AD0ED0CFB31B60 /* Support Files */,
-			);
-			name = TNKImagePickerController;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		A4568B99BFD5604E604A3EDC /* FBSnapshotTestCase */ = {
-			isa = PBXGroup;
-			children = (
-				04219D7F1B8B94EC16B9BEC2 /* FBSnapshotTestCase.h */,
-				86FBA8428CABC03D32C8C4A5 /* FBSnapshotTestCase.m */,
-				EBE2AB823A28E3FB6DA2CA38 /* FBSnapshotTestController.h */,
-				9E0D0E64E384879EDF6A604E /* FBSnapshotTestController.m */,
-				80877FC2FEC040D887DEB124 /* UIImage+Compare.h */,
-				BCF6BD932B6625B94287AF2B /* UIImage+Compare.m */,
-				7AB84D065DC8E9E74D65CF96 /* UIImage+Diff.h */,
-				DD0DC43EF3723EA7C41F3B54 /* UIImage+Diff.m */,
-				884CDD8EF1D84F0247596607 /* Support Files */,
-			);
-			path = FBSnapshotTestCase;
-			sourceTree = "<group>";
-		};
-		AD9E924F218B6C08F0EF7DE2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BB00C21B31548FCB712682F1 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		BB00C21B31548FCB712682F1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				26943327D7FCEB887C9DAE20 /* Foundation.framework */,
-				FEED5015445980CDF6EFE37B /* XCTest.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		C32135120BF233126A4D3AB9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EE105D4D5FD085F74056C1BD /* TNKImagePickerController.bundle */,
-				F9F90CDA7920A9D6C1D131EF /* libPods-TNKImagePickerController.a */,
-				11A522F57E5890C6836387EF /* libPods-TNKImagePickerController-TNKImagePickerController.a */,
-				5ACCB21ECC635B08BEA80E07 /* libPods-TNKImagePickerController-TULayoutAdditions.a */,
-				D37C3294B3CB116AE00EAB2F /* libPods-Tests.a */,
-				BD2079B74ABA059E036A5806 /* libPods-Tests-FBSnapshotTestCase.a */,
-				E158B097492BFD62174FD48B /* libPods-Tests-TNKImagePickerController.a */,
-				824B61881BA62497C850B99E /* libPods-Tests-TULayoutAdditions.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E1C0B10291E477F79C4079FC /* Pods-TNKImagePickerController */ = {
-			isa = PBXGroup;
-			children = (
-				D5641B63EB602741BAB3B7D4 /* Pods-TNKImagePickerController-acknowledgements.markdown */,
-				8FEB72DAB3884C672D5D257A /* Pods-TNKImagePickerController-acknowledgements.plist */,
-				0C2F3C54D6F08D8C758B18CE /* Pods-TNKImagePickerController-dummy.m */,
-				5ED4716A069AEEC9DB3B8C3A /* Pods-TNKImagePickerController-environment.h */,
-				82741D7FC73B0FDD03413A7A /* Pods-TNKImagePickerController-resources.sh */,
-				18807CA98990AD9D94F63B38 /* Pods-TNKImagePickerController.debug.xcconfig */,
-				8F8AB797CF12BE3FE02CB158 /* Pods-TNKImagePickerController.release.xcconfig */,
-			);
-			name = "Pods-TNKImagePickerController";
-			path = "Target Support Files/Pods-TNKImagePickerController";
-			sourceTree = "<group>";
-		};
-		E4E00A2AB6AD0ED0CFB31B60 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				026EE5A40AF6BCE537934DA7 /* Pods-TNKImagePickerController-TNKImagePickerController.xcconfig */,
-				D2EC0DB9A6EECE520491AFEA /* Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig */,
-				DE5CB51D2B5C70F900A5B2BF /* Pods-TNKImagePickerController-TNKImagePickerController-dummy.m */,
-				60B49EAB15A8D1388B1D2997 /* Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch */,
-				1CB2B1DEAFFCBCF65999BA51 /* Pods-Tests-TNKImagePickerController.xcconfig */,
-				DEB664F1CCF76A93A71D2E32 /* Pods-Tests-TNKImagePickerController-Private.xcconfig */,
-				3305DB0DA376BDD58B6435BA /* Pods-Tests-TNKImagePickerController-dummy.m */,
-				2910AF66C9D9A8EC5B904F06 /* Pods-Tests-TNKImagePickerController-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController";
-			sourceTree = "<group>";
-		};
-		EAD8A84919CAD2714593310D = {
-			isa = PBXGroup;
-			children = (
-				B235DA400B0A31FB3043B2E0 /* Podfile */,
-				7394C242C0685EAACBC1339E /* Development Pods */,
-				AD9E924F218B6C08F0EF7DE2 /* Frameworks */,
-				6A88753313289A9974FE7217 /* Pods */,
-				C32135120BF233126A4D3AB9 /* Products */,
-				99043179C6F80239DF52D329 /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		EC9A0A22840C968C6F0BAABD /* Pods-Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E54B9717953B6279FBAEF584 /* Pods-Tests-acknowledgements.markdown */,
-				7C28E4528187317B3D2CE2AF /* Pods-Tests-acknowledgements.plist */,
-				47CAB3782517C9DDD0137DBB /* Pods-Tests-dummy.m */,
-				33B253DB9E7C156D7B739B11 /* Pods-Tests-environment.h */,
-				C09B83A0F6D2D0E015552C4B /* Pods-Tests-resources.sh */,
-				A4143ED78B77C3B07DE5B872 /* Pods-Tests.debug.xcconfig */,
-				0B7CFBA5F2A2D105ED81C95B /* Pods-Tests.release.xcconfig */,
-			);
-			name = "Pods-Tests";
-			path = "Target Support Files/Pods-Tests";
-			sourceTree = "<group>";
-		};
-		EE7BE8AAEED18ECE49A960FE /* TULayoutAdditions */ = {
-			isa = PBXGroup;
-			children = (
-				9D30D990231B5122646DA917 /* NSLayoutConstraint+TULayoutAdditions.h */,
-				C4E1096D71379F9FB29D8610 /* NSLayoutConstraint+TULayoutAdditions.m */,
-				E2823221394277D75CE9A64B /* NSNumber+TULayoutAdditions.h */,
-				5467DC42073736C6468FF3EC /* NSNumber+TULayoutAdditions.m */,
-				2703ADFE9D413A2DDBC17F59 /* TUConstraintInfo.h */,
-				11E29541594FB253E1F9F9C6 /* TUConstraintInfo.m */,
-				3E0BA90DCDBD77E564A2F063 /* TULayoutAdditions.h */,
-				E7D271AE296E7116E650E008 /* UIView+TULayoutAdditions.h */,
-				45B295D1F935183C6281C751 /* UIView+TULayoutAdditions.m */,
-				CB71A7AC4C4410537D05C138 /* UIViewController+TULayoutAdditions.h */,
-				5DFF8F07DB33389D4EB3DA27 /* UIViewController+TULayoutAdditions.m */,
-				1B017A04840DEB78AAC6360B /* Support Files */,
-			);
-			path = TULayoutAdditions;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		5E75255AB08019A9963ECAB6 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				72FE18D0404B3D7C082A5FD1 /* NSLayoutConstraint+TULayoutAdditions.h in Headers */,
-				28D91F4960AD61CB388D5462 /* NSNumber+TULayoutAdditions.h in Headers */,
-				F33A8975CD6C1BD9748D6A11 /* TUConstraintInfo.h in Headers */,
-				E1E7015DB6D88319CA71ED68 /* TULayoutAdditions.h in Headers */,
-				1F916CA9215C9224BB935C09 /* UIView+TULayoutAdditions.h in Headers */,
-				3A0A7C048696E56A6BFC202D /* UIViewController+TULayoutAdditions.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		722A615DF83F986467C1B9D8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CEEF9CF0928720AA4550D452 /* PHCollection+TNKThumbnail.h in Headers */,
-				FA1552766FBA064D190862A5 /* TNKCollectionCell.h in Headers */,
-				B23968BACA9AB86D314A9328 /* TNKImagePickerController.h in Headers */,
-				69274E8F959749CA42DF9008 /* TNKImagePickerControllerBundle.h in Headers */,
-				6C0B6625979396E19C138F8E /* UIImageView+TNKAssets.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A72B6200A172C773D6953D40 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AFB3B28B61195009C4085380 /* FBSnapshotTestCase.h in Headers */,
-				EEFA2040AE79817A1D6471F9 /* FBSnapshotTestController.h in Headers */,
-				17017A7F680DA7789531ECEF /* UIImage+Compare.h in Headers */,
-				91B1505A191D5BCEE06D3931 /* UIImage+Diff.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CF622577A4AB52E5B5312920 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3DEBA2FFE5E3A88070C7C08 /* NSLayoutConstraint+TULayoutAdditions.h in Headers */,
-				5AC66A9AE099F3B2C4835D57 /* NSNumber+TULayoutAdditions.h in Headers */,
-				968691218A164E7C935F6E6E /* TUConstraintInfo.h in Headers */,
-				BA834CEEC04E6B9659669276 /* TULayoutAdditions.h in Headers */,
-				2B66943A1EFBD02C634A4C46 /* UIView+TULayoutAdditions.h in Headers */,
-				A173CF762EF39F93BBD902C8 /* UIViewController+TULayoutAdditions.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ED914DBD2DF986BEC61D4342 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				284A53FCB3C411F31276E2B1 /* PHCollection+TNKThumbnail.h in Headers */,
-				C68D53053264EAAC621641E1 /* TNKCollectionCell.h in Headers */,
-				1C6B1652FF5C0F6A64CBAC0D /* TNKImagePickerController.h in Headers */,
-				AA1220235455E49C2D151019 /* TNKImagePickerControllerBundle.h in Headers */,
-				B0280EB8AC72CD590D6370DF /* UIImageView+TNKAssets.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
-/* Begin PBXNativeTarget section */
-		1D39E41EC9DE0C8B13359A95 /* Pods-TNKImagePickerController-TNKImagePickerController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 83BB104395920763D717E3AB /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController-TNKImagePickerController" */;
-			buildPhases = (
-				9116E1C2F664B3434A069581 /* Sources */,
-				C9AF49722121DD46A7760299 /* Frameworks */,
-				ED914DBD2DF986BEC61D4342 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				39EC4944B72727B39423C441 /* PBXTargetDependency */,
-				869441E87EC26D1DE9BCC4F3 /* PBXTargetDependency */,
-			);
-			name = "Pods-TNKImagePickerController-TNKImagePickerController";
-			productName = "Pods-TNKImagePickerController-TNKImagePickerController";
-			productReference = 11A522F57E5890C6836387EF /* libPods-TNKImagePickerController-TNKImagePickerController.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		5A23C426448AE32199A569EF /* TNKImagePickerController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 30D9D9FD83B5B01351292D60 /* Build configuration list for PBXNativeTarget "TNKImagePickerController" */;
-			buildPhases = (
-				8D2DAB6195B874C40EADEC9C /* Sources */,
-				DB6CE1B2166D1A0740A9C027 /* Frameworks */,
-				BA0E4D63C0AE665B6587FE59 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TNKImagePickerController;
-			productName = TNKImagePickerController;
-			productReference = EE105D4D5FD085F74056C1BD /* TNKImagePickerController.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
-		89B8C5A417173740429876F0 /* Pods-Tests-TNKImagePickerController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DBA08D830A423EF792343A86 /* Build configuration list for PBXNativeTarget "Pods-Tests-TNKImagePickerController" */;
-			buildPhases = (
-				799A9E1B5D40B86AED4CBF01 /* Sources */,
-				27DC0D2227459C55C857B174 /* Frameworks */,
-				722A615DF83F986467C1B9D8 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D438641E43188D5AABB29EC8 /* PBXTargetDependency */,
-				0424EBB15EE2B83439D411B6 /* PBXTargetDependency */,
-			);
-			name = "Pods-Tests-TNKImagePickerController";
-			productName = "Pods-Tests-TNKImagePickerController";
-			productReference = E158B097492BFD62174FD48B /* libPods-Tests-TNKImagePickerController.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		8F2E6312C934F80CE77B4399 /* Pods-TNKImagePickerController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6D602471FE415B52AF3DD3DC /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController" */;
-			buildPhases = (
-				7C80DB5AF226CAE77326EB7B /* Sources */,
-				4F0A7C31A95D285383F590D0 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9C0A00374B789962D976DD52 /* PBXTargetDependency */,
-				C65E8EEEC87E85D9AADD992F /* PBXTargetDependency */,
-			);
-			name = "Pods-TNKImagePickerController";
-			productName = "Pods-TNKImagePickerController";
-			productReference = F9F90CDA7920A9D6C1D131EF /* libPods-TNKImagePickerController.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		AC80FAC2937E42E91B89E74F /* Pods-TNKImagePickerController-TULayoutAdditions */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 022E7FC10430BC8DFDCD2175 /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController-TULayoutAdditions" */;
-			buildPhases = (
-				01804A6182B8F2CF2D81C8C3 /* Sources */,
-				9888BBD98A40C80D3968CB75 /* Frameworks */,
-				5E75255AB08019A9963ECAB6 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-TNKImagePickerController-TULayoutAdditions";
-			productName = "Pods-TNKImagePickerController-TULayoutAdditions";
-			productReference = 5ACCB21ECC635B08BEA80E07 /* libPods-TNKImagePickerController-TULayoutAdditions.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		AD9976767BA1568FBFEA673B /* Pods-Tests-FBSnapshotTestCase */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AD8BBF721EAF1CA3F8A39D5F /* Build configuration list for PBXNativeTarget "Pods-Tests-FBSnapshotTestCase" */;
-			buildPhases = (
-				E6FE6E0C3413D261F8DD29BA /* Sources */,
-				5D99C2F7F0FCDC4A787F2122 /* Frameworks */,
-				A72B6200A172C773D6953D40 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-Tests-FBSnapshotTestCase";
-			productName = "Pods-Tests-FBSnapshotTestCase";
-			productReference = BD2079B74ABA059E036A5806 /* libPods-Tests-FBSnapshotTestCase.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		E0CE4B8CFB7543F1DCA225C8 /* Pods-Tests-TULayoutAdditions */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FB5738325FEEE14DEE2D92A0 /* Build configuration list for PBXNativeTarget "Pods-Tests-TULayoutAdditions" */;
-			buildPhases = (
-				56D0EA33C2CEFC2E69E2510C /* Sources */,
-				061B1D982E76B1EF8EBAA34E /* Frameworks */,
-				CF622577A4AB52E5B5312920 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-Tests-TULayoutAdditions";
-			productName = "Pods-Tests-TULayoutAdditions";
-			productReference = 824B61881BA62497C850B99E /* libPods-Tests-TULayoutAdditions.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		FA5820FB717F71AC7B2A34DF /* Pods-Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 73AEB2C1F66B0DCE89D13DD1 /* Build configuration list for PBXNativeTarget "Pods-Tests" */;
-			buildPhases = (
-				20CB9B0706E477F06683CAC0 /* Sources */,
-				8705DEF0CE168483029CE150 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1CFC59A6170E8B61A385DE37 /* PBXTargetDependency */,
-				1CF09D67840356160BB76147 /* PBXTargetDependency */,
-				D9FF867E97D7B108EBEAE464 /* PBXTargetDependency */,
-			);
-			name = "Pods-Tests";
-			productName = "Pods-Tests";
-			productReference = D37C3294B3CB116AE00EAB2F /* libPods-Tests.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		A29387E64285B6839F31C30C /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 0510;
-			};
-			buildConfigurationList = 8F8B949FC57BFE66C356EC3E /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = EAD8A84919CAD2714593310D;
-			productRefGroup = C32135120BF233126A4D3AB9 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				8F2E6312C934F80CE77B4399 /* Pods-TNKImagePickerController */,
-				1D39E41EC9DE0C8B13359A95 /* Pods-TNKImagePickerController-TNKImagePickerController */,
-				AC80FAC2937E42E91B89E74F /* Pods-TNKImagePickerController-TULayoutAdditions */,
-				FA5820FB717F71AC7B2A34DF /* Pods-Tests */,
-				AD9976767BA1568FBFEA673B /* Pods-Tests-FBSnapshotTestCase */,
-				89B8C5A417173740429876F0 /* Pods-Tests-TNKImagePickerController */,
-				E0CE4B8CFB7543F1DCA225C8 /* Pods-Tests-TULayoutAdditions */,
-				5A23C426448AE32199A569EF /* TNKImagePickerController */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		BA0E4D63C0AE665B6587FE59 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9DB846AA15D7CCDF63A8E167 /* default-collection.png in Resources */,
-				FA1F5FE3A3930968E0482A73 /* default-collection@2x.png in Resources */,
-				0B5EEE8766A3FC4FEEAB55FB /* default-collection@3x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		01804A6182B8F2CF2D81C8C3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8E04D374578F7B9033907340 /* NSLayoutConstraint+TULayoutAdditions.m in Sources */,
-				4F7D29F9EE4E7877A4708902 /* NSNumber+TULayoutAdditions.m in Sources */,
-				F0A344B1D5C2D7FEDEBB20AF /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m in Sources */,
-				FD275F713056A1E8509A44A8 /* TUConstraintInfo.m in Sources */,
-				8028CE864C80A394FB57A27F /* UIView+TULayoutAdditions.m in Sources */,
-				D9260A7D7E11CE4816A4F7B5 /* UIViewController+TULayoutAdditions.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		20CB9B0706E477F06683CAC0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70B2F5A046074DB4FC05E9C4 /* Pods-Tests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		56D0EA33C2CEFC2E69E2510C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				791700589697F8C98041F1BA /* NSLayoutConstraint+TULayoutAdditions.m in Sources */,
-				A5ADC7746C41CE830D967F8C /* NSNumber+TULayoutAdditions.m in Sources */,
-				C94F7C00398F6B05CAC90291 /* Pods-Tests-TULayoutAdditions-dummy.m in Sources */,
-				63892FEA905AB68EA4E8CC04 /* TUConstraintInfo.m in Sources */,
-				64AE074943E705D7C9A7AAD4 /* UIView+TULayoutAdditions.m in Sources */,
-				342B083297F6DC9BBD824841 /* UIViewController+TULayoutAdditions.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		799A9E1B5D40B86AED4CBF01 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1D4FB0DC9DD552D54459DC12 /* PHCollection+TNKThumbnail.m in Sources */,
-				B42F089F09BD0D631C91F499 /* Pods-Tests-TNKImagePickerController-dummy.m in Sources */,
-				EA50835B8C8A0A5A52AD1723 /* TNKCollectionCell.m in Sources */,
-				7C95D363EDD4C90B822513FE /* TNKImagePickerController.m in Sources */,
-				D3BAFA6EFAABBCE2EA59F632 /* TNKImagePickerControllerBundle.m in Sources */,
-				525A2A744CDEC520D89CDBCF /* UIImageView+TNKAssets.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7C80DB5AF226CAE77326EB7B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9E6443237B41E6D723BEBC5E /* Pods-TNKImagePickerController-dummy.m in Sources */,
-				1126106D1A99101C007E530F /* UIImage+TNKAspectDraw.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D2DAB6195B874C40EADEC9C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9116E1C2F664B3434A069581 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				40E8D3D392B6C5F6C9215745 /* PHCollection+TNKThumbnail.m in Sources */,
-				641D1F946059ED5CF65B8CBD /* Pods-TNKImagePickerController-TNKImagePickerController-dummy.m in Sources */,
-				D86F3E80E58A281B86A3C322 /* TNKCollectionCell.m in Sources */,
-				ADC4212B02891E60D0EF5D31 /* TNKImagePickerController.m in Sources */,
-				C00EC25F433F6C6188628A5B /* TNKImagePickerControllerBundle.m in Sources */,
-				39AD9A8B8C19DE858D21FE77 /* UIImageView+TNKAssets.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E6FE6E0C3413D261F8DD29BA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BE7D6B031ADAAE1CABDD1EDB /* FBSnapshotTestCase.m in Sources */,
-				EC32D1D8EF29842377D4ECF9 /* FBSnapshotTestController.m in Sources */,
-				7440EEED80A90BA7518A3E74 /* Pods-Tests-FBSnapshotTestCase-dummy.m in Sources */,
-				0148150442AEE7B790F20518 /* UIImage+Compare.m in Sources */,
-				AB5595BD610A69D5E78998C5 /* UIImage+Diff.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0424EBB15EE2B83439D411B6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TNKImagePickerController;
-			target = 5A23C426448AE32199A569EF /* TNKImagePickerController */;
-			targetProxy = 2E223AE4063CA0C4841CF0D9 /* PBXContainerItemProxy */;
-		};
-		1CF09D67840356160BB76147 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Tests-TNKImagePickerController";
-			target = 89B8C5A417173740429876F0 /* Pods-Tests-TNKImagePickerController */;
-			targetProxy = B949800A5AB287F017D6C9DF /* PBXContainerItemProxy */;
-		};
-		1CFC59A6170E8B61A385DE37 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Tests-FBSnapshotTestCase";
-			target = AD9976767BA1568FBFEA673B /* Pods-Tests-FBSnapshotTestCase */;
-			targetProxy = E6EDD2350409EBC3EB32B2CB /* PBXContainerItemProxy */;
-		};
-		39EC4944B72727B39423C441 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-TNKImagePickerController-TULayoutAdditions";
-			target = AC80FAC2937E42E91B89E74F /* Pods-TNKImagePickerController-TULayoutAdditions */;
-			targetProxy = 49DAB36DD5FEA1594054207B /* PBXContainerItemProxy */;
-		};
-		869441E87EC26D1DE9BCC4F3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TNKImagePickerController;
-			target = 5A23C426448AE32199A569EF /* TNKImagePickerController */;
-			targetProxy = 6425413B8978A47AB7353727 /* PBXContainerItemProxy */;
-		};
-		9C0A00374B789962D976DD52 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-TNKImagePickerController-TNKImagePickerController";
-			target = 1D39E41EC9DE0C8B13359A95 /* Pods-TNKImagePickerController-TNKImagePickerController */;
-			targetProxy = 013A0C43DD23814DABEA2348 /* PBXContainerItemProxy */;
-		};
-		C65E8EEEC87E85D9AADD992F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-TNKImagePickerController-TULayoutAdditions";
-			target = AC80FAC2937E42E91B89E74F /* Pods-TNKImagePickerController-TULayoutAdditions */;
-			targetProxy = 092D2583B984A0247DB484ED /* PBXContainerItemProxy */;
-		};
-		D438641E43188D5AABB29EC8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Tests-TULayoutAdditions";
-			target = E0CE4B8CFB7543F1DCA225C8 /* Pods-Tests-TULayoutAdditions */;
-			targetProxy = CC2759DAFEBF808BF148E829 /* PBXContainerItemProxy */;
-		};
-		D9FF867E97D7B108EBEAE464 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Tests-TULayoutAdditions";
-			target = E0CE4B8CFB7543F1DCA225C8 /* Pods-Tests-TULayoutAdditions */;
-			targetProxy = 0656CA848B5CDBEE78AB3AAB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin XCBuildConfiguration section */
-		1042307087CAD4B4B47DA268 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2DD986753167145EBEB9ED9 /* Pods-Tests-FBSnapshotTestCase-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-FBSnapshotTestCase/Pods-Tests-FBSnapshotTestCase-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		1238DFE77AB5FC8DEC31D652 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B7CFBA5F2A2D105ED81C95B /* Pods-Tests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		3979BA022FCF9D57878C1767 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A4143ED78B77C3B07DE5B872 /* Pods-Tests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		3B698CA2A1B2D2614413D49C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18807CA98990AD9D94F63B38 /* Pods-TNKImagePickerController.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		4A08EB5E8E5B57C173C4FEC2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 092004BB90F1EB218D78A27C /* Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions/Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		586AB59F07093A9DF00DAFB0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D25F5EDD307B39CFFA3D7EE8 /* Pods-Tests-TULayoutAdditions-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		6F12123A7ECCE0927AEA0E18 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				STRIP_INSTALLED_PRODUCT = NO;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		6FA3B15A3D6556E0CECC2AE1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2DD986753167145EBEB9ED9 /* Pods-Tests-FBSnapshotTestCase-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-FBSnapshotTestCase/Pods-Tests-FBSnapshotTestCase-prefix.pch";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		74D92C017D417282DC9A228E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2EC0DB9A6EECE520491AFEA /* Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController/Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		92955B9C9F70EF6084B24EE7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 092004BB90F1EB218D78A27C /* Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions/Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		9AE05CC88EB07E4D6C5B71B7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEB664F1CCF76A93A71D2E32 /* Pods-Tests-TNKImagePickerController-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		9E5077930787587C55217BB1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D25F5EDD307B39CFFA3D7EE8 /* Pods-Tests-TULayoutAdditions-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		BA5216AB1144989F51015083 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F8AB797CF12BE3FE02CB158 /* Pods-TNKImagePickerController.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		BBEFD517A2B411A5C42FBD97 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		BD83A9744AF5B9AD88B1658B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		C8F80E6AEA0067B0764645D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2EC0DB9A6EECE520491AFEA /* Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController/Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E9E0319B318EEA12A7C581C8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEB664F1CCF76A93A71D2E32 /* Pods-Tests-TNKImagePickerController-Private.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		FB45FEDA040C2B7BA95ABE6B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Debug;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		022E7FC10430BC8DFDCD2175 /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController-TULayoutAdditions" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				92955B9C9F70EF6084B24EE7 /* Debug */,
-				4A08EB5E8E5B57C173C4FEC2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		30D9D9FD83B5B01351292D60 /* Build configuration list for PBXNativeTarget "TNKImagePickerController" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BD83A9744AF5B9AD88B1658B /* Debug */,
-				BBEFD517A2B411A5C42FBD97 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6D602471FE415B52AF3DD3DC /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3B698CA2A1B2D2614413D49C /* Debug */,
-				BA5216AB1144989F51015083 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		73AEB2C1F66B0DCE89D13DD1 /* Build configuration list for PBXNativeTarget "Pods-Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3979BA022FCF9D57878C1767 /* Debug */,
-				1238DFE77AB5FC8DEC31D652 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		83BB104395920763D717E3AB /* Build configuration list for PBXNativeTarget "Pods-TNKImagePickerController-TNKImagePickerController" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				74D92C017D417282DC9A228E /* Debug */,
-				C8F80E6AEA0067B0764645D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8F8B949FC57BFE66C356EC3E /* Build configuration list for PBXProject "Pods" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FB45FEDA040C2B7BA95ABE6B /* Debug */,
-				6F12123A7ECCE0927AEA0E18 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AD8BBF721EAF1CA3F8A39D5F /* Build configuration list for PBXNativeTarget "Pods-Tests-FBSnapshotTestCase" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1042307087CAD4B4B47DA268 /* Debug */,
-				6FA3B15A3D6556E0CECC2AE1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DBA08D830A423EF792343A86 /* Build configuration list for PBXNativeTarget "Pods-Tests-TNKImagePickerController" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E9E0319B318EEA12A7C581C8 /* Debug */,
-				9AE05CC88EB07E4D6C5B71B7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FB5738325FEEE14DEE2D92A0 /* Build configuration list for PBXNativeTarget "Pods-Tests-TULayoutAdditions" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				586AB59F07093A9DF00DAFB0 /* Debug */,
-				9E5077930787587C55217BB1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = A29387E64285B6839F31C30C /* Project object */;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>archiveVersion</key>
+	<string>1</string>
+	<key>classes</key>
+	<dict/>
+	<key>objectVersion</key>
+	<string>46</string>
+	<key>objects</key>
+	<dict>
+		<key>009CCBB15AFE6AF0D7CCC541</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection@3x.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection@3x.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>01185BA6CC0D88532B4863CE</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>02691ED10B7EB5C41642B8C9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>F3F1B7736CA8E78FA65012C0</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>02C9BFD0B1774F5D29CA6F60</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>046B2C2B44D1310EB0207E8B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0625759771A130936AB6FA01</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-Tests-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0801A4C75EC5FDD193DE1F3E</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>AF6E7E33A54AE7F362252346</string>
+			<key>buildPhases</key>
+			<array>
+				<string>D7FE38DB36C5849A66FE5EB1</string>
+				<string>F919C2FAC1E686EC829B161B</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>18CAFE02956BCF1424ABAE31</string>
+				<string>3461256555D8FE7B4A000B14</string>
+				<string>C1E11360363C9FEB3C24D90E</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-Tests</string>
+			<key>productName</key>
+			<string>Pods-Tests</string>
+			<key>productReference</key>
+			<string>B3A0D43DF8FAA66C83B5944B</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>088856761CD18F5BADDB1BDB</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>87CE1AC3694AA2EDA82A9CF7</string>
+				<string>64607A8C2AFC4EE909C27A97</string>
+				<string>C2BD7DD1C9E12BA6EB956AC4</string>
+				<string>202BD493C297F28F4CF818D4</string>
+				<string>E164A5DE40AB21F0755FAA38</string>
+				<string>DD843588A70EC3E5CEE2A009</string>
+				<string>3EBA480C56A80DFEDC620ABE</string>
+				<string>91BD6F0DF2A65E1E42BA78C4</string>
+				<string>4E67868353FE36D8EACF3F6C</string>
+				<string>EA8D390E9FD1026FCF387CEE</string>
+				<string>65B64843245F9D229F3FEE84</string>
+				<string>6663691D344DF5BF9353940A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>TULayoutAdditions</string>
+			<key>path</key>
+			<string>TULayoutAdditions</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>08D14BC86C82839879A90850</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIImage+Compare.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>09694F4630110436B32C8F36</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C5D3243E3398C8E7A25DAE37</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>09F9C04D36263FB029E833F8</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>46E313D814120F1E06987280</string>
+			<key>remoteInfo</key>
+			<string>TNKImagePickerController</string>
+		</dict>
+		<key>0A15227985C38044511CD291</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-Tests-FBSnapshotTestCase.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>0A282B57438CBB854FE78D47</key>
+		<dict>
+			<key>fileRef</key>
+			<string>EA8D390E9FD1026FCF387CEE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CC2437EA2F2B38F66F55FF8</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIImage+Diff.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0E536DC0F10AFDC208C9BC7C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>91BD6F0DF2A65E1E42BA78C4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>10E1C80B995528D51FE1BB7D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>11DD081C37D6FFC349E25E25</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-Tests-TULayoutAdditions.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>120A3C5EA2ED8EA35406F727</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController-Private.xcconfig</string>
+			<key>path</key>
+			<string>../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>12A7F67537BB969496CE9C2E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Tests-FBSnapshotTestCase-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>12F4D8088EF62D17F5CE90CF</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>206EFD66114050D3DD010224</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions/Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>13B5C9E7A73ECC7DB3B9F946</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>46F290B1995AD5E0418C2F71</string>
+			<key>buildPhases</key>
+			<array>
+				<string>90A46523D33299333CE118B5</string>
+				<string>C12CEC30D7F094DC64280A69</string>
+				<string>252F44B585776437F2D2CE2F</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-Tests-FBSnapshotTestCase</string>
+			<key>productName</key>
+			<string>Pods-Tests-FBSnapshotTestCase</string>
+			<key>productReference</key>
+			<string>0A15227985C38044511CD291</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>145D14186D75492E87304FA9</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>2F43BD409B84598BB4DF4C95</string>
+				<string>C1E30554D85976B4D25205C6</string>
+				<string>6FA960B5CBC5F260E03F1E50</string>
+				<string>6712FB8BF5824F91C755E7F2</string>
+				<string>994316E428F0EACE0EE3AF48</string>
+				<string>77AEBFC62FCFB5143540ED32</string>
+			</array>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>1757890E1D08735BC4420F13</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>120A3C5EA2ED8EA35406F727</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>18CAFE02956BCF1424ABAE31</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-Tests-FBSnapshotTestCase</string>
+			<key>target</key>
+			<string>13B5C9E7A73ECC7DB3B9F946</string>
+			<key>targetProxy</key>
+			<string>648215A4B2A144DD151428C8</string>
+		</dict>
+		<key>1910608E71C4F642065A1CBF</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E6330CD5A487457D446662C4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1911905E56AD1FE7B696EF9D</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1916A27994ADE9836A19D055</key>
+		<dict>
+			<key>fileRef</key>
+			<string>64607A8C2AFC4EE909C27A97</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1A12240CCE41C1B3D1F5DC19</key>
+		<dict>
+			<key>fileRef</key>
+			<string>DD843588A70EC3E5CEE2A009</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1BECCFA189BC24B839827022</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection-list@2x.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection-list@2x.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1D429547D83D3FA983655D49</key>
+		<dict>
+			<key>fileRef</key>
+			<string>986507670CC7C874AC244A28</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1EA6A222B293BADFBF712C76</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9A03405AEB17DE0C8A3DB36B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1EDA33F2A987AD69808B9F5A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>EA8D390E9FD1026FCF387CEE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1FDFFCF8324F6223F2A880AE</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>XCTest.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/XCTest.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>202BD493C297F28F4CF818D4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>NSNumber+TULayoutAdditions.m</string>
+			<key>path</key>
+			<string>TULayoutAdditions/NSNumber+TULayoutAdditions.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>206EFD66114050D3DD010224</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>20B748DE2300D491529541F6</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>FBSnapshotTestCase.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>20D4C955A17144D62CF2028D</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>93081DB8403BD4A488DA89A2</string>
+				<string>802A6D36F85A1B438E21C86E</string>
+				<string>E6330CD5A487457D446662C4</string>
+				<string>A2BB2A9D2B0052C746475796</string>
+				<string>0625759771A130936AB6FA01</string>
+				<string>66D275A3BAF4B569C269A082</string>
+				<string>77598F9B6CB426418CA82B19</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods-Tests</string>
+			<key>path</key>
+			<string>Target Support Files/Pods-Tests</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>21FCC9C3ED274FE13FF4FB6E</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>220745A7EAAB8C8D75E8000E</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4E67868353FE36D8EACF3F6C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>2257901A386BD2C8210B5E41</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions-Private.xcconfig</string>
+			<key>path</key>
+			<string>../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>226526A781D41CAA9A645F64</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-TNKImagePickerController.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>235753DFE60C810A57820552</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>WRAPPER_EXTENSION</key>
+				<string>bundle</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>23A4481ACA72A8EAF9E75A95</key>
+		<dict>
+			<key>fileRef</key>
+			<string>87CE1AC3694AA2EDA82A9CF7</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>23C1FA47A524D4B851133FF1</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C5D3243E3398C8E7A25DAE37</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>247FE8A00A9607E42C5A7518</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>66D275A3BAF4B569C269A082</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>24FE7C2AB7F52AB0A73ADEBB</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>23C1FA47A524D4B851133FF1</string>
+				<string>4D70C5473A4B617736E34D8D</string>
+				<string>E481029718E62DA0746BA7DD</string>
+				<string>8E6242961A8A09A705282DA7</string>
+				<string>BCFDEA2B974D4B047591D5B7</string>
+				<string>64155E2011A21840F4661D49</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>252F44B585776437F2D2CE2F</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>4C48592A9CC56A9D6232A2E8</string>
+				<string>6708BE1C85D48A5F1D9D1AA5</string>
+				<string>495B898A479407325008A22D</string>
+				<string>98FFD835974BBDB326209076</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>25A4D1FD489BB709D6929E3B</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>3DCB7E85FABE6546A49E18F7</string>
+			<key>remoteInfo</key>
+			<string>Pods-Tests-TNKImagePickerController</string>
+		</dict>
+		<key>2634E3854192B5A562CAA9DE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6CEE0A871E06AF2F32232DE5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>29493826E9F37B15B968891A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>DD843588A70EC3E5CEE2A009</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>29C6B01069729082EAE04E03</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>5AF1CC05E50291B8D8543075</string>
+			<key>remoteInfo</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController</string>
+		</dict>
+		<key>2B7A2682E4773ADD8F9EE7C2</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>507010FC8C89B3009891718C</string>
+			<key>remoteInfo</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+		</dict>
+		<key>2EAE63425907F37D60DB38AD</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>6925ABD88F126ED6FC3ABD40</string>
+				<string>4B5CD18E0E6EF20BC8316F3E</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>2F43BD409B84598BB4DF4C95</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B6AA0CC19710C80ED26F5A3C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>30754395509D3417093EADA4</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-Tests-TNKImagePickerController.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>323ECD4B098E1595D22CE934</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>B609B301D9DFB7000F1133AB</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>3461256555D8FE7B4A000B14</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController</string>
+			<key>target</key>
+			<string>3DCB7E85FABE6546A49E18F7</string>
+			<key>targetProxy</key>
+			<string>25A4D1FD489BB709D6929E3B</string>
+		</dict>
+		<key>351B16E4E05E2E50297F0375</key>
+		<dict>
+			<key>fileRef</key>
+			<string>8917EB358EC9E925BE5E81F9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>366F3875770A04D24E72D938</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>UIImage+TNKAspectDraw.h</string>
+			<key>path</key>
+			<string>Pod/Classes/UIImage+TNKAspectDraw.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>36CD1D5BB32145951E5E28A3</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController.xcconfig</string>
+			<key>path</key>
+			<string>../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>39084AEC8C6FF5BB7660AF0A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>202BD493C297F28F4CF818D4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>3A97432FA9927C4FFA560557</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-acknowledgements.markdown</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3B810E84695928DBB82C1CC9</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.cfbundle</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>TNKImagePickerController.bundle</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>3C3E2584ED91A79764FF4380</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>687E42D1CFE7F28AE96EFF63</string>
+				<string>A6AB1E3CB366FE8BCCFAE744</string>
+				<string>02691ED10B7EB5C41642B8C9</string>
+				<string>A47993934E75288FE140AF8E</string>
+				<string>6A53899341D5C699BC213A67</string>
+				<string>FC8BDBE44BBA3DAD600C9194</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3DCB7E85FABE6546A49E18F7</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>44F316F82D8E2F6DE0987225</string>
+			<key>buildPhases</key>
+			<array>
+				<string>D5966313105F475E47206B30</string>
+				<string>F48A5EBC7959A1B4FA40A7E0</string>
+				<string>24FE7C2AB7F52AB0A73ADEBB</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>607752598573E3084910BB2C</string>
+				<string>4E70AB985443206DC7A9BB3A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController</string>
+			<key>productName</key>
+			<string>Pods-Tests-TNKImagePickerController</string>
+			<key>productReference</key>
+			<string>30754395509D3417093EADA4</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>3DDA10FF47109E18F225EF65</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>FC59D19D31763925FC9CDE50</string>
+				<string>12A7F67537BB969496CE9C2E</string>
+				<string>F2E8C1DE5CC749DDA6D62BD8</string>
+				<string>D3361EEBAC66FBF448EC3A25</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Support Files</string>
+			<key>path</key>
+			<string>../Target Support Files/Pods-Tests-FBSnapshotTestCase</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3EBA480C56A80DFEDC620ABE</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>TULayoutAdditions.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/TULayoutAdditions.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>421A7E9EA30D18FEC263BEB2</key>
+		<dict>
+			<key>fileRef</key>
+			<string>65B64843245F9D229F3FEE84</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>44F316F82D8E2F6DE0987225</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>1757890E1D08735BC4420F13</string>
+				<string>A73098D4DBAD9F90ED9FE92F</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>46E313D814120F1E06987280</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>DF42D687242B07BF4B60BDD3</string>
+			<key>buildPhases</key>
+			<array>
+				<string>912B8309D7F5E8A165A6E06A</string>
+				<string>21FCC9C3ED274FE13FF4FB6E</string>
+				<string>145D14186D75492E87304FA9</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>TNKImagePickerController</string>
+			<key>productName</key>
+			<string>TNKImagePickerController</string>
+			<key>productReference</key>
+			<string>3B810E84695928DBB82C1CC9</string>
+			<key>productType</key>
+			<string>com.apple.product-type.bundle</string>
+		</dict>
+		<key>46F290B1995AD5E0418C2F71</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>E1DA8E89B43B75892F0ADEB5</string>
+				<string>D23A502C6B0663EA10DFF412</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>493A8A9BA7E25EDBB7468B01</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E164A5DE40AB21F0755FAA38</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>495B898A479407325008A22D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>08D14BC86C82839879A90850</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4B5CD18E0E6EF20BC8316F3E</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>6650DE3F9669828804C7AEE4</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController/Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>4C48592A9CC56A9D6232A2E8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>68A2EB9FC652AD4F04B1EF79</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4C4A216BCC811CE6366BFF02</key>
+		<dict>
+			<key>fileRef</key>
+			<string>87CE1AC3694AA2EDA82A9CF7</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4D70C5473A4B617736E34D8D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F07F35BEFEC56141AE85E6CE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4E64CBC7BCCCFA69F71AD9A3</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController-prefix.pch</string>
+			<key>path</key>
+			<string>../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4E67868353FE36D8EACF3F6C</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UIView+TULayoutAdditions.m</string>
+			<key>path</key>
+			<string>TULayoutAdditions/UIView+TULayoutAdditions.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4E70AB985443206DC7A9BB3A</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>TNKImagePickerController</string>
+			<key>target</key>
+			<string>46E313D814120F1E06987280</string>
+			<key>targetProxy</key>
+			<string>A1D9FC24E18AA82CEA08F5B2</string>
+		</dict>
+		<key>4EAFA5488F710958505B5007</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>C5D3243E3398C8E7A25DAE37</string>
+				<string>6CEE0A871E06AF2F32232DE5</string>
+				<string>F07F35BEFEC56141AE85E6CE</string>
+				<string>A354F97A339053397EB0E621</string>
+				<string>BD658910D57900C92FB85D78</string>
+				<string>563CFFBE9FFEF11322E3E564</string>
+				<string>A9E83177891E263EAF674290</string>
+				<string>B76B2CED7373CB591CDAA0A3</string>
+				<string>366F3875770A04D24E72D938</string>
+				<string>7944660F08C74F12FBDA881F</string>
+				<string>9DF96C632D0B2128CF19F34B</string>
+				<string>5CF02041CCEEA8089FD98CE3</string>
+				<string>6CE0F0AE641FA26A2854494F</string>
+				<string>BD71D509716485FC18463E85</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>TNKImagePickerController</string>
+			<key>path</key>
+			<string>../..</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>507010FC8C89B3009891718C</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>ADD2929216F00BC2B143E914</string>
+			<key>buildPhases</key>
+			<array>
+				<string>A561729265F7FCF74FAB2274</string>
+				<string>E4F97DC4652FAEC146BD5C1D</string>
+				<string>9FB732991C3619ACB7BB1C0B</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+			<key>productName</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+			<key>productReference</key>
+			<string>11DD081C37D6FFC349E25E25</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>5292999322A054A4B49D030D</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>56028E7009D5F4168A5161BD</key>
+		<dict>
+			<key>attributes</key>
+			<dict>
+				<key>LastUpgradeCheck</key>
+				<string>0510</string>
+			</dict>
+			<key>buildConfigurationList</key>
+			<string>96B47C4CCE3CD607DDDD6941</string>
+			<key>compatibilityVersion</key>
+			<string>Xcode 3.2</string>
+			<key>developmentRegion</key>
+			<string>English</string>
+			<key>hasScannedForEncodings</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXProject</string>
+			<key>knownRegions</key>
+			<array>
+				<string>en</string>
+			</array>
+			<key>mainGroup</key>
+			<string>3C3E2584ED91A79764FF4380</string>
+			<key>productRefGroup</key>
+			<string>6A53899341D5C699BC213A67</string>
+			<key>projectDirPath</key>
+			<string></string>
+			<key>projectReferences</key>
+			<array/>
+			<key>projectRoot</key>
+			<string></string>
+			<key>targets</key>
+			<array>
+				<string>E45CB8AB24A7A44BADC70A3F</string>
+				<string>5AF1CC05E50291B8D8543075</string>
+				<string>B2C7B66466360CA142920555</string>
+				<string>0801A4C75EC5FDD193DE1F3E</string>
+				<string>13B5C9E7A73ECC7DB3B9F946</string>
+				<string>3DCB7E85FABE6546A49E18F7</string>
+				<string>507010FC8C89B3009891718C</string>
+				<string>46E313D814120F1E06987280</string>
+			</array>
+		</dict>
+		<key>563CFFBE9FFEF11322E3E564</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>TNKImagePickerController.m</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKImagePickerController.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>571AD4A7A748857FD4A63A1B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>58802CC29DAAFDE235A92087</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection@2x.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection@2x.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>589C364B054958CA1DA9A95D</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>23A4481ACA72A8EAF9E75A95</string>
+				<string>B72199308B826B76E1FB5B3F</string>
+				<string>493A8A9BA7E25EDBB7468B01</string>
+				<string>79583F029A66A277A20F1B95</string>
+				<string>FFEA756E6F40B5FB9A4BB96C</string>
+				<string>1EDA33F2A987AD69808B9F5A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>5AF1CC05E50291B8D8543075</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>2EAE63425907F37D60DB38AD</string>
+			<key>buildPhases</key>
+			<array>
+				<string>B57F60C2798BCC149C34527A</string>
+				<string>651818AA720C3DA097670079</string>
+				<string>9EBF2C0FB8C2A1B3851AB29B</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>A51E715178B08ACD92D3B728</string>
+				<string>AB2EA075C1EAE0FC688677E2</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController</string>
+			<key>productName</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController</string>
+			<key>productReference</key>
+			<string>5CA4DBD13B0125DEA39A8CAB</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>5CA4DBD13B0125DEA39A8CAB</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-TNKImagePickerController-TNKImagePickerController.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>5CF02041CCEEA8089FD98CE3</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UIImageView+TNKAssets.m</string>
+			<key>path</key>
+			<string>Pod/Classes/UIImageView+TNKAssets.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>5D7D99B433C81C80192FD8E4</key>
+		<dict>
+			<key>fileRef</key>
+			<string>202BD493C297F28F4CF818D4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>5F5EA20ACD3F06287B55FE9D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+			<key>target</key>
+			<string>B2C7B66466360CA142920555</string>
+			<key>targetProxy</key>
+			<string>A438A8F8937EBA1FE2E30A10</string>
+		</dict>
+		<key>607752598573E3084910BB2C</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+			<key>target</key>
+			<string>507010FC8C89B3009891718C</string>
+			<key>targetProxy</key>
+			<string>2B7A2682E4773ADD8F9EE7C2</string>
+		</dict>
+		<key>64155E2011A21840F4661D49</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9DF96C632D0B2128CF19F34B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>64607A8C2AFC4EE909C27A97</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>NSLayoutConstraint+TULayoutAdditions.m</string>
+			<key>path</key>
+			<string>TULayoutAdditions/NSLayoutConstraint+TULayoutAdditions.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>648215A4B2A144DD151428C8</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>13B5C9E7A73ECC7DB3B9F946</string>
+			<key>remoteInfo</key>
+			<string>Pods-Tests-FBSnapshotTestCase</string>
+		</dict>
+		<key>651818AA720C3DA097670079</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>571AD4A7A748857FD4A63A1B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>65B64843245F9D229F3FEE84</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UIViewController+TULayoutAdditions.m</string>
+			<key>path</key>
+			<string>TULayoutAdditions/UIViewController+TULayoutAdditions.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6650DE3F9669828804C7AEE4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6663691D344DF5BF9353940A</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>B1BCC88CF9CA01A149B12EF7</string>
+				<string>206EFD66114050D3DD010224</string>
+				<string>911303BF211B4368EF633676</string>
+				<string>908E11C69DB26A081066BA84</string>
+				<string>D590E9BE0EB41436B25556D2</string>
+				<string>2257901A386BD2C8210B5E41</string>
+				<string>DAA0686CFB55CE9E0DE00C87</string>
+				<string>CD7469816D9E1BF264E792EC</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Support Files</string>
+			<key>path</key>
+			<string>../Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>66D275A3BAF4B569C269A082</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Tests.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6708BE1C85D48A5F1D9D1AA5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C8438A2612AE68C704CA4EE1</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>6712FB8BF5824F91C755E7F2</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9D07A419EFBB912CB9ED218B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>687E42D1CFE7F28AE96EFF63</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>name</key>
+			<string>Podfile</string>
+			<key>path</key>
+			<string>../Podfile</string>
+			<key>sourceTree</key>
+			<string>SOURCE_ROOT</string>
+			<key>xcLanguageSpecificationIdentifier</key>
+			<string>xcode.lang.ruby</string>
+		</dict>
+		<key>68A2EB9FC652AD4F04B1EF79</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>FBSnapshotTestCase.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6925ABD88F126ED6FC3ABD40</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>6650DE3F9669828804C7AEE4</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController/Pods-TNKImagePickerController-TNKImagePickerController-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>6A53899341D5C699BC213A67</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>3B810E84695928DBB82C1CC9</string>
+				<string>226526A781D41CAA9A645F64</string>
+				<string>5CA4DBD13B0125DEA39A8CAB</string>
+				<string>FE661BACB7BCBE740984C5CF</string>
+				<string>B3A0D43DF8FAA66C83B5944B</string>
+				<string>0A15227985C38044511CD291</string>
+				<string>30754395509D3417093EADA4</string>
+				<string>11DD081C37D6FFC349E25E25</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6CE0F0AE641FA26A2854494F</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9D07A419EFBB912CB9ED218B</string>
+				<string>B6AA0CC19710C80ED26F5A3C</string>
+				<string>1BECCFA189BC24B839827022</string>
+				<string>C0A16E6FBB34C1B1C0E690F6</string>
+				<string>58802CC29DAAFDE235A92087</string>
+				<string>009CCBB15AFE6AF0D7CCC541</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Resources</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6CEE0A871E06AF2F32232DE5</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>PHCollection+TNKThumbnail.m</string>
+			<key>path</key>
+			<string>Pod/Classes/PHCollection+TNKThumbnail.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6DDE1D2B734FFCFB851F3153</key>
+		<dict>
+			<key>fileRef</key>
+			<string>BD658910D57900C92FB85D78</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>6FA960B5CBC5F260E03F1E50</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C0A16E6FBB34C1B1C0E690F6</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>71AEED9FB8104E69B9386EEA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>83DE009DAE96C7EDD4301667</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>74FAC7D37B63568EA485C3CA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>563CFFBE9FFEF11322E3E564</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>76891E2D49CE56339382D028</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A354F97A339053397EB0E621</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>77598F9B6CB426418CA82B19</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Tests.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>77AEBFC62FCFB5143540ED32</key>
+		<dict>
+			<key>fileRef</key>
+			<string>009CCBB15AFE6AF0D7CCC541</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>77C1A4FD181088E246AD220F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9DF96C632D0B2128CF19F34B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7888794CE75B0E113BBB039F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>78CABE6F5DDD865DE95E1CCE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>65B64843245F9D229F3FEE84</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7944660F08C74F12FBDA881F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UIImage+TNKAspectDraw.m</string>
+			<key>path</key>
+			<string>Pod/Classes/UIImage+TNKAspectDraw.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>79583F029A66A277A20F1B95</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3EBA480C56A80DFEDC620ABE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7ACA64AF48E689DC09F95E28</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7CC94BD4B27288EE17317409</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>FBSnapshotTestController.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7FE7E0FC9AF6E13C1D12199D</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>351B16E4E05E2E50297F0375</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>802A6D36F85A1B438E21C86E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-Tests-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8056875116CB5DD08346C87A</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>323ECD4B098E1595D22CE934</string>
+				<string>BCBC69CBEF901A3914E5CEB9</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>83DE009DAE96C7EDD4301667</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIImage+Compare.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8585F844637F171141E38C2B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C2BD7DD1C9E12BA6EB956AC4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>87CE1AC3694AA2EDA82A9CF7</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>NSLayoutConstraint+TULayoutAdditions.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/NSLayoutConstraint+TULayoutAdditions.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8917EB358EC9E925BE5E81F9</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8C4A09E17A16D67776F53AF5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>7944660F08C74F12FBDA881F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>8DC71E1331D42245A6E57EDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>8E6242961A8A09A705282DA7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A9E83177891E263EAF674290</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>900CD026C958E861ED4B9422</key>
+		<dict>
+			<key>fileRef</key>
+			<string>5CF02041CCEEA8089FD98CE3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>905E606D43CDAB02A809EBDC</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>2257901A386BD2C8210B5E41</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>908E11C69DB26A081066BA84</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>90A1FC3BC38F887F4FD1195E</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F2E8C1DE5CC749DDA6D62BD8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>90A46523D33299333CE118B5</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>F6A1C7BCE4EA5262C4BF825B</string>
+				<string>DE0E79665086D686B4AB2E7A</string>
+				<string>90A1FC3BC38F887F4FD1195E</string>
+				<string>71AEED9FB8104E69B9386EEA</string>
+				<string>FB69E7DFB7665FF8638718DA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>911303BF211B4368EF633676</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>912B8309D7F5E8A165A6E06A</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>91BD6F0DF2A65E1E42BA78C4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>UIView+TULayoutAdditions.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/UIView+TULayoutAdditions.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>92C4E21E143922E7CEBAC807</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>2257901A386BD2C8210B5E41</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>92D243126EC2EBBC21337759</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4E67868353FE36D8EACF3F6C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>93081DB8403BD4A488DA89A2</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>path</key>
+			<string>Pods-Tests-acknowledgements.markdown</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>96B47C4CCE3CD607DDDD6941</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>8DC71E1331D42245A6E57EDA</string>
+				<string>EF41E5DC109E45FCF68B3C21</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>96B547F49A018F2D56D6A2F4</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>WRAPPER_EXTENSION</key>
+				<string>bundle</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>986507670CC7C874AC244A28</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>98FFD835974BBDB326209076</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CC2437EA2F2B38F66F55FF8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>994316E428F0EACE0EE3AF48</key>
+		<dict>
+			<key>fileRef</key>
+			<string>58802CC29DAAFDE235A92087</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>9A03405AEB17DE0C8A3DB36B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>Pods-Tests-TNKImagePickerController-dummy.m</string>
+			<key>path</key>
+			<string>../Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9CF26F72026F28DF576EC583</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A354F97A339053397EB0E621</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>9D07A419EFBB912CB9ED218B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9DF96C632D0B2128CF19F34B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>UIImageView+TNKAssets.h</string>
+			<key>path</key>
+			<string>Pod/Classes/UIImageView+TNKAssets.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9E0CE07427D2FC2221465704</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIImage+Diff.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9EBF2C0FB8C2A1B3851AB29B</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>09694F4630110436B32C8F36</string>
+				<string>B0E9DB677AED3CCBF1628163</string>
+				<string>6DDE1D2B734FFCFB851F3153</string>
+				<string>B8D3A933447720E27246C6E5</string>
+				<string>EED513F9EE5C8A0B7B6AF432</string>
+				<string>77C1A4FD181088E246AD220F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>9FB732991C3619ACB7BB1C0B</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>4C4A216BCC811CE6366BFF02</string>
+				<string>8585F844637F171141E38C2B</string>
+				<string>AA272B3DD246A3FEE7809BA9</string>
+				<string>C78BE04CAB96C43E5C095EC9</string>
+				<string>0E536DC0F10AFDC208C9BC7C</string>
+				<string>0A282B57438CBB854FE78D47</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>A1D9FC24E18AA82CEA08F5B2</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>46E313D814120F1E06987280</string>
+			<key>remoteInfo</key>
+			<string>TNKImagePickerController</string>
+		</dict>
+		<key>A2BB2A9D2B0052C746475796</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-Tests-environment.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A354F97A339053397EB0E621</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>TNKCollectionCell.m</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKCollectionCell.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A438A8F8937EBA1FE2E30A10</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>B2C7B66466360CA142920555</string>
+			<key>remoteInfo</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+		</dict>
+		<key>A47993934E75288FE140AF8E</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>BA39FE085B953C0B55EA6309</string>
+				<string>088856761CD18F5BADDB1BDB</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A51E715178B08ACD92D3B728</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+			<key>target</key>
+			<string>B2C7B66466360CA142920555</string>
+			<key>targetProxy</key>
+			<string>F5E599A0734A9EE1857C8BF7</string>
+		</dict>
+		<key>A55269A1C9C98B87AA5F8F5C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>5CF02041CCEEA8089FD98CE3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>A561729265F7FCF74FAB2274</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>B031A6FCC4A454BD4B8BCE30</string>
+				<string>39084AEC8C6FF5BB7660AF0A</string>
+				<string>F175ABB9906FE6B851739160</string>
+				<string>29493826E9F37B15B968891A</string>
+				<string>92D243126EC2EBBC21337759</string>
+				<string>78CABE6F5DDD865DE95E1CCE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>A6AB1E3CB366FE8BCCFAE744</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>4EAFA5488F710958505B5007</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Development Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A73098D4DBAD9F90ED9FE92F</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>120A3C5EA2ED8EA35406F727</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-TNKImagePickerController/Pods-Tests-TNKImagePickerController-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>A7AEC0FEF6C9DDA3D362367B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6CEE0A871E06AF2F32232DE5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>A9E83177891E263EAF674290</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>TNKImagePickerControllerBundle.h</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKImagePickerControllerBundle.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>AA272B3DD246A3FEE7809BA9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E164A5DE40AB21F0755FAA38</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>AB2EA075C1EAE0FC688677E2</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>TNKImagePickerController</string>
+			<key>target</key>
+			<string>46E313D814120F1E06987280</string>
+			<key>targetProxy</key>
+			<string>09F9C04D36263FB029E833F8</string>
+		</dict>
+		<key>ADD2929216F00BC2B143E914</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>92C4E21E143922E7CEBAC807</string>
+				<string>905E606D43CDAB02A809EBDC</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>AF6E7E33A54AE7F362252346</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>247FE8A00A9607E42C5A7518</string>
+				<string>EADBCFB6854FE1BD9584667E</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>B031A6FCC4A454BD4B8BCE30</key>
+		<dict>
+			<key>fileRef</key>
+			<string>64607A8C2AFC4EE909C27A97</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B0BEFB0DA312DE7DA3330595</key>
+		<dict>
+			<key>fileRef</key>
+			<string>7944660F08C74F12FBDA881F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B0E9DB677AED3CCBF1628163</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F07F35BEFEC56141AE85E6CE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B1BCC88CF9CA01A149B12EF7</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B27366CAF425BF63E5717ACA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>10E1C80B995528D51FE1BB7D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>B27D8A955ADACA9B8BFF5FE3</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B76B2CED7373CB591CDAA0A3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B2C7B66466360CA142920555</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>CD4A34AA83F3E8FD012A78FF</string>
+			<key>buildPhases</key>
+			<array>
+				<string>EB9F7406CCAD187F701BEE98</string>
+				<string>C2CCCDE13FA81F11BC930647</string>
+				<string>589C364B054958CA1DA9A95D</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+			<key>productName</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+			<key>productReference</key>
+			<string>FE661BACB7BCBE740984C5CF</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>B3A0D43DF8FAA66C83B5944B</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-Tests.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>B3D5D77E49F7E0057C8927CD</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController-environment.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B57F60C2798BCC149C34527A</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>2634E3854192B5A562CAA9DE</string>
+				<string>1D429547D83D3FA983655D49</string>
+				<string>9CF26F72026F28DF576EC583</string>
+				<string>74FAC7D37B63568EA485C3CA</string>
+				<string>F3AA88BB2FF49F54C7FE0BBC</string>
+				<string>8C4A09E17A16D67776F53AF5</string>
+				<string>900CD026C958E861ED4B9422</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>B609B301D9DFB7000F1133AB</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-TNKImagePickerController.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B6AA0CC19710C80ED26F5A3C</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection-list.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection-list.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B72199308B826B76E1FB5B3F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C2BD7DD1C9E12BA6EB956AC4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B76B2CED7373CB591CDAA0A3</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>TNKImagePickerControllerBundle.m</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKImagePickerControllerBundle.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B8CF1D13BCA943DD81A1FAD2</key>
+		<dict>
+			<key>fileRef</key>
+			<string>911303BF211B4368EF633676</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B8D3A933447720E27246C6E5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A9E83177891E263EAF674290</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>BA39FE085B953C0B55EA6309</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>68A2EB9FC652AD4F04B1EF79</string>
+				<string>20B748DE2300D491529541F6</string>
+				<string>C8438A2612AE68C704CA4EE1</string>
+				<string>7CC94BD4B27288EE17317409</string>
+				<string>08D14BC86C82839879A90850</string>
+				<string>83DE009DAE96C7EDD4301667</string>
+				<string>0CC2437EA2F2B38F66F55FF8</string>
+				<string>9E0CE07427D2FC2221465704</string>
+				<string>3DDA10FF47109E18F225EF65</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FBSnapshotTestCase</string>
+			<key>path</key>
+			<string>FBSnapshotTestCase</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BCBC69CBEF901A3914E5CEB9</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>01185BA6CC0D88532B4863CE</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>BCFDEA2B974D4B047591D5B7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>366F3875770A04D24E72D938</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>BD658910D57900C92FB85D78</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>TNKImagePickerController.h</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKImagePickerController.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BD71D509716485FC18463E85</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7888794CE75B0E113BBB039F</string>
+				<string>6650DE3F9669828804C7AEE4</string>
+				<string>986507670CC7C874AC244A28</string>
+				<string>046B2C2B44D1310EB0207E8B</string>
+				<string>36CD1D5BB32145951E5E28A3</string>
+				<string>120A3C5EA2ED8EA35406F727</string>
+				<string>9A03405AEB17DE0C8A3DB36B</string>
+				<string>4E64CBC7BCCCFA69F71AD9A3</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Support Files</string>
+			<key>path</key>
+			<string>Example/Pods/Target Support Files/Pods-TNKImagePickerController-TNKImagePickerController</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C08650B659F5A679F9EA051F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C0A16E6FBB34C1B1C0E690F6</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>default-collection-list@3x.png</string>
+			<key>path</key>
+			<string>Pod/Assets/default-collection-list@3x.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C12CEC30D7F094DC64280A69</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>E94392BB6F97DB2B84D60CAD</string>
+				<string>C715E63FB29C235C4A727DF7</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>C1E11360363C9FEB3C24D90E</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+			<key>target</key>
+			<string>507010FC8C89B3009891718C</string>
+			<key>targetProxy</key>
+			<string>E63A59F96058C9463003C8AD</string>
+		</dict>
+		<key>C1E30554D85976B4D25205C6</key>
+		<dict>
+			<key>fileRef</key>
+			<string>1BECCFA189BC24B839827022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C2BD7DD1C9E12BA6EB956AC4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>NSNumber+TULayoutAdditions.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/NSNumber+TULayoutAdditions.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C2CCCDE13FA81F11BC930647</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>C08650B659F5A679F9EA051F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>C314B0F546C75F232D00CBAE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>3A97432FA9927C4FFA560557</string>
+				<string>5292999322A054A4B49D030D</string>
+				<string>8917EB358EC9E925BE5E81F9</string>
+				<string>B3D5D77E49F7E0057C8927CD</string>
+				<string>1911905E56AD1FE7B696EF9D</string>
+				<string>B609B301D9DFB7000F1133AB</string>
+				<string>01185BA6CC0D88532B4863CE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController</string>
+			<key>path</key>
+			<string>Target Support Files/Pods-TNKImagePickerController</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C5D3243E3398C8E7A25DAE37</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>PHCollection+TNKThumbnail.h</string>
+			<key>path</key>
+			<string>Pod/Classes/PHCollection+TNKThumbnail.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C715E63FB29C235C4A727DF7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>1FDFFCF8324F6223F2A880AE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C78BE04CAB96C43E5C095EC9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3EBA480C56A80DFEDC620ABE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C8438A2612AE68C704CA4EE1</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>FBSnapshotTestController.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CD4A34AA83F3E8FD012A78FF</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>D2C86FF1E4F8019BCF04CECF</string>
+				<string>12F4D8088EF62D17F5CE90CF</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>CD7469816D9E1BF264E792EC</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions-prefix.pch</string>
+			<key>path</key>
+			<string>../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D23A502C6B0663EA10DFF412</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>12A7F67537BB969496CE9C2E</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-FBSnapshotTestCase/Pods-Tests-FBSnapshotTestCase-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>D2C86FF1E4F8019BCF04CECF</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>206EFD66114050D3DD010224</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-TNKImagePickerController-TULayoutAdditions/Pods-TNKImagePickerController-TULayoutAdditions-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>D3361EEBAC66FBF448EC3A25</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-Tests-FBSnapshotTestCase-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D590E9BE0EB41436B25556D2</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions.xcconfig</string>
+			<key>path</key>
+			<string>../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D5966313105F475E47206B30</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>A7AEC0FEF6C9DDA3D362367B</string>
+				<string>1EA6A222B293BADFBF712C76</string>
+				<string>76891E2D49CE56339382D028</string>
+				<string>DF2B7F55640655BB997A8BCA</string>
+				<string>B27D8A955ADACA9B8BFF5FE3</string>
+				<string>B0BEFB0DA312DE7DA3330595</string>
+				<string>A55269A1C9C98B87AA5F8F5C</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>D7FE38DB36C5849A66FE5EB1</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>1910608E71C4F642065A1CBF</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>DAA0686CFB55CE9E0DE00C87</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>Pods-Tests-TULayoutAdditions-dummy.m</string>
+			<key>path</key>
+			<string>../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>DCA2515205451AEF1EFFF90D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController-TNKImagePickerController</string>
+			<key>target</key>
+			<string>5AF1CC05E50291B8D8543075</string>
+			<key>targetProxy</key>
+			<string>29C6B01069729082EAE04E03</string>
+		</dict>
+		<key>DD843588A70EC3E5CEE2A009</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>TUConstraintInfo.m</string>
+			<key>path</key>
+			<string>TULayoutAdditions/TUConstraintInfo.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>DE0E79665086D686B4AB2E7A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>7CC94BD4B27288EE17317409</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>DF2B7F55640655BB997A8BCA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>563CFFBE9FFEF11322E3E564</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>DF42D687242B07BF4B60BDD3</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>235753DFE60C810A57820552</string>
+				<string>96B547F49A018F2D56D6A2F4</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>E164A5DE40AB21F0755FAA38</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>TUConstraintInfo.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/TUConstraintInfo.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E1DA8E89B43B75892F0ADEB5</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>12A7F67537BB969496CE9C2E</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Tests-FBSnapshotTestCase/Pods-Tests-FBSnapshotTestCase-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>E2026AC312653393C0C20E5B</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>Foundation.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>E45CB8AB24A7A44BADC70A3F</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>8056875116CB5DD08346C87A</string>
+			<key>buildPhases</key>
+			<array>
+				<string>7FE7E0FC9AF6E13C1D12199D</string>
+				<string>B27366CAF425BF63E5717ACA</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>DCA2515205451AEF1EFFF90D</string>
+				<string>5F5EA20ACD3F06287B55FE9D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-TNKImagePickerController</string>
+			<key>productName</key>
+			<string>Pods-TNKImagePickerController</string>
+			<key>productReference</key>
+			<string>226526A781D41CAA9A645F64</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>E481029718E62DA0746BA7DD</key>
+		<dict>
+			<key>fileRef</key>
+			<string>BD658910D57900C92FB85D78</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E4F97DC4652FAEC146BD5C1D</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>02C9BFD0B1774F5D29CA6F60</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>E6330CD5A487457D446662C4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-Tests-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E63A59F96058C9463003C8AD</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>507010FC8C89B3009891718C</string>
+			<key>remoteInfo</key>
+			<string>Pods-Tests-TULayoutAdditions</string>
+		</dict>
+		<key>E94392BB6F97DB2B84D60CAD</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>EA8D390E9FD1026FCF387CEE</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>UIViewController+TULayoutAdditions.h</string>
+			<key>path</key>
+			<string>TULayoutAdditions/UIViewController+TULayoutAdditions.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>EADBCFB6854FE1BD9584667E</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>77598F9B6CB426418CA82B19</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>EB9F7406CCAD187F701BEE98</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>1916A27994ADE9836A19D055</string>
+				<string>5D7D99B433C81C80192FD8E4</string>
+				<string>B8CF1D13BCA943DD81A1FAD2</string>
+				<string>1A12240CCE41C1B3D1F5DC19</string>
+				<string>220745A7EAAB8C8D75E8000E</string>
+				<string>421A7E9EA30D18FEC263BEB2</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>EED513F9EE5C8A0B7B6AF432</key>
+		<dict>
+			<key>fileRef</key>
+			<string>366F3875770A04D24E72D938</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>EF41E5DC109E45FCF68B3C21</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>ENABLE_NS_ASSERTIONS</key>
+				<string>NO</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>RELEASE=1</string>
+				</array>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>F07F35BEFEC56141AE85E6CE</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>TNKCollectionCell.h</string>
+			<key>path</key>
+			<string>Pod/Classes/TNKCollectionCell.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F175ABB9906FE6B851739160</key>
+		<dict>
+			<key>fileRef</key>
+			<string>DAA0686CFB55CE9E0DE00C87</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F2E8C1DE5CC749DDA6D62BD8</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-Tests-FBSnapshotTestCase-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F3AA88BB2FF49F54C7FE0BBC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B76B2CED7373CB591CDAA0A3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F3F1B7736CA8E78FA65012C0</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>E2026AC312653393C0C20E5B</string>
+				<string>1FDFFCF8324F6223F2A880AE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>iOS</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F48A5EBC7959A1B4FA40A7E0</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>F8EDF4D47523C3B13EFB1A4A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>F5E599A0734A9EE1857C8BF7</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>56028E7009D5F4168A5161BD</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>B2C7B66466360CA142920555</string>
+			<key>remoteInfo</key>
+			<string>Pods-TNKImagePickerController-TULayoutAdditions</string>
+		</dict>
+		<key>F6A1C7BCE4EA5262C4BF825B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>20B748DE2300D491529541F6</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F8EDF4D47523C3B13EFB1A4A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E2026AC312653393C0C20E5B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F919C2FAC1E686EC829B161B</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>7ACA64AF48E689DC09F95E28</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>FB69E7DFB7665FF8638718DA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9E0CE07427D2FC2221465704</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>FC59D19D31763925FC9CDE50</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Tests-FBSnapshotTestCase.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>FC8BDBE44BBA3DAD600C9194</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>C314B0F546C75F232D00CBAE</string>
+				<string>20D4C955A17144D62CF2028D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Targets Support Files</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>FE661BACB7BCBE740984C5CF</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-TNKImagePickerController-TULayoutAdditions.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>FFEA756E6F40B5FB9A4BB96C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>91BD6F0DF2A65E1E42BA78C4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+	</dict>
+	<key>rootObject</key>
+	<string>56028E7009D5F4168A5161BD</string>
+</dict>
+</plist>

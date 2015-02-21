@@ -11,8 +11,7 @@
 #import "UIImage+TNKAspectDraw.h"
 
 
-#define TNKCollectionThumbnailFormat @"PHCollectionThumbnail"
-
+#define TNKMomentsIdentifier @"Moments"
 
 #define TNKPrimaryThumbnailWidth 68.0
 #define TNKTotalThumbnailWidth 76.0
@@ -32,6 +31,92 @@
     });
     
     return imageCache;
+}
+
++ (void)requestThumbnailForMoments:(void (^)(UIImage *result))resultHandler
+{
+    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:TNKMomentsIdentifier];
+    if (thumbnail == nil) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self _requestThumbnailForMoments:^(UIImage *result) {
+                if (result == nil) {
+                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:TNKMomentsIdentifier];
+                } else {
+                    [[[self class] _thumbnailImageCache] setObject:result forKey:TNKMomentsIdentifier];
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    resultHandler(result);
+                });
+            }];
+        });
+    } else {
+        if ([thumbnail isKindOfClass:[NSNull class]]) {
+            resultHandler(nil);
+        } else {
+            resultHandler(thumbnail);
+        }
+    }
+}
+
++ (void)_requestThumbnailForMoments:(void (^)(UIImage *result))resultHandler
+{
+    CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
+    assetSize.width *= [UIScreen mainScreen].scale;
+    assetSize.height *= [UIScreen mainScreen].scale;
+    
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    
+    NSMutableArray *assets = [NSMutableArray new];
+    PHFetchResult *moments = [PHAssetCollection fetchMomentsWithOptions:nil];
+    [moments enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PHAssetCollection *moment, NSUInteger idx, BOOL *stop) {
+        PHFetchResult *keyResult = [PHAsset fetchAssetsInAssetCollection:moment options:nil];
+        
+        [keyResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            [assets addObject:asset];
+            
+            *stop = assets.count >= 3;
+        }];
+        
+        *stop = assets.count >= 3;
+    }];
+    
+    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
+        
+        for (NSInteger index = 2; index >= 0; index--) {
+            CGRect assetFrame;
+            assetFrame.origin.y = (2 - index) * 2.0;
+            assetFrame.origin.x = index * 2.0 + 4.0;
+            assetFrame.size.width = TNKPrimaryThumbnailWidth - index * 4.0;
+            assetFrame.size.height = TNKPrimaryThumbnailWidth - index * 4.0;
+            
+            UIImage *image = nil;
+            if (assets.count > index) {
+                PHAsset *asset = assets[index];
+                image = results[asset.localIdentifier];
+            }
+            
+            if (image != nil) {
+                [image drawInRectWithAspectFill:assetFrame];
+            }
+            
+            CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
+            CGRect borderRect = CGRectInset(assetFrame, -lineWidth / 2.0, -lineWidth / 2.0);
+            UIBezierPath *border = [UIBezierPath bezierPathWithRect:borderRect];
+            border.lineWidth = lineWidth;
+            [[UIColor whiteColor] setStroke];
+            [border stroke];
+        }
+        
+        UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        
+        resultHandler(retImage);
+    }];
 }
 
 - (void)requestThumbnail:(void (^)(UIImage *result))resultHandler
@@ -118,9 +203,6 @@
             
             if (image != nil) {
                 [image drawInRectWithAspectFill:assetFrame];
-            } else {
-                [[UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000] setFill];
-                [[UIBezierPath bezierPathWithRect:assetFrame] fill];
             }
             
             CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;

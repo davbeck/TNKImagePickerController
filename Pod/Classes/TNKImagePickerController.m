@@ -153,18 +153,12 @@
         
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
-//        PHFetchResult *moments = [PHAssetCollection fetchMomentsWithOptions:nil];
-//        PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:moments.lastObject options:nil];
-        
-//        PHFetchOptions *options = [[PHFetchOptions alloc] init];
-//        options.sortDescriptors = @[
-//                                    [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO],
-//                                    ];
-//        PHFetchResult *result = [PHAsset fetchAssetsWithOptions:options];
-        
-//        [self _setupCell:cell withFetchResult:result];
-        
         cell.thumbnailView.image = [UIImage imageNamed:@"default-collection" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+        [PHCollection requestThumbnailForMoments:^(UIImage *result) {
+            if (result != nil) {
+                cell.thumbnailView.image = result;
+            }
+        }];
         
         return cell;
     } else {
@@ -213,7 +207,7 @@
             
             cell.titleLabel.text = collection.localizedTitle;
             
-            cell.thumbnailView.image = nil;
+            cell.thumbnailView.image = [UIImage imageNamed:@"default-collection-list" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
             [collection requestThumbnail:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
