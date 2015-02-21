@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		111FFAB51A954A8700C2345D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 111FFAB41A954A8700C2345D /* LaunchScreen.xib */; };
+		1141CF3C1A98ED12005E34A4 /* TNKThumbnailTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1141CF3B1A98ED12005E34A4 /* TNKThumbnailTest.m */; };
 		392BDE97BF492412840EDB9D /* libPods-TNKImagePickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A124619EE11081049F80B1 /* libPods-TNKImagePickerController.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -22,9 +23,8 @@
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
-		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		8AEBA4B9478586208CB8D7BD /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB62209E584C62AC90E705 /* libPods-Tests.a */; };
 /* End PBXBuildFile section */
+		8AEBA4B9478586208CB8D7BD /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB62209E584C62AC90E705 /* libPods-Tests.a */; };
 
 /* Begin PBXContainerItemProxy section */
 		6003F5B3195388D20070C39A /* PBXContainerItemProxy */ = {
@@ -38,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		111FFAB41A954A8700C2345D /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		1141CF3B1A98ED12005E34A4 /* TNKThumbnailTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKThumbnailTest.m; sourceTree = "<group>"; };
 		1A5137E1FB333CA92545CF5F /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		2BBB62209E584C62AC90E705 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D999BF3293FE4AA192DFA1E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		6F44E13763F0D704B643EA7D /* TNKImagePickerController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = TNKImagePickerController.podspec; path = ../TNKImagePickerController.podspec; sourceTree = "<group>"; };
 		96F6435565DE1FBBF4F7C910 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		6003F5B5195388D20070C39A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				6003F5BB195388D20070C39A /* Tests.m */,
+				1141CF3B1A98ED12005E34A4 /* TNKThumbnailTest.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
 			path = Tests;
@@ -371,7 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6003F5BC195388D20070C39A /* Tests.m in Sources */,
+				1141CF3C1A98ED12005E34A4 /* TNKThumbnailTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TNKCollectionListCell : UITableViewCell
+@interface TNKCollectionCell : UITableViewCell
 
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
-@property (nonatomic, readonly, strong) NSArray *thumbnailViews;
+@property (nonatomic, readonly, strong) UILabel *subtitleLabel;
+@property (nonatomic, readonly, strong) UIImageView *thumbnailView;
 
 @end
