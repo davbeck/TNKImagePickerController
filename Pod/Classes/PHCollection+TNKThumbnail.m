@@ -9,6 +9,7 @@
 #import "PHCollection+TNKThumbnail.h"
 
 #import "UIImage+TNKAspectDraw.h"
+#import "PHPhotoLibrary+TNKBlockObservers.h"
 
 
 #define TNKMomentsIdentifier @"Moments"
@@ -28,6 +29,10 @@
     dispatch_once(&onceToken, ^{
         imageCache = [[NSCache alloc] init];
         imageCache.name = @"PHCollection/TNKThumbnail";
+        
+        [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserverBlock:^(PHChange *change) {
+            [self clearThumbnailCache];
+        }];
     });
     
     return imageCache;
@@ -148,6 +153,11 @@
 - (void)_requestThumbnail:(void (^)(UIImage *result))resultHandler
 {
     resultHandler(nil);
+}
+
++ (void)clearThumbnailCache
+{
+    [[[self class] _thumbnailImageCache] removeAllObjects];
 }
 
 @end
@@ -322,7 +332,7 @@
     NSMutableDictionary *requestIDs = [NSMutableDictionary new];
     dispatch_group_t group = dispatch_group_create();
     
-    [assets enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+    for (PHAsset *asset in assets) {
         dispatch_group_enter(group);
         
         PHImageRequestID requestID = [self requestImageForAsset:asset targetSize:targetSize contentMode:contentMode options:options resultHandler:^(UIImage *result, NSDictionary *info) {
@@ -332,8 +342,8 @@
             dispatch_group_leave(group);
         }];
         
-//        requestIDs[asset.localIdentifier] = @(requestID);
-    }];
+        requestIDs[asset.localIdentifier] = @(requestID);
+    }
     
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         resultHandler(results, infos);

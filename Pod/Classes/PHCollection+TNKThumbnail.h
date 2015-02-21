@@ -13,6 +13,8 @@
 + (void)requestThumbnailForMoments:(void (^)(UIImage *result))resultHandler;
 - (void)requestThumbnail:(void (^)(UIImage *result))resultHandler;
 
++ (void)clearThumbnailCache;
+
 @end
 
 

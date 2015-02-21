@@ -21,6 +21,9 @@
     UIBarButtonItem *_cancelButton;
     
     NSArray *_collectionsFetchResults;
+    
+    NSCache *_collectionHiddenCache;
+    NSCache *_assetCountCache;
 }
 
 @end
@@ -45,6 +48,9 @@
 - (void)_init
 {
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+    
+    _collectionHiddenCache = [NSCache new];
+    _assetCountCache = [NSCache new];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -85,6 +91,7 @@
     
     [self.tableView registerClass:[TNKCollectionCell class] forCellReuseIdentifier:@"CollectionCell"];
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0, 95.0, 0.0, 0.0);
+    self.tableView.estimatedRowHeight = 85.0 + 1.0 / self.traitCollection.displayScale;
     
     
     [self _reloadFetch];
@@ -136,15 +143,27 @@
     return [_collectionsFetchResults[section - 1] count];
 }
 
-- (NSCache *)_assetCountCache
+- (BOOL)_isCollectionHidden:(PHCollection *)collection
 {
-    static NSCache *cache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cache = [NSCache new];
-    });
+    NSNumber *hidden = [_collectionHiddenCache objectForKey:collection.localIdentifier];
+    if (hidden == nil) {
+        if ([collection isKindOfClass:[PHAssetCollection class]]) {
+            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
+            
+            if (assetCollection.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                if (assetCollection.estimatedAssetCount == NSNotFound) {
+                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+                    hidden = @(result.count <= 0);
+                } else {
+                    hidden = @(assetCollection.estimatedAssetCount <= 0);
+                }
+            }
+        }
+        
+        [_collectionHiddenCache setObject:hidden ?: @NO forKey:collection.localIdentifier];
+    }
     
-    return cache;
+    return hidden.boolValue;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -174,11 +193,11 @@
             
             NSInteger count = assetCollection.estimatedAssetCount;
             if (count == NSNotFound) {
-                NSNumber *countNumber = [[self _assetCountCache] objectForKey:assetCollection.localIdentifier];
+                NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
                 if (countNumber == nil) {
                     PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
                     countNumber = @(result.count);
-                    [[self _assetCountCache] setObject:countNumber forKey:assetCollection.localIdentifier];
+                    [_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
                 }
                 
                 count = [countNumber integerValue];
@@ -219,33 +238,15 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 85.0 + 1.0 / self.traitCollection.displayScale;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85.0 + 1.0 / self.traitCollection.displayScale;
-    
     BOOL hidden = NO;
     
     if (indexPath.section > 0) {
         PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
         PHCollection *collection = fetchResult[indexPath.row];
         
-        if ([collection isKindOfClass:[PHAssetCollection class]]) {
-            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
-            
-            if (assetCollection.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                if (assetCollection.estimatedAssetCount == NSNotFound) {
-                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
-                    hidden = result.count <= 0;
-                } else {
-                    hidden = assetCollection.estimatedAssetCount <= 0;
-                }
-            }
-        }
+        hidden = [self _isCollectionHidden:collection];
     }
     
     
@@ -261,25 +262,11 @@
 #pragma mark - PHPhotoLibraryChangeObserver
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    [[self _assetCountCache] removeAllObjects];
+    [_assetCountCache removeAllObjects];
+    [_collectionHiddenCache removeAllObjects];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-//        NSMutableArray *updatedCollectionsFetchResults = nil;
-//        
-//        for (PHFetchResult *collectionsFetchResult in self.collectionsFetchResults) {
-//            PHFetchResultChangeDetails *changeDetails = [changeInstance changeDetailsForFetchResult:collectionsFetchResult];
-//            if (changeDetails) {
-//                if (!updatedCollectionsFetchResults) {
-//                    updatedCollectionsFetchResults = [self.collectionsFetchResults mutableCopy];
-//                }
-//                [updatedCollectionsFetchResults replaceObjectAtIndex:[self.collectionsFetchResults indexOfObject:collectionsFetchResult] withObject:[changeDetails fetchResultAfterChanges]];
-//            }
-//        }
-//        
-//        if (updatedCollectionsFetchResults) {
-//            self.collectionsFetchResults = updatedCollectionsFetchResults;
-//            [self.tableView reloadData];
-//        }
+        [self.tableView reloadData];
     });
 }
 
