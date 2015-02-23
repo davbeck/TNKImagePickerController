@@ -11,15 +11,13 @@
 @import Photos;
 
 #import "TNKImagePickerControllerBundle.h"
-#import "UIImageView+TNKAssets.h"
+#import "TNKAssetImageView.h"
 #import "TNKCollectionCell.h"
 #import "PHCollection+TNKThumbnail.h"
 
 
 @interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver>
 {
-    UIBarButtonItem *_cancelButton;
-    
     NSArray *_collectionsFetchResults;
     
     NSCache *_collectionHiddenCache;
@@ -30,25 +28,11 @@
 
 @implementation TNKCollectionPickerController
 
-#pragma mark - Properties
-
-- (void)setShowsCancelButton:(BOOL)showsCancelButton {
-    _showsCancelButton = showsCancelButton;
-    
-    if (_showsCancelButton) {
-        self.navigationItem.rightBarButtonItem = _cancelButton;
-    } else if (self.navigationItem.rightBarButtonItem == _cancelButton) {
-        self.navigationItem.rightBarButtonItem = nil;
-    }
-}
-
 
 #pragma mark - Initialization
 
 - (void)_init
 {
-    _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-    
     _collectionHiddenCache = [NSCache new];
     _assetCountCache = [NSCache new];
 }
@@ -172,7 +156,7 @@
         
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
-        cell.thumbnailView.image = [UIImage imageNamed:@"default-collection" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+        cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
         [PHCollection requestThumbnailForMoments:^(UIImage *result) {
             if (result != nil) {
                 cell.thumbnailView.image = result;
@@ -212,7 +196,7 @@
             });
             cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(count)];
             
-            cell.thumbnailView.image = [UIImage imageNamed:@"default-collection" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+            cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
             [collection requestThumbnail:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
@@ -226,7 +210,7 @@
             
             cell.titleLabel.text = collection.localizedTitle;
             
-            cell.thumbnailView.image = [UIImage imageNamed:@"default-collection-list" inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:self.traitCollection];
+            cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection-list");
             [collection requestThumbnail:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
@@ -238,8 +222,7 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL hidden = NO;
     
     if (indexPath.section > 0) {
@@ -255,6 +238,21 @@
     } else {
         // 85.0, plus the height of the separator
         return 85.0 + 1.0 / self.traitCollection.displayScale;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        [self.delegate collectionPicker:self didSelectCollection:nil];
+    } else {
+        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
+        PHCollection *collection = fetchResult[indexPath.row];
+        
+        if ([collection isKindOfClass:[PHAssetCollection class]]) {
+            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
+            
+            [self.delegate collectionPicker:self didSelectCollection:assetCollection];
+        }
     }
 }
 

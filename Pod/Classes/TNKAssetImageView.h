@@ -1,5 +1,5 @@
 //
-//  UIImageView+TNKAssets.h
+//  TNKAssetImageView.h
 //  Pods
 //
 //  Created by David Beck on 2/19/15.
@@ -11,10 +11,12 @@
 @import Photos;
 
 
-@interface UIImageView (TNKAssets)
+@interface TNKAssetImageView : UIImageView
+
+@property (nonatomic, strong) UIImage *defaultImage;
 
 @property PHImageRequestID imageRequestID;
-@property (strong) PHAsset *asset;
+@property (nonatomic, strong) PHAsset *asset;
 - (void)cancelAssetImageRequest;
 
 @end

@@ -14,3 +14,7 @@
 NSBundle *TNKImagePickerControllerBundle() {
     return [NSBundle bundleWithURL:[[NSBundle bundleForClass:[TNKCollectionPickerController class]] URLForResource:@"TNKImagePickerController" withExtension:@"bundle"]];
 }
+
+UIImage *TNKImagePickerControllerImageNamed(NSString *imageName) {
+    return [UIImage imageNamed:imageName inBundle:TNKImagePickerControllerBundle() compatibleWithTraitCollection:nil];
+}

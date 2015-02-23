@@ -9,3 +9,4 @@
 #import <UIKit/UIKit.h>
 
 NSBundle *TNKImagePickerControllerBundle();
+UIImage *TNKImagePickerControllerImageNamed(NSString *imageName);
