@@ -29,7 +29,7 @@
 - (IBAction)pickPhotos:(id)sender
 {
     TNKImagePickerController *viewController = [[TNKImagePickerController alloc] init];
-    viewController.showsCancelButton = YES;
+//    viewController.showsCancelButton = YES;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     

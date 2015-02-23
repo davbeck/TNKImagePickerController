@@ -8,9 +8,9 @@
 
 #import "TNKImagePickerControllerBundle.h"
 
-#import "TNKImagePickerController.h"
+#import "TNKCollectionPickerController.h"
 
 
 NSBundle *TNKImagePickerControllerBundle() {
-    return [NSBundle bundleWithURL:[[NSBundle bundleForClass:[TNKImagePickerController class]] URLForResource:@"TNKImagePickerController" withExtension:@"bundle"]];
+    return [NSBundle bundleWithURL:[[NSBundle bundleForClass:[TNKCollectionPickerController class]] URLForResource:@"TNKImagePickerController" withExtension:@"bundle"]];
 }
