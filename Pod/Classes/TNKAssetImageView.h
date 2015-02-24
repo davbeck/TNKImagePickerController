@@ -17,6 +17,9 @@
 
 @property PHImageRequestID imageRequestID;
 @property (nonatomic, strong) PHAsset *asset;
+
+- (void)setNeedsAssetReload;
+- (void)loadAssetImage;
 - (void)cancelAssetImageRequest;
 
 @end

@@ -13,7 +13,7 @@
 
 @interface TNKAssetImageView ()
 {
-    
+    BOOL _needsAssetReload;
 }
 
 @end
@@ -27,8 +27,16 @@
     _asset = asset;
     self.image = self.defaultImage;
     
-    if (self.window != nil) {
-        [self loadAssetImage];
+    [self setNeedsAssetReload];
+}
+
+- (void)setNeedsAssetReload
+{
+    if (!_needsAssetReload) {
+        _needsAssetReload = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self loadAssetImage];
+        });
     }
 }
 
@@ -49,6 +57,8 @@
             self.image = result;
         }];
     }
+    
+    _needsAssetReload = NO;
 }
 
 - (void)cancelAssetImageRequest
@@ -59,11 +69,26 @@
     }
 }
 
-- (void)didMoveToWindow
+- (void)setFrame:(CGRect)frame
 {
-    [super didMoveToWindow];
+    BOOL changed = CGSizeEqualToSize(self.frame.size, frame.size);
     
-    [self loadAssetImage];
+    [super setFrame:frame];
+    
+    if (changed) {
+        [self setNeedsAssetReload];
+    }
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    BOOL changed = CGSizeEqualToSize(self.bounds.size, bounds.size);
+    
+    [super setBounds:bounds];
+    
+    if (changed) {
+        [self setNeedsAssetReload];
+    }
 }
 
 @end
