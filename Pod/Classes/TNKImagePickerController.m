@@ -43,6 +43,7 @@
     _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableSet new];
     
     [self _updateDoneButton];
+    [self _updateSelectAllButton];
 }
 
 - (NSSet *)selectedAssets {
@@ -53,18 +54,21 @@
     [_selectedAssets addObject:asset];
     
     [self _updateDoneButton];
+    [self _updateSelectAllButton];
 }
 
 - (void)removeSelectedAssetsObject:(PHAsset *)asset {
     [_selectedAssets removeObject:asset];
     
     [self _updateDoneButton];
+    [self _updateSelectAllButton];
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
     
     [self _updateForAssetCollection];
+    [self _updateSelectAllButton];
 }
 
 - (void)_updateForAssetCollection
@@ -99,11 +103,36 @@
 - (void)_updateDoneButton {
     _doneButton.enabled = _selectedAssets.count > 0;
     
-    if (_doneButton.enabled) {
+    if (_selectedAssets.count > 0) {
         _doneButton.title = [NSString localizedStringWithFormat:NSLocalizedString(@"Select (%d)", @"Title for photo picker done button (short)."), _selectedAssets.count];
     } else {
         _doneButton.title = NSLocalizedString(@"Select", nil);
     }
+}
+
+- (void)_updateSelectAllButton {
+    _selectAllButton.enabled = _moments == nil;
+    __block BOOL allSelected = _moments == nil;
+    
+    PHFetchResult *fetchResult = _fetchResult;
+    NSSet *selectedAssets = [_selectedAssets copy];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            allSelected &= [selectedAssets containsObject:asset];
+            *stop = !allSelected;
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (allSelected) {
+                _selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
+                _selectAllButton.action = @selector(deselectAll:);
+            } else {
+                _selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
+                _selectAllButton.action = @selector(selectAll:);
+            }
+        });
+    });
 }
 
 
@@ -119,6 +148,17 @@
     _doneButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
     self.navigationItem.rightBarButtonItem = _doneButton;
     
+    _cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(takePicture:)];
+    
+    _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
+    
+    self.toolbarItems = @[
+                          _cameraButton,
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          _selectAllButton,
+                          ];
+    self.hidesBottomBarWhenPushed = NO;
+    
     _collectionButton = [TNKCollectionsTitleButton buttonWithType:UIButtonTypeSystem];
     [_collectionButton addTarget:self action:@selector(changeCollection:) forControlEvents:UIControlEventTouchUpInside];
     _collectionButton.titleLabel.font = [UIFont boldSystemFontOfSize:17.0];
@@ -130,6 +170,7 @@
     _momentCache = [[NSCache alloc] init];
     [self _updateForAssetCollection];
     [self _updateDoneButton];
+    [self _updateSelectAllButton];
 }
 
 - (instancetype)init
@@ -219,6 +260,59 @@
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (IBAction)takePicture:(id)sender {
+    
+}
+
+- (IBAction)selectAll:(id)sender {
+    if (_moments != nil) {
+        return;
+    }
+    
+    PHFetchResult *fetchResult = _fetchResult;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableSet *assets = [NSMutableSet new];
+        
+        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            [assets addObject:asset];
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_selectedAssets unionSet:assets];
+            
+            [self _updateDoneButton];
+            [self _updateSelectAllButton];
+            [self.collectionView reloadData];
+        });
+    });
+}
+
+- (IBAction)deselectAll:(id)sender
+{
+    if (_moments != nil) {
+        return;
+    }
+    
+    PHFetchResult *fetchResult = _fetchResult;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableSet *assets = [NSMutableSet new];
+        
+        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            [assets addObject:asset];
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_selectedAssets minusSet:assets];
+            
+            [self _updateDoneButton];
+            [self _updateSelectAllButton];
+            [self.collectionView reloadData];
+        });
+    });
 }
 
 - (IBAction)changeCollection:(id)sender {

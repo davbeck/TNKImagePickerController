@@ -49,8 +49,10 @@
 
 @property (nonatomic, weak) id<TNKImagePickerControllerDelegate> delegate;
 
-@property (nonatomic, strong) UIBarButtonItem *cancelButton;
-@property (nonatomic, strong) UIBarButtonItem *doneButton;
+@property (nonatomic, readonly) UIBarButtonItem *cancelButton;
+@property (nonatomic, readonly) UIBarButtonItem *doneButton;
+@property (nonatomic, readonly) UIBarButtonItem *cameraButton;
+@property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
 
 /** The asset collection the picker will display to the user.

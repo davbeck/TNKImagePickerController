@@ -39,6 +39,7 @@
     TNKImagePickerController *viewController = [[TNKImagePickerController alloc] init];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    navigationController.toolbarHidden = NO;
     
     [self presentViewController:navigationController animated:YES completion:nil];
 }
