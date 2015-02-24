@@ -317,6 +317,10 @@
 
 - (IBAction)changeCollection:(id)sender {
     TNKCollectionPickerController *collectionPicker = [[TNKCollectionPickerController alloc] init];
+    if (_selectedAssets.count > 0) {
+        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.allObjects title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+        collectionPicker.additionalAssetCollections = @[ collection ];
+    }
     collectionPicker.delegate = self;
     
     collectionPicker.modalPresentationStyle = UIModalPresentationPopover;

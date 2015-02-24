@@ -23,4 +23,10 @@
 
 @property (nonatomic, weak) id<TNKCollectionPickerControllerDelegate> delegate;
 
+/** Additional asset collections that you want displayed.
+ 
+ Instances are PHAssetCollection objects that will be displayed at the top of the list of collections.
+ */
+@property (nonatomic, copy) NSArray *additionalAssetCollections;
+
 @end
