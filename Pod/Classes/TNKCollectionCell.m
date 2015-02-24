@@ -23,6 +23,10 @@
 
 - (void)_init
 {
+    // we hide collections by making them 0pts tall
+    self.clipsToBounds = YES;
+    
+    
     _labelsView = [[UIView alloc] init];
     [self addSubview:_labelsView];
     _labelsView.constrainedCenterY = @0.0;
