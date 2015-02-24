@@ -22,7 +22,7 @@
 #define TNKObjectSpacing 5.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver>
 {
     NSMutableSet *_selectedAssets;
     
@@ -159,6 +159,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -168,6 +173,8 @@
     self.collectionView.alwaysBounceVertical = YES;
     
     [self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews
@@ -199,11 +206,19 @@
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingAssets:)]) {
+        [self.delegate imagePickerController:self didFinishPickingAssets:self.selectedAssets];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (IBAction)cancel:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self.delegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {
+        [self.delegate imagePickerControllerDidCancel:self];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (IBAction)changeCollection:(id)sender {
@@ -387,6 +402,57 @@
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
+}
+
+
+#pragma mark - PHPhotoLibraryChangeObserver
+
+- (void)photoLibraryDidChange:(PHChange *)changeInstance {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_moments != nil) {
+            PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
+            _moments = [details fetchResultAfterChanges];
+            
+            [self.collectionView reloadData];
+        } else {
+            PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_fetchResult];
+            _fetchResult = [details fetchResultAfterChanges];
+            
+            if (details.hasIncrementalChanges) {
+                [self.collectionView performBatchUpdates:^{
+                    NSMutableArray *removedIndexPaths = [NSMutableArray new];
+                    [details.removedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                        [removedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                    }];
+                    [self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
+                    
+                    
+                    NSMutableArray *insertedIndexPaths = [NSMutableArray new];
+                    [details.insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                        [insertedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                    }];
+                    [self.collectionView insertItemsAtIndexPaths:insertedIndexPaths];
+                    
+                    
+                    NSMutableArray *changedIndexPaths = [NSMutableArray new];
+                    [details.changedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                        [changedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                    }];
+                    [self.collectionView reloadItemsAtIndexPaths:changedIndexPaths];
+                    
+                    
+                    [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+                        NSIndexPath *from = [NSIndexPath indexPathForRow:fromIndex inSection:0];
+                        NSIndexPath *to = [NSIndexPath indexPathForRow:fromIndex inSection:0];
+                        
+                        [self.collectionView moveItemAtIndexPath:from toIndexPath:to];
+                    }];
+                } completion:nil];
+            } else {
+                [self.collectionView reloadData];
+            }
+        }
+    });
 }
 
 @end

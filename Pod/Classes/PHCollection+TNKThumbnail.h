@@ -16,15 +16,3 @@
 + (void)clearThumbnailCache;
 
 @end
-
-
-@interface PHImageManager (TNKThumbnail)
-
-- (NSDictionary *)requestImagesForAssets:(NSArray *)assets
-                              targetSize:(CGSize)targetSize
-                             contentMode:(PHImageContentMode)contentMode
-                                 options:(PHImageRequestOptions *)options
-                           resultHandler:(void (^)(NSDictionary *results,
-                                                   NSDictionary *infos))resultHandler;
-
-@end
