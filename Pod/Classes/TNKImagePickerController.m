@@ -24,6 +24,8 @@
 
 @interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate>
 {
+    NSMutableSet *_selectedAssets;
+    
     UIButton *_collectionButton;
     PHFetchResult *_fetchResult;
     PHFetchResult *_moments;
@@ -36,6 +38,28 @@
 @implementation TNKImagePickerController
 
 #pragma mark - Properties
+
+- (void)setSelectedAssets:(NSSet *)selectedAssets {
+    _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableSet new];
+    
+    [self _updateDoneButton];
+}
+
+- (NSSet *)selectedAssets {
+    return [_selectedAssets copy];
+}
+
+- (void)addSelectedAssetsObject:(PHAsset *)asset {
+    [_selectedAssets addObject:asset];
+    
+    [self _updateDoneButton];
+}
+
+- (void)removeSelectedAssetsObject:(PHAsset *)asset {
+    [_selectedAssets removeObject:asset];
+    
+    [self _updateDoneButton];
+}
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
@@ -72,16 +96,27 @@
     }
 }
 
+- (void)_updateDoneButton {
+    _doneButton.enabled = _selectedAssets.count > 0;
+    
+    if (_doneButton.enabled) {
+        _doneButton.title = [NSString localizedStringWithFormat:NSLocalizedString(@"Select (%d)", @"Title for photo picker done button (short)."), _selectedAssets.count];
+    } else {
+        _doneButton.title = NSLocalizedString(@"Select", nil);
+    }
+}
+
 
 #pragma mark - Initialization
 
 - (void)_init
 {
+    _selectedAssets = [NSMutableSet new];
+    
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
     
-    _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", nil) style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
-    _doneButton.enabled = NO;
+    _doneButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
     self.navigationItem.rightBarButtonItem = _doneButton;
     
     _collectionButton = [TNKCollectionsTitleButton buttonWithType:UIButtonTypeSystem];
@@ -94,6 +129,7 @@
     
     _momentCache = [[NSCache alloc] init];
     [self _updateForAssetCollection];
+    [self _updateDoneButton];
 }
 
 - (instancetype)init
@@ -181,6 +217,31 @@
     [self presentViewController:collectionPicker animated:YES completion:nil];
 }
 
+- (IBAction)toggleSelection:(UIButton *)sender {
+    UICollectionViewCell *cell = (UICollectionViewCell *)sender;
+    while (cell != nil && ![cell isKindOfClass:[UICollectionViewCell class]]) {
+        cell = (UICollectionViewCell *)cell.superview;
+    }
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    
+    PHAsset *asset = nil;
+    if (_moments != nil) {
+        PHAssetCollection *collection = _moments[indexPath.section];
+        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+        asset = fetchResult[indexPath.row];
+    } else {
+        asset = _fetchResult[indexPath.row];
+    }
+    
+    if ([_selectedAssets containsObject:asset]) {
+        [self removeSelectedAssetsObject:asset];
+    } else {
+        [self addSelectedAssetsObject:asset];
+    }
+    sender.selected = [_selectedAssets containsObject:asset];
+}
+
 
 #pragma mark - UICollectionViewDataSource
 
@@ -227,6 +288,11 @@
     
     cell.backgroundColor = [UIColor redColor];
     cell.imageView.asset = asset;
+    
+    if ([cell.selectButton actionsForTarget:self forControlEvent:UIControlEventTouchUpInside].count == 0) {
+        [cell.selectButton addTarget:self action:@selector(toggleSelection:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    cell.selectButton.selected = [_selectedAssets containsObject:asset];
     
     return cell;
 }

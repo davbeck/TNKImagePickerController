@@ -23,4 +23,6 @@
  */
 @property (nonatomic, strong) PHAssetCollection *assetCollection;
 
+@property (nonatomic, copy) NSSet *selectedAssets;
+
 @end

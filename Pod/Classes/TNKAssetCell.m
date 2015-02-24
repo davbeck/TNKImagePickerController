@@ -9,6 +9,7 @@
 #import "TNKAssetCell.h"
 
 #import "TNKAssetImageView.h"
+#import "TNKImagePickerControllerBundle.h"
 
 
 @implementation TNKAssetCell
@@ -19,6 +20,11 @@
     _imageView.clipsToBounds = YES;
     _imageView.backgroundColor = [UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000];
     [self.contentView addSubview:_imageView];
+    
+    _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark") forState:UIControlStateNormal];
+    [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark-selected") forState:UIControlStateSelected];
+    [self.contentView addSubview:_selectButton];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -41,6 +47,8 @@
     [super layoutSubviews];
     
     _imageView.frame = self.contentView.bounds;
+    
+    _selectButton.frame = CGRectMake(0.0, 0.0, 34.0, 34.0);
 }
 
 @end
