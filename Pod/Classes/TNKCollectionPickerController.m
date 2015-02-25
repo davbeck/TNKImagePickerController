@@ -22,6 +22,9 @@
     
     NSCache *_collectionHiddenCache;
     NSCache *_assetCountCache;
+    BOOL _needsRefetch;
+    
+    BOOL _navigationBarWasHidden;
 }
 
 @end
@@ -34,20 +37,28 @@
 {
     _additionalAssetCollections = [additionalAssetCollections copy];
     
-    [self _reloadFetch];
+    [self _setNeedsReloadFetch];
+}
+
+- (void)setCollectionList:(PHCollectionList *)collectionList
+{
+    _collectionList = collectionList;
+    
+    self.title = _collectionList.localizedTitle;
+    [self _setNeedsReloadFetch];
 }
 
 
 #pragma mark - Initialization
 
-- (void)_init
-{
+- (void)_init {
     _collectionHiddenCache = [NSCache new];
     _assetCountCache = [NSCache new];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self _init];
@@ -55,8 +66,7 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self _init];
@@ -87,35 +97,66 @@
     self.tableView.estimatedRowHeight = 85.0 + 1.0 / self.traitCollection.displayScale;
     
     
-    [self _reloadFetch];
+    [self _setNeedsReloadFetch];
     
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (_navigationBarWasHidden) {
+        _navigationBarWasHidden = NO;
+        self.navigationController.navigationBarHidden = YES;
+    }
+}
+
+- (void)_setNeedsReloadFetch {
+    if (!_needsRefetch) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self _reloadFetch];
+        });
+    }
 }
 
 - (void)_reloadFetch
 {
     NSArray *additionalAssetCollections = [self.additionalAssetCollections copy];
     
+    PHCollectionList *collectionList = self.collectionList;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *fetchResults = @[
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil],
-                                  
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumGeneric options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumPanoramas options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumVideos options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumFavorites options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumTimelapses options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumRecentlyAdded options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumBursts options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumSlomoVideos options:nil],
-                                  
-                                  [PHCollectionList fetchCollectionListsWithType:PHCollectionListTypeSmartFolder subtype:PHCollectionListSubtypeAny options:nil],
-                                  
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil],
-                                  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumImported options:nil],
-                                  ];
+        NSArray *fetchResults;
+        
+        if (collectionList == nil) {
+            fetchResults = @[
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil],
+                             
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumGeneric options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumPanoramas options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumVideos options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumFavorites options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumTimelapses options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumRecentlyAdded options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumBursts options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumSlomoVideos options:nil],
+                             
+                             [PHCollectionList fetchCollectionListsWithType:PHCollectionListTypeSmartFolder subtype:PHCollectionListSubtypeAny options:nil],
+                             
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil],
+                             [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumImported options:nil],
+                             ];
+        } else {
+            PHFetchOptions *options = [PHFetchOptions new];
+            if (collectionList.collectionListSubtype == PHCollectionListSubtypeSmartFolderFaces) {
+                options.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"localizedTitle" ascending:YES] ];
+            }
+            
+            fetchResults = @[ [PHAssetCollection fetchCollectionsInCollectionList:collectionList options:options] ];
+        }
         
         if (additionalAssetCollections != nil) {
             fetchResults = [additionalAssetCollections arrayByAddingObjectsFromArray:fetchResults];
@@ -126,6 +167,8 @@
             [self.tableView reloadData];
         });
     });
+    
+    _needsRefetch = NO;
 }
 
 #pragma mark - Actions
@@ -137,18 +180,27 @@
 
 #pragma mark - Table view data source
 
+- (NSInteger)_momentsSections
+{
+    if (self.collectionList != nil) {
+        return 0;
+    }
+    
+    return 1;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _collectionsFetchResults.count + 1;
+    return _collectionsFetchResults.count + [self _momentsSections];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section < [self _momentsSections]) {
         return 1;
     }
     
-    id collection = _collectionsFetchResults[section - 1];
+    id collection = _collectionsFetchResults[section - [self _momentsSections]];
     if ([collection isKindOfClass:[PHFetchResult class]]) {
-        return [_collectionsFetchResults[section - 1] count];
+        return [_collectionsFetchResults[section - [self _momentsSections]] count];
     }
     
     return 1;
@@ -178,7 +230,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section < [self _momentsSections]) {
         TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
         
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
@@ -190,9 +242,11 @@
             }
         }];
         
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
         return cell;
     } else {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
+        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
         PHCollection *collection;
         if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
             collection = fetchResult[indexPath.row];
@@ -234,6 +288,7 @@
                 }
             }];
             
+            cell.accessoryType = UITableViewCellAccessoryNone;
             
             return cell;
         } else {
@@ -248,6 +303,8 @@
                 }
             }];
             
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
             return cell;
         }
     }
@@ -256,8 +313,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL hidden = NO;
     
-    if (indexPath.section > 0) {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
+    if (indexPath.section >= [self _momentsSections]) {
+        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
         PHCollection *collection;
         if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
             collection = fetchResult[indexPath.row];
@@ -278,10 +335,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section < [self _momentsSections]) {
         [self.delegate collectionPicker:self didSelectCollection:nil];
     } else {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - 1];
+        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
         PHCollection *collection;
         if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
             collection = fetchResult[indexPath.row];
@@ -293,6 +350,14 @@
             PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
             
             [self.delegate collectionPicker:self didSelectCollection:assetCollection];
+        } else {
+            TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] init];
+            picker.delegate = self.delegate;
+            picker.collectionList = (PHCollectionList *)collection;
+            
+            _navigationBarWasHidden = self.navigationController.navigationBarHidden;
+            self.navigationController.navigationBarHidden = NO;
+            [self.navigationController pushViewController:picker animated:YES];
         }
     }
 }
@@ -304,7 +369,7 @@
     [_assetCountCache removeAllObjects];
     [_collectionHiddenCache removeAllObjects];
     
-    [self _reloadFetch];
+    [self _setNeedsReloadFetch];
 }
 
 @end

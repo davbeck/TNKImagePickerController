@@ -20,11 +20,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
         [self pickPhotos:nil];
@@ -40,6 +35,10 @@
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     navigationController.toolbarHidden = NO;
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    
+    navigationController.popoverPresentationController.sourceView = self.pickPhotosButton;
+    navigationController.popoverPresentationController.sourceRect = self.pickPhotosButton.bounds;
     
     [self presentViewController:navigationController animated:YES completion:nil];
 }

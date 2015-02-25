@@ -10,6 +10,7 @@
 
 @class TNKCollectionPickerController;
 @class PHAssetCollection;
+@class PHCollectionList;
 
 
 @protocol TNKCollectionPickerControllerDelegate <NSObject>
@@ -28,5 +29,11 @@
  Instances are PHAssetCollection objects that will be displayed at the top of the list of collections.
  */
 @property (nonatomic, copy) NSArray *additionalAssetCollections;
+
+/** A collection list to display.
+ 
+ By default we display a list of all of the user's collections. Set this to only show a particular collection list of asset collections.
+ */
+@property (nonatomic, strong) PHCollectionList *collectionList;
 
 @end

@@ -96,6 +96,8 @@
         if (_moments != nil) {
             [self.collectionView layoutIfNeeded];
             [self _scrollToBottomAnimated:NO];
+        } else {
+            [self.collectionView setContentOffset:CGPointMake(0.0, -self.topLayoutGuide.length) animated:NO];
         }
     }
 }
@@ -323,11 +325,14 @@
     }
     collectionPicker.delegate = self;
     
-    collectionPicker.modalPresentationStyle = UIModalPresentationPopover;
-    collectionPicker.popoverPresentationController.sourceView = _collectionButton;
-    collectionPicker.popoverPresentationController.sourceRect = _collectionButton.bounds;
-    collectionPicker.popoverPresentationController.delegate = self;
-    [self presentViewController:collectionPicker animated:YES completion:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:collectionPicker];
+    navigationController.navigationBarHidden = YES;
+    
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    navigationController.popoverPresentationController.sourceView = _collectionButton;
+    navigationController.popoverPresentationController.sourceRect = _collectionButton.bounds;
+    navigationController.popoverPresentationController.delegate = self;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (IBAction)toggleSelection:(UIButton *)sender {

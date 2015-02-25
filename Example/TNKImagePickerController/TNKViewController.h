@@ -10,4 +10,6 @@
 
 @interface TNKViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *pickPhotosButton;
+
 @end
