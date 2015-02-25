@@ -36,12 +36,12 @@
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.clipsToBounds = YES;
     _imageView.backgroundColor = [UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000];
+    _imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
     [self.contentView addSubview:_imageView];
     
     _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark") forState:UIControlStateNormal];
     [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark-selected") forState:UIControlStateSelected];
-    self.imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
     [self.contentView addSubview:_selectButton];
     
     [_selectButton addObserver:self forKeyPath:@"selected" options:NSKeyValueObservingOptionInitial context:nil];

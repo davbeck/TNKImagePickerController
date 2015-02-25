@@ -9,11 +9,12 @@
 #import "TNKAssetsDetailViewController.h"
 
 @import Photos;
+@import ObjectiveC;
 
 #import "TNKAssetViewController.h"
 
 
-@interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate>
+@interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate, UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 {
     PHFetchResult *_fetchResult;
     
@@ -41,6 +42,8 @@
 
 - (void)_init
 {
+    self.delegate = self;
+    self.dataSource = self;
     self.hidesBottomBarWhenPushed = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
@@ -79,11 +82,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleBars:)];
     recognizer.delegate = self;
     [self.view addGestureRecognizer:recognizer];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -104,21 +119,31 @@
     [self.navigationController setNavigationBarHidden:_fullscreen animated:YES];
     
     [UIView animateWithDuration:0.2 animations:^{
-        for (UIViewController *viewController in self.viewControllers) {
-            if (_fullscreen) {
-                viewController.view.backgroundColor = [UIColor blackColor];
-            } else {
-                viewController.view.backgroundColor = [UIColor whiteColor];
-            }
+        for (TNKAssetViewController *viewController in self.viewControllers) {
+            viewController.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+        }
+        
+        if (_fullscreen) {
+            self.view.backgroundColor = [UIColor blackColor];
+        } else {
+            self.view.backgroundColor = [UIColor whiteColor];
         }
     }];
 }
 
+- (IBAction)toggleSelection:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    
+    NSIndexPath *indexPath = objc_getAssociatedObject(sender, @selector(indexPath));
+    
+    if (sender.selected) {
+        [self.assetDelegate assetsDetailViewController:self selectAssetAtIndexPath:indexPath];
+    } else {
+        [self.assetDelegate assetsDetailViewController:self deselectAssetAtIndexPath:indexPath];
+    }
+}
 
-#pragma mark - Actions
-
-- (void)showAssetAtIndexPath:(NSIndexPath *)indexPath
-{
+- (TNKAssetViewController *)_assetViewControllerWithAssetAtIndexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = nil;
     if (self.assetCollection != nil) {
         asset = _fetchResult[indexPath.row];
@@ -128,8 +153,94 @@
     }
     
     TNKAssetViewController *next = [[TNKAssetViewController alloc] init];
+    next.view.backgroundColor = [UIColor clearColor];
+    next.view.frame = self.view.bounds;
+    objc_setAssociatedObject(next, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    next.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+    [next.selectButton addTarget:self action:@selector(toggleSelection:) forControlEvents:UIControlEventTouchUpInside];
+    next.selectButton.selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
+    objc_setAssociatedObject(next.selectButton, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
     next.asset = asset;
+    
+    return next;
+}
+
+- (void)showAssetAtIndexPath:(NSIndexPath *)indexPath
+{
+    TNKAssetViewController *next = [self _assetViewControllerWithAssetAtIndexPath:indexPath];
     [self setViewControllers:@[next] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self _updateTitle];
+}
+
+
+#pragma mark - UIPageViewControllerDelegate
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(TNKAssetViewController *)last
+{
+    NSIndexPath *lastIndexPath = objc_getAssociatedObject(last, @selector(indexPath));
+    NSIndexPath *nextIndexPath = nil;
+    
+    if (self.assetCollection == nil) {
+        if (lastIndexPath.item > 0) {
+            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item - 1 inSection:lastIndexPath.section];
+        } else if (lastIndexPath.section > 0) {
+            NSInteger section = lastIndexPath.section - 1;
+            
+            PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:nil];
+            
+            nextIndexPath = [NSIndexPath indexPathForItem:moment.count - 1 inSection:section];
+        }
+    } else {
+        if (lastIndexPath.item > 0) {
+            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item - 1 inSection:0];
+        }
+    }
+    
+    
+    if (nextIndexPath != nil) {
+        return [self _assetViewControllerWithAssetAtIndexPath:nextIndexPath];
+    }
+    
+    return nil;
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(TNKAssetViewController *)last {
+    NSIndexPath *lastIndexPath = objc_getAssociatedObject(last, @selector(indexPath));
+    NSIndexPath *nextIndexPath = nil;
+    
+    if (self.assetCollection == nil) {
+        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[lastIndexPath.section] options:nil];
+        
+        if (lastIndexPath.item + 1 < moment.count) {
+            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item + 1 inSection:lastIndexPath.section];
+        } else if (lastIndexPath.section + 1 < _fetchResult.count) {
+            NSInteger section = lastIndexPath.section + 1;
+            
+            nextIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+        }
+    } else {
+        if (lastIndexPath.item + 1 < _fetchResult.count) {
+            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item + 1 inSection:0];
+        }
+    }
+    
+    
+    if (nextIndexPath != nil) {
+        return [self _assetViewControllerWithAssetAtIndexPath:nextIndexPath];
+    }
+    
+    return nil;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
+    for (TNKAssetViewController *viewController in pendingViewControllers) {
+        viewController.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+    }
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     [self _updateTitle];
 }
 

@@ -23,7 +23,7 @@
 #define TNKObjectSpacing 5.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate>
 {
     NSMutableSet *_selectedAssets;
     
@@ -394,8 +394,8 @@
     return result;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+- (PHAsset *)_assetAtIndexPath:(NSIndexPath *)indexPath
+{
     PHAsset *asset = nil;
     if (_moments != nil) {
         PHAssetCollection *collection = _moments[indexPath.section];
@@ -405,7 +405,13 @@
         asset = _fetchResult[indexPath.row];
     }
     
-    cell.backgroundColor = [UIColor redColor];
+    return asset;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    PHAsset *asset = [self _assetAtIndexPath:indexPath];
+    
     cell.imageView.asset = asset;
     
     if ([cell.selectButton actionsForTarget:self forControlEvent:UIControlEventTouchUpInside].count == 0) {
@@ -484,16 +490,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    PHAsset *asset = nil;
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[indexPath.section];
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        asset = fetchResult[indexPath.row];
-    } else {
-        asset = _fetchResult[indexPath.row];
-    }
-    
     TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
+    detailViewController.assetDelegate = self;
     detailViewController.assetCollection = self.assetCollection;
     [detailViewController showAssetAtIndexPath:indexPath];
     
@@ -573,6 +571,30 @@
             }
         }
     });
+}
+
+
+#pragma mark - TNKAssetsDetailViewControllerDelegate
+
+- (BOOL)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController isAssetSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    PHAsset *asset = [self _assetAtIndexPath:indexPath];
+    return [_selectedAssets containsObject:asset];
+}
+
+- (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController selectAssetAtIndexPath:(NSIndexPath *)indexPath {
+    PHAsset *asset = [self _assetAtIndexPath:indexPath];
+    [self addSelectedAssetsObject:asset];
+    
+    TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    cell.selectButton.selected = [_selectedAssets containsObject:asset];
+}
+
+- (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController deselectAssetAtIndexPath:(NSIndexPath *)indexPath {
+    PHAsset *asset = [self _assetAtIndexPath:indexPath];
+    [self removeSelectedAssetsObject:asset];
+    
+    TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    cell.selectButton.selected = [_selectedAssets containsObject:asset];
 }
 
 @end

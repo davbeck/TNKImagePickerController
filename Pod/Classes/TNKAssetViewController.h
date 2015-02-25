@@ -15,4 +15,7 @@
 
 @property (nonatomic, strong) PHAsset *asset;
 
+
+@property (nonatomic, readonly) UIButton *selectButton;
+
 @end
