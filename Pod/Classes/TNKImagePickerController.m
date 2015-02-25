@@ -17,6 +17,7 @@
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
 #import "TNKCollectionViewFloatingHeaderFlowLayout.h"
+#import "TNKAssetsDetailViewController.h"
 
 
 #define TNKObjectSpacing 5.0
@@ -482,8 +483,24 @@
     }
 }
 
-- (void)_scrollToBottomAnimated:(BOOL)animated
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    PHAsset *asset = nil;
+    if (_moments != nil) {
+        PHAssetCollection *collection = _moments[indexPath.section];
+        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+        asset = fetchResult[indexPath.row];
+    } else {
+        asset = _fetchResult[indexPath.row];
+    }
+    
+    TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
+    detailViewController.assetCollection = self.assetCollection;
+    [detailViewController showAssetAtIndexPath:indexPath];
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (void)_scrollToBottomAnimated:(BOOL)animated {
     CGPoint contentOffset = self.collectionView.contentOffset;
     contentOffset.y = self.collectionView.contentSize.height - self.collectionView.bounds.size.height + self.collectionView.contentInset.bottom;
     contentOffset.y = MAX(contentOffset.y, -self.collectionView.contentInset.top);
