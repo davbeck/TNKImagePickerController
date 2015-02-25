@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "PHImageManager+TNKRequestImages.h"
+#import "TNKAssetsDetailViewController.h"
 
 @class PHAssetCollection;
 @class TNKImagePickerController;
@@ -42,6 +43,19 @@
  */
 - (void)imagePickerControllerDidCancel:(TNKImagePickerController *)picker;
 
+/** Tells the delegate that an image is being displayed fullscreen.
+ 
+ Return the passed in viewController to use the default behavior. You can customize the view controller, for instance adding toolbar items and setting the `hidesBottomBarWhenPushed` to `NO`. Alternatively, you can return a different view controller to be pushed instead, or even return nil to cancel the push entirely.
+ 
+ @param picker The controller object managing the image picker interface.
+ @param viewController The proposed view controller to be pushed.
+ @param asset The asset being displayed.
+ @return Either a view controller to be pushed, or nil to cancel.
+ */
+- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+            willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
+                                   forAsset:(PHAsset *)asset;
+
 @end
 
 
@@ -66,5 +80,7 @@
  Instances are `PHAsset` objects. You can set this to provide default assets to be selected, or read them to see what the user has selected.
  */
 @property (nonatomic, copy) NSSet *selectedAssets;
+- (void)selectAsset:(PHAsset *)asset;
+- (void)deselectAsset:(PHAsset *)asset;
 
 @end

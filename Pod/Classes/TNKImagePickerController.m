@@ -58,11 +58,19 @@
     [self _updateSelectAllButton];
 }
 
+- (void)selectAsset:(PHAsset *)asset {
+    [self addSelectedAssetsObject:asset];
+}
+
 - (void)removeSelectedAssetsObject:(PHAsset *)asset {
     [_selectedAssets removeObject:asset];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
+}
+
+- (void)deselectAsset:(PHAsset *)asset {
+    [self removeSelectedAssetsObject:asset];
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -491,11 +499,21 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
+    detailViewController.navigationItem.rightBarButtonItem = self.doneButton;
     detailViewController.assetDelegate = self;
     detailViewController.assetCollection = self.assetCollection;
     [detailViewController showAssetAtIndexPath:indexPath];
     
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
+        PHAsset *asset = [self _assetAtIndexPath:indexPath];
+        UIViewController *viewController = [self.delegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
+        
+        if (viewController != nil) {
+            [self.navigationController pushViewController:viewController animated:YES];
+        }
+    } else {
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
 }
 
 - (void)_scrollToBottomAnimated:(BOOL)animated {
