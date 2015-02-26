@@ -18,6 +18,7 @@
 #import "TNKMomentHeaderView.h"
 #import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
+#import "NSDate+TNKFormattedDay.h"
 
 
 #define TNKObjectSpacing 5.0
@@ -169,6 +170,8 @@
                           _selectAllButton,
                           ];
     self.hidesBottomBarWhenPushed = NO;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     _collectionButton = [TNKCollectionsTitleButton buttonWithType:UIButtonTypeSystem];
     [_collectionButton addTarget:self action:@selector(changeCollection:) forControlEvents:UIControlEventTouchUpInside];
@@ -444,36 +447,8 @@
     if (_moments != nil) {
         PHAssetCollection *collection = _moments[indexPath.section];
         
-        static NSDateFormatter *dateFormatter = nil;
-        static NSDateFormatter *comparisonFormatter = nil;
-        static NSDateFormatter *weekdayFormatter = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            dateFormatter = [NSDateFormatter new];
-            dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-            dateFormatter.timeStyle = NSDateFormatterNoStyle;
-            dateFormatter.doesRelativeDateFormatting = YES;
-            
-            comparisonFormatter = [NSDateFormatter new];
-            comparisonFormatter.dateStyle = NSDateFormatterMediumStyle;
-            comparisonFormatter.timeStyle = NSDateFormatterNoStyle;
-            
-            weekdayFormatter = [NSDateFormatter new];
-            weekdayFormatter.dateFormat = @"EEEE";
-        });
         
-        NSDate *date = collection.startDate;
-        NSString *dateString = nil;
-        NSString *relativeString = [dateFormatter stringFromDate:date];
-        NSString *absoluteString = [comparisonFormatter stringFromDate:date];
-        
-        if (![relativeString isEqual:absoluteString]) {
-            dateString = relativeString;
-        } else if (-date.timeIntervalSinceNow < 60.0 * 60.0 * 24.0 * 7.0) {
-            dateString = [weekdayFormatter stringFromDate:date];
-        } else {
-            dateString = relativeString;
-        }
+        NSString *dateString = [collection.startDate TNKLocalizedDay];
         
         
         if (collection.localizedTitle != nil) {

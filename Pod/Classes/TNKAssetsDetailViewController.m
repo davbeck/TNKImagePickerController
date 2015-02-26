@@ -10,8 +10,10 @@
 
 @import Photos;
 @import ObjectiveC;
+#import <TULayoutAdditions/TULayoutAdditions.h>
 
 #import "TNKAssetViewController.h"
+#import "NSDate+TNKFormattedDay.h"
 
 
 @interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate, UIPageViewControllerDelegate, UIPageViewControllerDataSource>
@@ -19,6 +21,10 @@
     PHFetchResult *_fetchResult;
     
     BOOL _fullscreen;
+    
+    UIView *_titleView;
+    UILabel *_titleLabel;
+    UILabel *_subtitleLabel;
 }
 
 @end
@@ -87,6 +93,28 @@
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleBars:)];
     recognizer.delegate = self;
     [self.view addGestureRecognizer:recognizer];
+    
+    
+    _titleView = [UIView new];
+    
+    _titleLabel = [UILabel new];
+    _titleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline] size:15.0];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    [_titleView addSubview:_titleLabel];
+    _titleLabel.constrainedTop = @0.0;
+    _titleLabel.constrainedLeft = @0.0;
+    _titleLabel.constrainedRight = @0.0;
+    
+    _subtitleLabel = [UILabel new];
+    _subtitleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote] size:11.0];
+    _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    [_titleView addSubview:_subtitleLabel];
+    _subtitleLabel.constrainedTop = _titleLabel.constrainedBottom;
+    _subtitleLabel.constrainedBottom = @0.0;
+    _subtitleLabel.constrainedLeft = @0.0;
+    _subtitleLabel.constrainedRight = @0.0;
+    
+    self.navigationItem.titleView = _titleView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -106,9 +134,30 @@
 }
 
 - (void)_updateTitle {
-//    TNKAssetViewController *next = self.viewControllers.firstObject;
+    TNKAssetViewController *next = self.viewControllers.firstObject;
+    PHAsset *asset = next.asset;
     
-//    self.title = [NSString localizedStringWithFormat:NSLocalizedString(@"%1$d of %2$d", @"Fullscreen photo editing title showing the index of the current photo in the album. %1$d is the index of the current photo. %2$d is the total number of photos."), index + 1, _assets.count];
+    PHAssetCollection *moment = [PHAssetCollection fetchAssetCollectionsContainingAsset:asset withType:PHAssetCollectionTypeMoment options:nil].firstObject;
+    _titleLabel.text = moment.localizedTitle;
+    
+    static NSDateFormatter *timeFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        timeFormatter = [[NSDateFormatter alloc] init];
+        timeFormatter.dateStyle = NSDateFormatterNoStyle;
+        timeFormatter.timeStyle = kCFDateFormatterShortStyle;
+    });
+    
+    if (_titleLabel.text == nil) {
+        _titleLabel.text = [asset.creationDate TNKLocalizedDay];
+        _subtitleLabel.text = [timeFormatter stringFromDate:asset.creationDate];
+    } else {
+        _subtitleLabel.text = [NSString stringWithFormat:@"%@ %@", [asset.creationDate TNKLocalizedDay], [timeFormatter stringFromDate:asset.creationDate]];
+    }
+    
+    CGRect titleFrame;
+    titleFrame.size = [_titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    _titleView.frame = titleFrame;
 }
 
 
