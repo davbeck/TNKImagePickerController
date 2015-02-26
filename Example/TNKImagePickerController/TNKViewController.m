@@ -11,7 +11,7 @@
 #import <TNKImagePickerController/TNKImagePickerController.h>
 
 
-@interface TNKViewController ()
+@interface TNKViewController () <TNKImagePickerControllerDelegate>
 
 @end
 
@@ -31,9 +31,9 @@
 
 - (IBAction)pickPhotos:(id)sender
 {
-    TNKImagePickerController *viewController = [[TNKImagePickerController alloc] init];
+    TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     
@@ -49,6 +49,22 @@
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+
+#pragma mark - TNKImagePickerControllerDelegate
+
+- (void)imagePickerController:(TNKImagePickerController *)picker
+       didFinishPickingAssets:(NSSet *)assets {
+    [[PHImageManager defaultManager] requestImagesForAssets:assets.allObjects targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+        NSArray *images = results.allValues;
+    }];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(TNKImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

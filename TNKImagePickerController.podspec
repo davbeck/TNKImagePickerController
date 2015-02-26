@@ -1,38 +1,22 @@
-#
-# Be sure to run `pod lib lint TNKImagePickerController.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "TNKImagePickerController"
   s.version          = "0.1.0"
-  s.summary          = "A short description of TNKImagePickerController."
-  s.description      = <<-DESC
-                       An optional longer description of TNKImagePickerController
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
-                       DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/TNKImagePickerController"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.summary          = "A replacement for UIImagePickerController that can select multiple photos."
+  s.homepage         = "https://github.com/davbeck/TNKImagePickerController"
+  s.screenshots      = "http://f.cl.ly/items/3c1h0N2X0N0y0a1U240P/IMG_0011.PNG", "http://f.cl.ly/items/0U473h2X2u211g3A1n0j/IMG_0012.PNG", "http://f.cl.ly/items/2n0A372v151R1P3p0g0o/IMG_0013.PNG"
   s.license          = 'MIT'
   s.author           = { "David Beck" => "code@thinkultimate.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/TNKImagePickerController.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => "https://github.com/davbeck/TNKImagePickerController.git", :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/davbeck'
 
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
     'TNKImagePickerController' => ['Pod/Assets/*']
   }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  
+  s.frameworks = 'UIKit', 'Photos'
   s.dependency 'TULayoutAdditions', '~> 0.2'
 end

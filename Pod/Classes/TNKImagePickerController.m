@@ -634,36 +634,38 @@
 #pragma mark - PHPhotoLibraryChangeObserver
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    [_momentCache removeAllObjects];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
+        [_momentCache removeAllObjects];
+        
         if (_moments != nil) {
             PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
             if (details != nil) {
                 _moments = [details fetchResultAfterChanges];
                 
+                // incremental updates throw exceptions too often
+                [self.collectionView reloadData];
                 
-                if (details.hasIncrementalChanges) {
-                    [self.collectionView performBatchUpdates:^{
-                        if (details.removedIndexes != nil) {
-                            [self.collectionView deleteSections:details.removedIndexes];
-                        }
-                        
-                        if (details.insertedIndexes != nil) {
-                            [self.collectionView insertSections:details.insertedIndexes];
-                        }
-                        
-                        if (details.changedIndexes != nil) {
-                            [self.collectionView reloadSections:details.changedIndexes];
-                        }
-                        
-                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
-                            [self.collectionView moveSection:fromIndex toSection:toIndex];
-                        }];
-                    } completion:nil];
-                } else {
-                    [self.collectionView reloadData];
-                }
+//                if (details.hasIncrementalChanges) {
+//                    [self.collectionView performBatchUpdates:^{
+//                        if (details.removedIndexes != nil) {
+//                            [self.collectionView deleteSections:details.removedIndexes];
+//                        }
+//                        
+//                        if (details.insertedIndexes != nil) {
+//                            [self.collectionView insertSections:details.insertedIndexes];
+//                        }
+//                        
+//                        if (details.changedIndexes != nil) {
+//                            [self.collectionView reloadSections:details.changedIndexes];
+//                        }
+//                        
+//                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+//                            [self.collectionView moveSection:fromIndex toSection:toIndex];
+//                        }];
+//                    } completion:nil];
+//                } else {
+//                    [self.collectionView reloadData];
+//                }
             }
         } else {
             PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_fetchResult];
