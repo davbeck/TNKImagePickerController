@@ -23,70 +23,22 @@
 
 @implementation TNKImageZoomView
 
+- (void)setImageSize:(CGSize)imageSize
+{
+    _imageSize = imageSize;
+    
+    self.zoomScale = 1.0;
+    [self configureForImageSize:_imageSize];
+}
+
 - (void)setImage:(UIImage *)image
 {
-    // clear the previous image
-    [_zoomView removeFromSuperview];
-    _zoomView = nil;
-    _imageView = nil;
-    
-    // reset our zoomScale to 1.0 before doing any further calculations
-    self.zoomScale = 1.0;
-    
-    // make a new UIImageView for the new image
-    _zoomView = [[UIView alloc] init];
-    [self addSubview:_zoomView];
-    _imageView = [[UIImageView alloc] initWithImage:image];
-    [_zoomView addSubview:_imageView];
-    _zoomView.frame = _imageView.frame;
-    
-    [self configureForImageSize:image.size];
+    _imageView.image = image;
 }
 
 - (UIImage *)image
 {
     return _imageView.image;
-}
-
-- (void)setAngle:(CGFloat)angle
-{
-    if (angle != _angle) {
-        [self prepareToResize];
-        
-        _angle = angle;
-        _imageView.transform = CGAffineTransformMakeRotation(_angle);
-        _imageSize = _imageView.frame.size;
-        _zoomView.frame = ({
-            CGRect frame = _zoomView.frame;
-            CGRect imageFrame = [self convertRect:_imageView.frame fromView:_zoomView];
-            frame.size = imageFrame.size;
-            frame;
-        });
-        _imageView.frame = ({
-            CGRect frame = _imageView.frame;
-            frame.origin = CGPointZero;
-            frame;
-        });
-        
-        [self recoverFromResizing];
-    }
-}
-
-- (void)setAngle:(CGFloat)angle animated:(BOOL)animated
-{
-    if (animated) {
-        if ([UIView respondsToSelector:@selector(animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:)]) {
-            [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.0 options:0 animations:^{
-                [self setAngle:angle];
-            } completion:nil];
-        } else {
-            [UIView animateWithDuration:0.5 animations:^{
-                [self setAngle:angle];
-            }];
-        }
-    } else {
-        [self setAngle:angle];
-    }
 }
 
 
@@ -97,8 +49,17 @@
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
     self.bouncesZoom = YES;
+    self.alwaysBounceHorizontal = YES;
     self.decelerationRate = UIScrollViewDecelerationRateFast;
     self.delegate = self;
+    
+    _zoomView = [[UIView alloc] init];
+    [self addSubview:_zoomView];
+    _zoomView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
+    
+    _imageView = [[UIImageView alloc] init];
+    [_zoomView addSubview:_imageView];
+    _imageView.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
     
     _zoomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeZoom:)];
     _zoomRecognizer.numberOfTapsRequired = 2;
@@ -186,6 +147,8 @@
 
 - (void)configureForImageSize:(CGSize)imageSize
 {
+    _imageView.frame = CGRectMake(0.0, 0.0, imageSize.width, imageSize.height);
+    _zoomView.frame = CGRectMake(0.0, 0.0, imageSize.width, imageSize.height);
     _imageSize = imageSize;
     self.contentSize = imageSize;
     [self setMaxMinZoomScalesForCurrentBounds];
@@ -205,14 +168,13 @@
     BOOL phonePortrait = boundsSize.height > boundsSize.width;
     CGFloat minScale = imagePortrait == phonePortrait ? xScale : MIN(xScale, yScale);
     
-    // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
-    // maximum zoom scale to 0.5.
-    CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
+    // even on retina, we want the user to be able to zoom to the same physical size
+    // technically this means that on retina/@3x each image pixel will take up more than 1 pixel
+    CGFloat maxScale = 1.0;
     
-    // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
     _fullZoomLevel = minScale;
     if (minScale > maxScale) {
-        minScale = maxScale;
+        maxScale = minScale;
     }
     
     _defaultZoomLevel = minScale;

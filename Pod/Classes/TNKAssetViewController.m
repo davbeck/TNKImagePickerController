@@ -37,21 +37,28 @@
     
     [self.view layoutIfNeeded];
     
+    CGSize assetSize = CGSizeMake(_asset.pixelWidth, _asset.pixelHeight);
+    _scrollView.imageSize = assetSize;
+    
     PHImageRequestOptions *options = [PHImageRequestOptions new];
     options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
     options.resizeMode = PHImageRequestOptionsResizeModeNone;
-    options.networkAccessAllowed = YES;
+    options.networkAccessAllowed = NO;
     
-//    CGSize targetSize = _scrollView.bounds.size;
-//    targetSize.width *= [UIScreen mainScreen].scale;
-//    targetSize.height *= [UIScreen mainScreen].scale;
-//    
-//    [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-//        _scrollView.image = result;
-//    }];
+    CGSize targetSize = _scrollView.bounds.size;
+    targetSize.width *= [UIScreen mainScreen].scale;
+    targetSize.height *= [UIScreen mainScreen].scale;
     
-    [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+    [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         _scrollView.image = result;
+        
+        if (![info[PHImageResultIsDegradedKey] boolValue] && !CGSizeEqualToSize(assetSize, result.size)) {
+            options.networkAccessAllowed = YES;
+            
+            [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+                _scrollView.image = result;
+            }];
+        }
     }];
 }
 

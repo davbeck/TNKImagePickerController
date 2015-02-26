@@ -10,10 +10,8 @@
 
 @interface TNKImageZoomView : UIScrollView
 
+@property (nonatomic) CGSize imageSize;
 @property (nonatomic, strong) UIImage *image;
-
-@property (nonatomic) CGFloat angle;
-- (void)setAngle:(CGFloat)angle animated:(BOOL)animated;
 
 @property (nonatomic, readonly) UIView *imageView;
 @property (nonatomic, readonly) CGFloat fullZoomLevel;
