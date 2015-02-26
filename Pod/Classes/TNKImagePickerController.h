@@ -78,6 +78,7 @@
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;
 @property (nonatomic, readonly) UIBarButtonItem *doneButton;
 @property (nonatomic, readonly) UIBarButtonItem *cameraButton;
+@property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
 

@@ -33,6 +33,7 @@
     PHFetchResult *_moments;
     NSCache *_momentCache;
     BOOL _windowLoaded;
+    NSInteger _pasteChangeCount;
 }
 
 @end
@@ -52,26 +53,26 @@
     return [_selectedAssets copy];
 }
 
-- (void)addSelectedAssetsObject:(PHAsset *)asset {
-    [_selectedAssets addObject:asset];
+- (void)addSelectedAssets:(NSSet *)objects {
+    [_selectedAssets unionSet:objects];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
 
 - (void)selectAsset:(PHAsset *)asset {
-    [self addSelectedAssetsObject:asset];
+    [self addSelectedAssets:[NSSet setWithObject:asset]];
 }
 
-- (void)removeSelectedAssetsObject:(PHAsset *)asset {
-    [_selectedAssets removeObject:asset];
+- (void)removeSelectedAssets:(NSSet *)objects {
+    [_selectedAssets minusSet:objects];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
 
 - (void)deselectAsset:(PHAsset *)asset {
-    [self removeSelectedAssetsObject:asset];
+    [self removeSelectedAssets:[NSSet setWithObject:asset]];
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -147,6 +148,38 @@
     });
 }
 
+- (void)_updateToolbarItems:(BOOL)animated {
+    NSMutableArray *items = [NSMutableArray new];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [items addObject:_cameraButton];
+    }
+    
+    if ([[UIPasteboard generalPasteboard] containsPasteboardTypes:@[(NSString *)kUTTypeImage]] && [UIPasteboard generalPasteboard].changeCount != _pasteChangeCount) {
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+            space.width = 20.0;
+            [items addObject:space];
+        }
+        [items addObject:_pasteButton];
+    }
+    
+    [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
+    
+    [items addObject:_selectAllButton];
+    
+    [self setToolbarItems:items animated:animated];
+}
+
+- (void)_updateSelection {
+    for (TNKAssetCell *cell in self.collectionView.visibleCells) {
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+        PHAsset *asset = [self _assetAtIndexPath:indexPath];
+        
+        cell.selectButton.selected = [_selectedAssets containsObject:asset];
+    }
+}
+
 
 #pragma mark - Initialization
 
@@ -163,22 +196,10 @@
     
     _cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(takePicture:)];
     
+    _pasteButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Paste", @"Button to paste a photo") style:UIBarButtonItemStylePlain target:self action:@selector(paste:)];
+    
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
     
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        self.toolbarItems = @[
-                              _cameraButton,
-                              flexibleSpace,
-                              _selectAllButton,
-                              ];
-    } else {
-        self.toolbarItems = @[
-                              flexibleSpace,
-                              _selectAllButton,
-                              ];
-    }
     self.hidesBottomBarWhenPushed = NO;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -195,6 +216,11 @@
     [self _updateForAssetCollection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
+    [self _updateToolbarItems:NO];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pasteboardChanged:) name:UIPasteboardChangedNotification object:[UIPasteboard generalPasteboard]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (instancetype)init
@@ -242,8 +268,7 @@
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     if (self.view.window && !_windowLoaded) {
         _windowLoaded = YES;
         
@@ -302,6 +327,37 @@
     }
 }
 
+- (IBAction)paste:(id)sender {
+    _pasteChangeCount = [UIPasteboard generalPasteboard].changeCount;
+    
+    BOOL validAsset = NO;
+    
+    // this is a private type, so we need to double and tripple check that everything is valid
+    NSData *data = [[UIPasteboard generalPasteboard] dataForPasteboardType:@"com.apple.mobileslideshow.asset.localidentifier"];
+    NSString *localIdentifier = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    if (localIdentifier != nil) {
+        PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
+        
+        if (result.firstObject != nil) {
+            [self selectAsset:result.firstObject];
+            [self _updateSelection];
+            validAsset = YES;
+        }
+    }
+    
+    
+    if (!validAsset) {
+        // we can't reference the asset directly, either because of an internal change or because it was coppied from somewhere else
+        // create an asset and add it to the library
+        NSArray *images = [[UIPasteboard generalPasteboard] images];
+        
+        [self _addImages:images];
+    }
+    
+    [self _updateToolbarItems:YES];
+}
+
 - (IBAction)selectAll:(id)sender {
     if (_moments != nil) {
         return;
@@ -317,11 +373,8 @@
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_selectedAssets unionSet:assets];
-            
-            [self _updateDoneButton];
-            [self _updateSelectAllButton];
-            [self.collectionView reloadData];
+            [self addSelectedAssets:assets];
+            [self _updateSelection];
         });
     });
 }
@@ -342,11 +395,8 @@
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_selectedAssets minusSet:assets];
-            
-            [self _updateDoneButton];
-            [self _updateSelectAllButton];
-            [self.collectionView reloadData];
+            [self removeSelectedAssets:assets];
+            [self _updateSelection];
         });
     });
 }
@@ -387,11 +437,53 @@
     }
     
     if ([_selectedAssets containsObject:asset]) {
-        [self removeSelectedAssetsObject:asset];
+        [self deselectAsset:asset];
     } else {
-        [self addSelectedAssetsObject:asset];
+        [self selectAsset:asset];
     }
     sender.selected = [_selectedAssets containsObject:asset];
+}
+
+- (void)_addImages:(NSArray *)images {
+    NSMutableArray *localIdentifiers = [NSMutableArray new];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        for (UIImage *image in images) {
+            PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+            NSString *localIdentifier = createAssetRequest.placeholderForCreatedAsset.localIdentifier;
+            [localIdentifiers addObject:localIdentifier];
+        }
+    } completionHandler:^(BOOL success, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Error creating asset from pasteboard: %@", error);
+        } else if (success) {
+            PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:localIdentifiers options:nil];
+            
+            NSMutableSet *assets = [NSMutableSet new];
+            [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [assets addObject:obj];
+            }];
+            
+            if (assets.count > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self addSelectedAssets:assets];
+                    [self _updateSelection];
+                });
+            }
+        }
+    }];
+}
+
+
+#pragma mark - Notifications
+
+- (void)pasteboardChanged:(NSNotification *)notification {
+    [self _updateToolbarItems:YES];
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    // UIPasteboardChangedNotification is not called when we are in the background during the change
+    [self _updateToolbarItems:NO];
 }
 
 
@@ -626,7 +718,7 @@
 
 - (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController selectAssetAtIndexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    [self addSelectedAssetsObject:asset];
+    [self selectAsset:asset];
     
     TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     cell.selectButton.selected = [_selectedAssets containsObject:asset];
@@ -634,7 +726,7 @@
 
 - (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController deselectAssetAtIndexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    [self removeSelectedAssetsObject:asset];
+    [self deselectAsset:asset];
     
     TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     cell.selectButton.selected = [_selectedAssets containsObject:asset];
@@ -646,23 +738,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     
-    __block NSString *localIdentifier;
-    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-        PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
-        localIdentifier = createAssetRequest.placeholderForCreatedAsset.localIdentifier;
-    } completionHandler:^(BOOL success, NSError *error) {
-        if (error != nil) {
-            NSLog(@"Error creating asset: %@", error);
-        } else if (success) {
-            PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
-            
-            if (result.firstObject != nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self selectAsset:result.firstObject];
-                });
-            }
-        }
-    }];
+    [self _addImages:@[image]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
