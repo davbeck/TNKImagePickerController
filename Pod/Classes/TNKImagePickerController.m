@@ -21,7 +21,7 @@
 #import "NSDate+TNKFormattedDay.h"
 
 
-#define TNKObjectSpacing 5.0
+#define TNKObjectSpacing 1.0
 
 
 @interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate>
