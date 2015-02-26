@@ -383,7 +383,8 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (_moments != nil) {
         PHAssetCollection *collection = _moments[section];
-        return collection.estimatedAssetCount;
+        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+        return fetchResult.count;
     } else {
         return _fetchResult.count;
     }
@@ -544,48 +545,75 @@
 #pragma mark - PHPhotoLibraryChangeObserver
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
+    [_momentCache removeAllObjects];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if (_moments != nil) {
             PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
-            _moments = [details fetchResultAfterChanges];
-            
-            [self.collectionView reloadData];
+            if (details != nil) {
+                _moments = [details fetchResultAfterChanges];
+                
+                
+                if (details.hasIncrementalChanges) {
+                    [self.collectionView performBatchUpdates:^{
+                        if (details.removedIndexes != nil) {
+                            [self.collectionView deleteSections:details.removedIndexes];
+                        }
+                        
+                        if (details.insertedIndexes != nil) {
+                            [self.collectionView insertSections:details.insertedIndexes];
+                        }
+                        
+                        if (details.changedIndexes != nil) {
+                            [self.collectionView reloadSections:details.changedIndexes];
+                        }
+                        
+                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+                            [self.collectionView moveSection:fromIndex toSection:toIndex];
+                        }];
+                    } completion:nil];
+                } else {
+                    [self.collectionView reloadData];
+                }
+            }
         } else {
             PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_fetchResult];
-            _fetchResult = [details fetchResultAfterChanges];
-            
-            if (details.hasIncrementalChanges) {
-                [self.collectionView performBatchUpdates:^{
-                    NSMutableArray *removedIndexPaths = [NSMutableArray new];
-                    [details.removedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                        [removedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                    }];
-                    [self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
-                    
-                    
-                    NSMutableArray *insertedIndexPaths = [NSMutableArray new];
-                    [details.insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                        [insertedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                    }];
-                    [self.collectionView insertItemsAtIndexPaths:insertedIndexPaths];
-                    
-                    
-                    NSMutableArray *changedIndexPaths = [NSMutableArray new];
-                    [details.changedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                        [changedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                    }];
-                    [self.collectionView reloadItemsAtIndexPaths:changedIndexPaths];
-                    
-                    
-                    [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
-                        NSIndexPath *from = [NSIndexPath indexPathForRow:fromIndex inSection:0];
-                        NSIndexPath *to = [NSIndexPath indexPathForRow:fromIndex inSection:0];
+            if (details != nil) {
+                _fetchResult = [details fetchResultAfterChanges];
+                
+                if (details.hasIncrementalChanges) {
+                    [self.collectionView performBatchUpdates:^{
+                        NSMutableArray *removedIndexPaths = [NSMutableArray new];
+                        [details.removedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                            [removedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                        }];
+                        [self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
                         
-                        [self.collectionView moveItemAtIndexPath:from toIndexPath:to];
-                    }];
-                } completion:nil];
-            } else {
-                [self.collectionView reloadData];
+                        
+                        NSMutableArray *insertedIndexPaths = [NSMutableArray new];
+                        [details.insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                            [insertedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                        }];
+                        [self.collectionView insertItemsAtIndexPaths:insertedIndexPaths];
+                        
+                        
+                        NSMutableArray *changedIndexPaths = [NSMutableArray new];
+                        [details.changedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                            [changedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                        }];
+                        [self.collectionView reloadItemsAtIndexPaths:changedIndexPaths];
+                        
+                        
+                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+                            NSIndexPath *from = [NSIndexPath indexPathForRow:fromIndex inSection:0];
+                            NSIndexPath *to = [NSIndexPath indexPathForRow:fromIndex inSection:0];
+                            
+                            [self.collectionView moveItemAtIndexPath:from toIndexPath:to];
+                        }];
+                    } completion:nil];
+                } else {
+                    [self.collectionView reloadData];
+                }
             }
         }
     });
