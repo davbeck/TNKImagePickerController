@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@import MobileCoreServices;
 #import "PHImageManager+TNKRequestImages.h"
 #import "TNKAssetsDetailViewController.h"
 
@@ -56,6 +57,17 @@
             willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
                                    forAsset:(PHAsset *)asset;
 
+/** Tells the delegate that the camera is about to be used.
+ 
+ Return the passed in viewController to use the default behavior. You can customize the view controller, for instance by changing the settings of the camera. Alternatively, you can return a different view controller to be pushed instead, or even return nil to cancel the push entirely.
+ 
+ @param picker The controller object managing the image picker interface.
+ @param viewController The proposed view controller to be pushed.
+ @return Either a view controller to be pushed, or nil to cancel.
+ */
+- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+            willDisplayCameraViewController:(UIImagePickerController *)viewController;
+
 @end
 
 
@@ -68,6 +80,8 @@
 @property (nonatomic, readonly) UIBarButtonItem *cameraButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
+
+@property (nonatomic, copy) NSArray *mediaTypes;
 
 /** The asset collection the picker will display to the user.
  

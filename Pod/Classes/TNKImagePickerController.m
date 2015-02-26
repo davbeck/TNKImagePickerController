@@ -24,7 +24,7 @@
 #define TNKObjectSpacing 1.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     NSMutableSet *_selectedAssets;
     
@@ -152,6 +152,7 @@
 
 - (void)_init
 {
+    _mediaTypes = @[ (NSString *)kUTTypeImage ];
     _selectedAssets = [NSMutableSet new];
     
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
@@ -164,11 +165,20 @@
     
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
     
-    self.toolbarItems = @[
-                          _cameraButton,
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          _selectAllButton,
-                          ];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.toolbarItems = @[
+                              _cameraButton,
+                              flexibleSpace,
+                              _selectAllButton,
+                              ];
+    } else {
+        self.toolbarItems = @[
+                              flexibleSpace,
+                              _selectAllButton,
+                              ];
+    }
     self.hidesBottomBarWhenPushed = NO;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -277,7 +287,19 @@
 }
 
 - (IBAction)takePicture:(id)sender {
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.delegate = self;
+    imagePicker.mediaTypes = self.mediaTypes;
     
+    UIViewController *viewController = imagePicker;
+    if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayCameraViewController:)]) {
+        viewController = [self.delegate imagePickerController:self willDisplayCameraViewController:imagePicker];
+    }
+    
+    if (viewController != nil) {
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
 }
 
 - (IBAction)selectAll:(id)sender {
@@ -616,6 +638,37 @@
     
     TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     cell.selectButton.selected = [_selectedAssets containsObject:asset];
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    
+    __block NSString *localIdentifier;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+        localIdentifier = createAssetRequest.placeholderForCreatedAsset.localIdentifier;
+    } completionHandler:^(BOOL success, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Error creating asset: %@", error);
+        } else if (success) {
+            PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
+            
+            if (result.firstObject != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self selectAsset:result.firstObject];
+                });
+            }
+        }
+    }];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
