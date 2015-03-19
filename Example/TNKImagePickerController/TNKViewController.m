@@ -55,9 +55,10 @@
 #pragma mark - TNKImagePickerControllerDelegate
 
 - (void)imagePickerController:(TNKImagePickerController *)picker
-       didFinishPickingAssets:(NSSet *)assets {
-    [[PHImageManager defaultManager] requestImagesForAssets:assets.allObjects targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+       didFinishPickingAssets:(NSOrderedSet *)assets {
+    [[PHImageManager defaultManager] requestImagesForAssets:assets.array targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         NSArray *images = results.allValues;
+        NSLog(@"images: %@", images);
     }];
     
     [self dismissViewControllerAnimated:YES completion:nil];

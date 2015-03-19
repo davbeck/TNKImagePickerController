@@ -26,7 +26,7 @@
 
 @interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    NSMutableSet *_selectedAssets;
+    NSMutableOrderedSet *_selectedAssets;
     
     UIButton *_collectionButton;
     PHFetchResult *_fetchResult;
@@ -42,8 +42,8 @@
 
 #pragma mark - Properties
 
-- (void)setSelectedAssets:(NSSet *)selectedAssets {
-    _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableSet new];
+- (void)setSelectedAssets:(NSOrderedSet *)selectedAssets {
+    _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableOrderedSet new];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
@@ -53,26 +53,26 @@
     return [_selectedAssets copy];
 }
 
-- (void)addSelectedAssets:(NSSet *)objects {
-    [_selectedAssets unionSet:objects];
+- (void)addSelectedAssets:(NSOrderedSet *)objects {
+    [_selectedAssets unionOrderedSet:objects];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
 
 - (void)selectAsset:(PHAsset *)asset {
-    [self addSelectedAssets:[NSSet setWithObject:asset]];
+    [self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
-- (void)removeSelectedAssets:(NSSet *)objects {
-    [_selectedAssets minusSet:objects];
+- (void)removeSelectedAssets:(NSOrderedSet *)objects {
+    [_selectedAssets minusOrderedSet:objects];
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
 
 - (void)deselectAsset:(PHAsset *)asset {
-    [self removeSelectedAssets:[NSSet setWithObject:asset]];
+    [self removeSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -186,7 +186,7 @@
 - (void)_init
 {
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
-    _selectedAssets = [NSMutableSet new];
+    _selectedAssets = [NSMutableOrderedSet new];
     
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
@@ -366,7 +366,7 @@
     PHFetchResult *fetchResult = _fetchResult;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableSet *assets = [NSMutableSet new];
+        NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
         
         [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
             [assets addObject:asset];
@@ -388,7 +388,7 @@
     PHFetchResult *fetchResult = _fetchResult;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableSet *assets = [NSMutableSet new];
+        NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
         
         [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
             [assets addObject:asset];
@@ -404,7 +404,7 @@
 - (IBAction)changeCollection:(id)sender {
     TNKCollectionPickerController *collectionPicker = [[TNKCollectionPickerController alloc] init];
     if (_selectedAssets.count > 0) {
-        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.allObjects title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
         collectionPicker.additionalAssetCollections = @[ collection ];
     }
     collectionPicker.delegate = self;
@@ -459,7 +459,7 @@
         } else if (success) {
             PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:localIdentifiers options:nil];
             
-            NSMutableSet *assets = [NSMutableSet new];
+            NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
             [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [assets addObject:obj];
             }];
