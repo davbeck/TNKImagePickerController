@@ -474,6 +474,36 @@
     }];
 }
 
+- (void)_addVideos:(NSArray *)videos {
+    NSMutableArray *localIdentifiers = [NSMutableArray new];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        for (NSURL *videoURL in videos) {
+            PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:videoURL];
+            NSString *localIdentifier = createAssetRequest.placeholderForCreatedAsset.localIdentifier;
+            [localIdentifiers addObject:localIdentifier];
+        }
+    } completionHandler:^(BOOL success, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Error creating asset from pasteboard: %@", error);
+        } else if (success) {
+            PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:localIdentifiers options:nil];
+            
+            NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
+            [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [assets addObject:obj];
+            }];
+            
+            if (assets.count > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self addSelectedAssets:assets];
+                    [self _updateSelection];
+                });
+            }
+        }
+    }];
+}
+
 
 #pragma mark - Notifications
 
@@ -739,8 +769,14 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
+    NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     
-    [self _addImages:@[image]];
+    if (image != nil) {
+        [self _addImages:@[image]];
+    } else if (videoURL != nil) {
+        [self _addVideos:@[videoURL]];
+    }
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
