@@ -30,8 +30,10 @@
         dispatch_group_enter(group);
         
         PHImageRequestID requestID = [self requestImageForAsset:asset targetSize:targetSize contentMode:contentMode options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-            results[asset.localIdentifier] = result;
-            infos[asset.localIdentifier] = info;
+            if (result != nil && info != nil) {
+                results[asset.localIdentifier] = result;
+                infos[asset.localIdentifier] = info;
+            }
             
             dispatch_group_leave(group);
         }];

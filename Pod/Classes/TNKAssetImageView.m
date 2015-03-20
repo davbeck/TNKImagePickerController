@@ -22,12 +22,14 @@
 
 - (void)setAsset:(PHAsset *)asset
 {
-    [self cancelAssetImageRequest];
-    
-    _asset = asset;
-    self.image = self.defaultImage;
-    
-    [self setNeedsAssetReload];
+    if (_asset != asset) {
+        [self cancelAssetImageRequest];
+        
+        _asset = asset;
+        self.image = self.defaultImage;
+        
+        [self setNeedsAssetReload];
+    }
 }
 
 - (void)setNeedsAssetReload
