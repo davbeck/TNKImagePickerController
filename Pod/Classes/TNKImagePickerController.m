@@ -75,6 +75,21 @@
     [self removeSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
+- (NSArray *)_assetMediaTypes {
+    NSMutableArray *assetMediaTypes = [NSMutableArray new];
+    if ([self.mediaTypes containsObject:(id)kUTTypeImage]) {
+        [assetMediaTypes addObject:@(PHAssetMediaTypeImage)];
+    }
+    if ([self.mediaTypes containsObject:(id)kUTTypeVideo]) {
+        [assetMediaTypes addObject:@(PHAssetMediaTypeVideo)];
+    }
+    if ([self.mediaTypes containsObject:(id)kUTTypeAudio]) {
+        [assetMediaTypes addObject:@(PHAssetMediaTypeAudio)];
+    }
+    
+    return assetMediaTypes;
+}
+
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
     
@@ -94,7 +109,10 @@
     
     
     if (_assetCollection != nil) {
-        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:nil];
+        PHFetchOptions *options = [[PHFetchOptions alloc] init];
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", [self _assetMediaTypes]];
+        
+        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:options];
         _moments = nil;
     } else {
         _fetchResult = nil;
@@ -543,6 +561,7 @@
     if (result == nil) {
         PHFetchOptions *options = [PHFetchOptions new];
         options.includeAllBurstAssets = NO;
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", [self _assetMediaTypes]];
         result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
         [_momentCache setObject:result forKey:collection.localIdentifier];
     }
@@ -611,6 +630,13 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (_moments != nil) {
+        PHAssetCollection *collection = _moments[section];
+        
+        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+        if (fetchResult.count == 0) {
+            return CGSizeZero;
+        }
+        
         return CGSizeMake(collectionView.bounds.size.width, 44.0);
     } else {
         return CGSizeZero;

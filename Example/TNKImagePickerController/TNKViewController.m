@@ -32,6 +32,7 @@
 - (IBAction)pickPhotos:(id)sender
 {
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
+    picker.mediaTypes = @[ (id)kUTTypeImage ];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
