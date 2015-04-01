@@ -46,7 +46,7 @@
 {
     [self cancelAssetImageRequest];
     
-    if (_asset != nil) {
+    if (_asset != nil && self.bounds.size.width > 0.0 && self.bounds.size.height > 0.0) {
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
         options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
         options.resizeMode = PHImageRequestOptionsResizeModeExact;
@@ -73,7 +73,7 @@
 
 - (void)setFrame:(CGRect)frame
 {
-    BOOL changed = CGSizeEqualToSize(self.frame.size, frame.size);
+    BOOL changed = !CGSizeEqualToSize(self.frame.size, frame.size);
     
     [super setFrame:frame];
     
@@ -84,7 +84,7 @@
 
 - (void)setBounds:(CGRect)bounds
 {
-    BOOL changed = CGSizeEqualToSize(self.bounds.size, bounds.size);
+    BOOL changed = !CGSizeEqualToSize(self.bounds.size, bounds.size);
     
     [super setBounds:bounds];
     
