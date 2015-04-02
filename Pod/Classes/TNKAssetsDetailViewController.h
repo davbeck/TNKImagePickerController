@@ -27,6 +27,12 @@
 
 @property (nonatomic, weak) id<TNKAssetsDetailViewControllerDelegate> assetDelegate;
 
+/** The class used to create individual asset view controllers
+ 
+ This class should be a subclass of `TNKAssetViewController`.
+ */
+@property (nonatomic, strong) Class assetViewControllerClass;
+
 /** The asset collection the picker will display to the user.
  
  nil (the default) will cause the picker to display the user's moments.

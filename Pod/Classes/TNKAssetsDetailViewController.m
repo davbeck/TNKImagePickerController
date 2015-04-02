@@ -52,6 +52,7 @@
     self.dataSource = self;
     self.hidesBottomBarWhenPushed = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    _assetViewControllerClass = [TNKAssetViewController class];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -208,7 +209,7 @@
         asset = moment[indexPath.row];
     }
     
-    TNKAssetViewController *next = [[TNKAssetViewController alloc] init];
+    TNKAssetViewController *next = [[self.assetViewControllerClass alloc] init];
     next.view.backgroundColor = [UIColor clearColor];
     next.view.frame = self.view.bounds;
     objc_setAssociatedObject(next, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
