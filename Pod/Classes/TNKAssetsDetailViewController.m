@@ -163,7 +163,7 @@
         _subtitleLabel.text = [NSString stringWithFormat:@"%@ %@", [asset.creationDate TNKLocalizedDay], [timeFormatter stringFromDate:asset.creationDate]];
     }
     
-    CGRect titleFrame;
+    CGRect titleFrame = CGRectZero;
     titleFrame.size = [_titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     _titleView.frame = titleFrame;
 }
