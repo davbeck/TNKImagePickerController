@@ -36,8 +36,18 @@
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
     
+    [self _refetch];
+}
+
+- (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+    _assetFetchOptions = [assetFetchOptions copy];
+    
+    [self _refetch];
+}
+
+- (void)_refetch {
     if (_assetCollection != nil) {
-        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:nil];
+        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:self.assetFetchOptions];
     } else {
         _fetchResult = [PHAssetCollection fetchMomentsWithOptions:nil];
     }
@@ -205,7 +215,7 @@
     if (self.assetCollection != nil) {
         asset = _fetchResult[indexPath.row];
     } else {
-        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[indexPath.section] options:nil];
+        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[indexPath.section] options:self.assetFetchOptions];
         asset = moment[indexPath.row];
     }
     
@@ -242,12 +252,16 @@
     if (self.assetCollection == nil) {
         if (lastIndexPath.item > 0) {
             nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item - 1 inSection:lastIndexPath.section];
-        } else if (lastIndexPath.section > 0) {
-            NSInteger section = lastIndexPath.section - 1;
-            
-            PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:nil];
-            
-            nextIndexPath = [NSIndexPath indexPathForItem:moment.count - 1 inSection:section];
+        } else {
+            NSInteger section = lastIndexPath.section;
+            while (section - 1 >= 0 && nextIndexPath == nil) {
+                section--;
+                PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:self.assetFetchOptions];
+                
+                if (moment.count > 0) {
+                    nextIndexPath = [NSIndexPath indexPathForItem:moment.count - 1 inSection:section];
+                }
+            }
         }
     } else {
         if (lastIndexPath.item > 0) {
@@ -268,14 +282,20 @@
     NSIndexPath *nextIndexPath = nil;
     
     if (self.assetCollection == nil) {
-        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[lastIndexPath.section] options:nil];
+        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[lastIndexPath.section] options:self.assetFetchOptions];
         
         if (lastIndexPath.item + 1 < moment.count) {
             nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item + 1 inSection:lastIndexPath.section];
-        } else if (lastIndexPath.section + 1 < _fetchResult.count) {
-            NSInteger section = lastIndexPath.section + 1;
-            
-            nextIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+        } else {
+            NSInteger section = lastIndexPath.section;
+            while (section + 1 < _fetchResult.count && nextIndexPath == nil) {
+                section++;
+                PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:self.assetFetchOptions];
+                
+                if (moment.count > 0) {
+                    nextIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+                }
+            }
         }
     } else {
         if (lastIndexPath.item + 1 < _fetchResult.count) {

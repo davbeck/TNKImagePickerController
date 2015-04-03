@@ -11,6 +11,7 @@
 @class TNKAssetsDetailViewController;
 @class PHAssetCollection;
 @class PHAsset;
+@class PHFetchOptions;
 
 
 @protocol TNKAssetsDetailViewControllerDelegate <NSObject>
@@ -40,5 +41,7 @@
 @property (nonatomic, strong) PHAssetCollection *assetCollection;
 
 - (void)showAssetAtIndexPath:(NSIndexPath *)indexPath;
+
+@property (nonatomic, copy) PHFetchOptions *assetFetchOptions;
 
 @end

@@ -215,7 +215,7 @@
             
             if (assetCollection.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
                 if (assetCollection.estimatedAssetCount == NSNotFound) {
-                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
                     hidden = @(result.count <= 0);
                 } else {
                     hidden = @(assetCollection.estimatedAssetCount <= 0);
@@ -236,7 +236,7 @@
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
         cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
-        [PHCollection requestThumbnailForMoments:^(UIImage *result) {
+        [PHCollection requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
             if (result != nil) {
                 cell.thumbnailView.image = result;
             }
@@ -264,7 +264,7 @@
             if (count == NSNotFound) {
                 NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
                 if (countNumber == nil) {
-                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
                     countNumber = @(result.count);
                     [_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
                 }
@@ -282,7 +282,7 @@
             cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(count)];
             
             cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
-            [collection requestThumbnail:^(UIImage *result) {
+            [collection requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
                 }
@@ -297,7 +297,7 @@
             cell.titleLabel.text = collection.localizedTitle;
             
             cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection-list");
-            [collection requestThumbnail:^(UIImage *result) {
+            [collection requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
                 }

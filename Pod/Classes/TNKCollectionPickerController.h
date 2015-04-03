@@ -11,6 +11,7 @@
 @class TNKCollectionPickerController;
 @class PHAssetCollection;
 @class PHCollectionList;
+@class PHFetchOptions;
 
 
 @protocol TNKCollectionPickerControllerDelegate <NSObject>
@@ -35,5 +36,7 @@
  By default we display a list of all of the user's collections. Set this to only show a particular collection list of asset collections.
  */
 @property (nonatomic, strong) PHCollectionList *collectionList;
+
+@property (nonatomic, copy) PHFetchOptions *assetFetchOptions;
 
 @end

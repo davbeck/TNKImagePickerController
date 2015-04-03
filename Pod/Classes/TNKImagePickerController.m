@@ -75,7 +75,7 @@
     [self removeSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
-- (NSArray *)_assetMediaTypes {
+- (PHFetchOptions *)_assetFetchOptions {
     NSMutableArray *assetMediaTypes = [NSMutableArray new];
     if ([self.mediaTypes containsObject:(id)kUTTypeImage]) {
         [assetMediaTypes addObject:@(PHAssetMediaTypeImage)];
@@ -87,7 +87,11 @@
         [assetMediaTypes addObject:@(PHAssetMediaTypeAudio)];
     }
     
-    return assetMediaTypes;
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", assetMediaTypes];
+    options.includeAllBurstAssets = NO;
+    
+    return options;
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -109,10 +113,7 @@
     
     
     if (_assetCollection != nil) {
-        PHFetchOptions *options = [[PHFetchOptions alloc] init];
-        options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", [self _assetMediaTypes]];
-        
-        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:options];
+        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self _assetFetchOptions]];
         _moments = nil;
     } else {
         _fetchResult = nil;
@@ -246,7 +247,6 @@
     UICollectionViewFlowLayout *layout = [[TNKCollectionViewFloatingHeaderFlowLayout alloc] init];
     layout.minimumLineSpacing = TNKObjectSpacing;
     layout.minimumInteritemSpacing = 0.0;
-    layout.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 10.0, 0.0);
     return [self initWithCollectionViewLayout:layout];
 }
 
@@ -421,6 +421,7 @@
 
 - (IBAction)changeCollection:(id)sender {
     TNKCollectionPickerController *collectionPicker = [[TNKCollectionPickerController alloc] init];
+    collectionPicker.assetFetchOptions = [self _assetFetchOptions];
     if (_selectedAssets.count > 0) {
         PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
         collectionPicker.additionalAssetCollections = @[ collection ];
@@ -559,10 +560,7 @@
 {
     PHFetchResult *result = [_momentCache objectForKey:collection.localIdentifier];
     if (result == nil) {
-        PHFetchOptions *options = [PHFetchOptions new];
-        options.includeAllBurstAssets = NO;
-        options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", [self _assetMediaTypes]];
-        result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+        result = [PHAsset fetchAssetsInAssetCollection:collection options:[self _assetFetchOptions]];
         [_momentCache setObject:result forKey:collection.localIdentifier];
     }
     
@@ -643,11 +641,27 @@
     }
 }
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if (_moments != nil) {
+        PHAssetCollection *collection = _moments[section];
+        
+        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+        if (fetchResult.count == 0) {
+            return UIEdgeInsetsZero;
+        }
+        
+        return UIEdgeInsetsMake(0.0, 0.0, 10.0, 0.0);
+    } else {
+        return UIEdgeInsetsZero;
+    }
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
     detailViewController.navigationItem.rightBarButtonItem = self.doneButton;
     detailViewController.assetDelegate = self;
     detailViewController.assetCollection = self.assetCollection;
+    detailViewController.assetFetchOptions = [self _assetFetchOptions];
     [detailViewController showAssetAtIndexPath:indexPath];
     
     if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {

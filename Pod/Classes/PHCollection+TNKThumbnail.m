@@ -39,16 +39,40 @@
     return imageCache;
 }
 
-+ (void)requestThumbnailForMoments:(void (^)(UIImage *result))resultHandler
++ (NSString *)_cacheKeyForOptions:(PHFetchOptions *)assetFetchOptions
 {
-    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:TNKMomentsIdentifier];
+    NSMutableString *keyString = [NSMutableString new];
+    
+    [keyString appendString:assetFetchOptions.predicate.predicateFormat];
+    
+    for (NSSortDescriptor *sortDescriptor in assetFetchOptions.sortDescriptors) {
+        [keyString appendString:sortDescriptor.key];
+        [keyString appendFormat:@"%d", sortDescriptor.ascending];
+    }
+    
+    [keyString appendFormat:@"%d", assetFetchOptions.includeAllBurstAssets];
+    [keyString appendFormat:@"%d", assetFetchOptions.includeHiddenAssets];
+    
+    return [NSString stringWithFormat:@"%lu", (unsigned long)[keyString hash]];
+}
+
++ (void)requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
+{
+    NSString *cacheKey = nil;
+    if (assetFetchOptions == nil) {
+        cacheKey = TNKMomentsIdentifier;
+    } else {
+        cacheKey = [NSString stringWithFormat:@"%@/%@", TNKMomentsIdentifier, [self _cacheKeyForOptions:assetFetchOptions]];
+    }
+    
+    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:cacheKey];
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self _requestThumbnailForMoments:^(UIImage *result) {
+            [self _requestThumbnailForMomentsWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
                 if (result == nil) {
-                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:TNKMomentsIdentifier];
+                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
                 } else {
-                    [[[self class] _thumbnailImageCache] setObject:result forKey:TNKMomentsIdentifier];
+                    [[[self class] _thumbnailImageCache] setObject:result forKey:cacheKey];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -65,7 +89,7 @@
     }
 }
 
-+ (void)_requestThumbnailForMoments:(void (^)(UIImage *result))resultHandler
++ (void)_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
@@ -78,7 +102,7 @@
     NSMutableArray *assets = [NSMutableArray new];
     PHFetchResult *moments = [PHAssetCollection fetchMomentsWithOptions:nil];
     [moments enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PHAssetCollection *moment, NSUInteger idx, BOOL *stop) {
-        PHFetchResult *keyResult = [PHAsset fetchAssetsInAssetCollection:moment options:nil];
+        PHFetchResult *keyResult = [PHAsset fetchAssetsInAssetCollection:moment options:assetFetchOptions];
         
         [keyResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
             [assets addObject:asset];
@@ -125,16 +149,23 @@
     }];
 }
 
-- (void)requestThumbnail:(void (^)(UIImage *result))resultHandler
+- (void)requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
-    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:self.localIdentifier];
+    NSString *cacheKey = nil;
+    if (assetFetchOptions == nil) {
+        cacheKey = self.localIdentifier;
+    } else {
+        cacheKey = [NSString stringWithFormat:@"%@/%@", self.localIdentifier, [self.class _cacheKeyForOptions:assetFetchOptions]];
+    }
+    
+    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:cacheKey];
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self _requestThumbnail:^(UIImage *result) {
+            [self _requestThumbnailWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
                 if (result == nil) {
-                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:self.localIdentifier];
+                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
                 } else {
-                    [[[self class] _thumbnailImageCache] setObject:result forKey:self.localIdentifier];
+                    [[[self class] _thumbnailImageCache] setObject:result forKey:cacheKey];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -151,7 +182,7 @@
     }
 }
 
-- (void)_requestThumbnail:(void (^)(UIImage *result))resultHandler
+- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     resultHandler(nil);
 }
@@ -166,7 +197,7 @@
 
 @implementation PHAssetCollection (TNKThumbnail)
 
-- (void)_requestThumbnail:(void (^)(UIImage *result))resultHandler {
+- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
     assetSize.height *= [UIScreen mainScreen].scale;
@@ -177,7 +208,7 @@
     
     PHFetchResult *keyResult = [PHAsset fetchKeyAssetsInAssetCollection:self options:nil];
     if (keyResult.count <= 0) {
-        PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+        PHFetchOptions *fetchOptions = [assetFetchOptions copy];
         fetchOptions.sortDescriptors = @[
                                          [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO],
                                          ];
@@ -260,7 +291,7 @@
     return assets;
 }
 
-- (void)_requestThumbnail:(void (^)(UIImage *result))resultHandler {
+- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
     CGFloat individualWidth = (TNKPrimaryThumbnailWidth - TNKListRows + 1.0) / TNKListRows;
     CGSize assetSize = CGSizeMake(individualWidth, individualWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
