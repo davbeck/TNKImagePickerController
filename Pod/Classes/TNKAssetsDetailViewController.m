@@ -16,6 +16,10 @@
 #import "NSDate+TNKFormattedDay.h"
 
 
+NSString *TNKImagePickerControllerWillShowAssetNotification = @"TNKImagePickerControllerWillShowAsset";
+NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetViewController";
+
+
 @interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate, UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 {
     PHFetchResult *_fetchResult;
@@ -249,6 +253,11 @@
     TNKAssetViewController *next = [self _assetViewControllerWithAssetAtIndexPath:indexPath];
     [self setViewControllers:@[next] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     [self _updateTitle];
+    
+    NSDictionary *userInfo = @{
+                               TNKImagePickerControllerAssetViewControllerNotificationKey : next,
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:TNKImagePickerControllerWillShowAssetNotification object:self userInfo:userInfo];
 }
 
 
@@ -323,7 +332,12 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     for (TNKAssetViewController *viewController in pendingViewControllers) {
-        viewController.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+        viewController.fullscreen = _fullscreen;
+        
+        NSDictionary *userInfo = @{
+                                   TNKImagePickerControllerAssetViewControllerNotificationKey : viewController,
+                                   };
+        [[NSNotificationCenter defaultCenter] postNotificationName:TNKImagePickerControllerWillShowAssetNotification object:self userInfo:userInfo];
     }
 }
 

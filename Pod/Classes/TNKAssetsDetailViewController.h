@@ -14,6 +14,10 @@
 @class PHFetchOptions;
 
 
+extern NSString *TNKImagePickerControllerWillShowAssetNotification;
+extern NSString *TNKImagePickerControllerAssetViewControllerNotificationKey;
+
+
 @protocol TNKAssetsDetailViewControllerDelegate <NSObject>
 
 - (BOOL)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController isAssetSelectedAtIndexPath:(NSIndexPath *)indexPath;
