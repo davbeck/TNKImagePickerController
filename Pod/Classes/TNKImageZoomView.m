@@ -55,11 +55,9 @@
     
     _zoomView = [[UIView alloc] init];
     [self addSubview:_zoomView];
-    _zoomView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
     
     _imageView = [[UIImageView alloc] init];
     [_zoomView addSubview:_imageView];
-    _imageView.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
     
     _zoomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeZoom:)];
     _zoomRecognizer.numberOfTapsRequired = 2;
