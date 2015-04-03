@@ -196,7 +196,7 @@
     
     [UIView animateWithDuration:0.2 animations:^{
         for (TNKAssetViewController *viewController in self.viewControllers) {
-            viewController.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+            viewController.fullscreen = _fullscreen;
         }
         
         if (_fullscreen) {
@@ -233,10 +233,10 @@
     next.view.frame = self.view.bounds;
     objc_setAssociatedObject(next, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    next.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
     [next.selectButton addTarget:self action:@selector(toggleSelection:) forControlEvents:UIControlEventTouchUpInside];
     next.selectButton.selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
     objc_setAssociatedObject(next.selectButton, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    next.fullscreen = _fullscreen;
     
     next.asset = asset;
     next.assetIndexPath = indexPath;

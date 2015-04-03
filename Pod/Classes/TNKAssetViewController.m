@@ -62,6 +62,12 @@
     }];
 }
 
+- (void)setFullscreen:(BOOL)fullscreen {
+    _fullscreen = fullscreen;
+    
+    self.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
