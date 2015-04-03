@@ -53,6 +53,15 @@
     }
 }
 
+- (void)setAssetViewControllerClass:(Class)assetViewControllerClass {
+    NSAssert([assetViewControllerClass isSubclassOfClass:[TNKAssetViewController class]], @"assetViewControllerClass must be a subclass of TNKAssetViewController");
+    
+    _assetViewControllerClass = assetViewControllerClass;
+    
+    NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
+    [self showAssetAtIndexPath:indexPath];
+}
+
 
 #pragma mark - Initialization
 
@@ -230,6 +239,7 @@
     objc_setAssociatedObject(next.selectButton, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     next.asset = asset;
+    next.assetIndexPath = indexPath;
     
     return next;
 }

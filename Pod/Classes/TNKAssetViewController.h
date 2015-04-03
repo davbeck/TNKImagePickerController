@@ -14,6 +14,7 @@
 @interface TNKAssetViewController : UIViewController
 
 @property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, strong) NSIndexPath *assetIndexPath;
 
 
 @property (nonatomic, readonly) UIButton *selectButton;
