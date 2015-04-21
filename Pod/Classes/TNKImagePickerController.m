@@ -24,7 +24,7 @@
 #define TNKObjectSpacing 1.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration>
 {
     NSMutableOrderedSet *_selectedAssets;
     
@@ -34,6 +34,8 @@
     NSCache *_momentCache;
     BOOL _windowLoaded;
     NSInteger _pasteChangeCount;
+    
+    TNKCollectionPickerController *_collectionPicker;
 }
 
 @end
@@ -420,21 +422,29 @@
 }
 
 - (IBAction)changeCollection:(id)sender {
-    TNKCollectionPickerController *collectionPicker = [[TNKCollectionPickerController alloc] init];
-    collectionPicker.assetFetchOptions = [self _assetFetchOptions];
+    if (_collectionPicker == nil) {
+        _collectionPicker = [[TNKCollectionPickerController alloc] init];
+        _collectionPicker.delegate = self;
+    }
+    
+    _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
     if (_selectedAssets.count > 0) {
         PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
-        collectionPicker.additionalAssetCollections = @[ collection ];
+        _collectionPicker.additionalAssetCollections = @[ collection ];
+    } else {
+        _collectionPicker.additionalAssetCollections = @[];
     }
-    collectionPicker.delegate = self;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:collectionPicker];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_collectionPicker];
+    navigationController.restorationIdentifier = @"TNKCollectionPickerController.NavigationController";
+    navigationController.restorationClass = [self class];
     navigationController.navigationBarHidden = YES;
     
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     navigationController.popoverPresentationController.sourceView = _collectionButton;
     navigationController.popoverPresentationController.sourceRect = _collectionButton.bounds;
     navigationController.popoverPresentationController.delegate = self;
+    
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
@@ -823,6 +833,72 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark - State Restoration
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:self.mediaTypes forKey:@"mediaTypes"];
+    [coder encodeObject:self.assetCollection.localIdentifier forKey:@"assetCollection"];
+    [coder encodeObject:[self.selectedAssets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
+    [coder encodeObject:_collectionPicker forKey:@"collectionPicker"];
+    [coder encodeObject:_collectionPicker.navigationController forKey:@"collectionPickerNavigationController"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.mediaTypes = [coder decodeObjectForKey:@"mediaTypes"];
+    
+    NSString *assetCollectionIdentifier = [coder decodeObjectForKey:@"assetCollection"];
+    if (assetCollectionIdentifier != nil) {
+        self.assetCollection = [[PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[ assetCollectionIdentifier ] options:nil] firstObject];
+    }
+    
+    NSOrderedSet *selectedAssetsIdentifiers = [coder decodeObjectForKey:@"selectedAssets"];
+    if (selectedAssetsIdentifiers != nil) {
+        NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
+        for (PHAsset *asset in [PHAsset fetchAssetsWithLocalIdentifiers:selectedAssetsIdentifiers.array options:nil]) {
+            [assets addObject:asset];
+        }
+        [self addSelectedAssets:assets];
+    }
+    
+    TNKCollectionPickerController *collectionPicker = [coder decodeObjectForKey:@"collectionPicker"];
+    if (collectionPicker != nil) {
+        _collectionPicker = collectionPicker;
+        _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
+        if (_selectedAssets.count > 0) {
+            PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+            _collectionPicker.additionalAssetCollections = @[ collection ];
+        }
+        _collectionPicker.delegate = self;
+    }
+    
+    UINavigationController *navigationController = [coder decodeObjectForKey:@"collectionPickerNavigationController"];
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    navigationController.popoverPresentationController.sourceView = _collectionButton;
+    navigationController.popoverPresentationController.sourceRect = _collectionButton.bounds;
+    navigationController.popoverPresentationController.delegate = self;
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    if ([identifierComponents.lastObject isEqual:@"TNKCollectionPickerController.NavigationController"]) {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[TNKCollectionPickerController alloc] init]];
+        navigationController.restorationIdentifier = @"TNKCollectionPickerController.NavigationController";
+        navigationController.restorationClass = self;
+        navigationController.navigationBarHidden = YES;
+        
+        return navigationController;
+    }
+    
+    return nil;
 }
 
 @end

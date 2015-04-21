@@ -16,15 +16,13 @@
 #import "PHCollection+TNKThumbnail.h"
 
 
-@interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver>
+@interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver, UIViewControllerRestoration>
 {
     NSArray *_collectionsFetchResults;
     
     NSCache *_collectionHiddenCache;
     NSCache *_assetCountCache;
     BOOL _needsRefetch;
-    
-    BOOL _navigationBarWasHidden;
 }
 
 @end
@@ -56,6 +54,8 @@
     _assetCountCache = [NSCache new];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    self.restorationIdentifier = @"TNKCollectionPickerController";
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -92,9 +92,10 @@
     [super viewDidLoad];
     
     
+    self.tableView.restorationIdentifier = @"TableView";
     [self.tableView registerClass:[TNKCollectionCell class] forCellReuseIdentifier:@"CollectionCell"];
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0, 95.0, 0.0, 0.0);
-    self.tableView.estimatedRowHeight = 85.0 + 1.0 / self.traitCollection.displayScale;
+    self.tableView.estimatedRowHeight = 85.0;
     
     
     [self _setNeedsReloadFetch];
@@ -106,10 +107,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (_navigationBarWasHidden) {
-        _navigationBarWasHidden = NO;
-        self.navigationController.navigationBarHidden = YES;
-    }
+    self.navigationController.navigationBarHidden = self.collectionList == nil;
 }
 
 - (void)_setNeedsReloadFetch {
@@ -329,8 +327,7 @@
     if (hidden) {
         return 0.0;
     } else {
-        // 85.0, plus the height of the separator
-        return 85.0 + 1.0 / self.traitCollection.displayScale;
+        return 85.0;
     }
 }
 
@@ -354,9 +351,8 @@
             TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] init];
             picker.delegate = self.delegate;
             picker.collectionList = (PHCollectionList *)collection;
+            picker.restorationClass = [self class];
             
-            _navigationBarWasHidden = self.navigationController.navigationBarHidden;
-            self.navigationController.navigationBarHidden = NO;
             [self.navigationController pushViewController:picker animated:YES];
         }
     }
@@ -370,6 +366,38 @@
     [_collectionHiddenCache removeAllObjects];
     
     [self _setNeedsReloadFetch];
+}
+
+
+#pragma mark - State Restoration
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:self.delegate forKey:@"delegate"];
+    [coder encodeObject:self.collectionList.localIdentifier forKey:@"collectionList"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    id<TNKCollectionPickerControllerDelegate> delegate = [coder decodeObjectForKey:@"delegate"];
+    if (delegate != nil) {
+        self.delegate = delegate;
+    }
+    
+    NSString *collectionListIdentifier = [coder decodeObjectForKey:@"collectionList"];
+    if (collectionListIdentifier != nil) {
+        self.collectionList = [PHCollectionList fetchCollectionListsWithLocalIdentifiers:@[ collectionListIdentifier ] options:nil].firstObject;
+    }
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+    TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] init];
+    
+    return picker;
 }
 
 @end
