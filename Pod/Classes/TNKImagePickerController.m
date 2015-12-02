@@ -49,6 +49,8 @@
     
     [self _updateDoneButton];
     [self _updateSelectAllButton];
+	
+	[self.collectionView reloadData];
 }
 
 - (NSSet *)selectedAssets {
