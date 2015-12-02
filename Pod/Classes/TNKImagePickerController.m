@@ -606,7 +606,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger columns = floor(collectionView.bounds.size.width / 80.0);
+    NSInteger columns = floor(collectionView.bounds.size.width / 100.0);
     CGFloat width = floor((collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
     
     return CGSizeMake(width, width);
