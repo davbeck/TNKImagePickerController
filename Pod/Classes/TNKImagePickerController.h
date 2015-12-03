@@ -68,6 +68,14 @@
 - (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
             willDisplayCameraViewController:(UIImagePickerController *)viewController;
 
+/** Asks the delegate for a title for the done button
+ 
+ The delegate can use this to change the text used for the done button. The done button is updated whenever the selection changes.
+ 
+ @param picker The controller object managing the image picker interface.
+ */
+- (NSString *)imagePickerControllerTitleForDoneButton:(TNKImagePickerController *)picker;
+
 @end
 
 

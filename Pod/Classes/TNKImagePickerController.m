@@ -44,6 +44,12 @@
 
 #pragma mark - Properties
 
+- (void)setDelegate:(id<TNKImagePickerControllerDelegate>)delegate {
+	_delegate = delegate;
+	
+	[self _updateDoneButton];
+}
+
 - (void)setSelectedAssets:(NSOrderedSet *)selectedAssets {
     _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableOrderedSet new];
     
@@ -138,12 +144,18 @@
 
 - (void)_updateDoneButton {
     _doneButton.enabled = _selectedAssets.count > 0;
-    
-    if (_selectedAssets.count > 0) {
-        _doneButton.title = [NSString localizedStringWithFormat:NSLocalizedString(@"Select (%d)", @"Title for photo picker done button (short)."), _selectedAssets.count];
-    } else {
-        _doneButton.title = NSLocalizedString(@"Select", nil);
-    }
+	
+	NSString *title = nil;
+	
+	if ([self.delegate respondsToSelector:@selector(imagePickerControllerTitleForDoneButton:)]) {
+		title = [self.delegate imagePickerControllerTitleForDoneButton:self];
+	} else if (_selectedAssets.count > 0) {
+		title = [NSString localizedStringWithFormat:NSLocalizedString(@"Done (%d)", @"Title for photo picker done button (short)."), _selectedAssets.count];
+	} else {
+		title = NSLocalizedString(@"Done", nil);
+	}
+	
+	_doneButton.title = title;
 }
 
 - (void)_updateSelectAllButton {

@@ -33,6 +33,7 @@
 {
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     picker.mediaTypes = @[ (id)kUTTypeImage ];
+	picker.delegate = self;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
@@ -67,6 +68,14 @@
 
 - (void)imagePickerControllerDidCancel:(TNKImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSString *)imagePickerControllerTitleForDoneButton:(TNKImagePickerController *)picker {
+	if (picker.selectedAssets.count > 0) {
+		return [NSString localizedStringWithFormat:NSLocalizedString(@"Next (%d)", @"Title for photo picker done button (short)."), picker.selectedAssets.count];
+	} else {
+		return NSLocalizedString(@"Next", nil);
+	}
 }
 
 @end
