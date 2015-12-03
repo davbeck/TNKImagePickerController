@@ -24,14 +24,6 @@
 
 @implementation TNKAssetViewController
 
-@synthesize selectButton = _selectButton;
-
-- (UIButton *)selectButton {
-    [self view];
-    
-    return _selectButton;
-}
-
 - (void)setAsset:(PHAsset *)asset {
     _asset = asset;
     
@@ -62,12 +54,6 @@
     }];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen {
-    _fullscreen = fullscreen;
-    
-    self.selectButton.alpha = _fullscreen ? 0.0 : 1.0;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -79,15 +65,6 @@
     _scrollView.constrainedRight = @0.0;
     _scrollView.constrainedTop = @0.0;
     _scrollView.constrainedBottom = @0.0;
-    
-    
-    _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark-selected") forState:UIControlStateSelected];
-    [self.view addSubview:_selectButton];
-    _selectButton.constrainedLeft = @0.0;
-    _selectButton.constrainedTop = @64.0;
-    _selectButton.constrainedWidth = @44.0;
-    _selectButton.constrainedHeight = @44.0;
 }
 
 @end

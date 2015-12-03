@@ -449,7 +449,6 @@
 	NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
 	if (indexPath != nil){
 		TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
-		detailViewController.navigationItem.rightBarButtonItem = self.doneButton;
 		detailViewController.assetDelegate = self;
 		detailViewController.assetCollection = self.assetCollection;
 		detailViewController.assetFetchOptions = [self _assetFetchOptions];
@@ -465,7 +464,6 @@
 		} else {
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
-
 	}
 }
 

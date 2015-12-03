@@ -28,7 +28,9 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     
     UIView *_titleView;
     UILabel *_titleLabel;
-    UILabel *_subtitleLabel;
+	UILabel *_subtitleLabel;
+	UIBarButtonItem *_selectButton;
+	UIBarButtonItem *_deselectButton;
 }
 
 @end
@@ -76,6 +78,10 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     self.hidesBottomBarWhenPushed = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     _assetViewControllerClass = [TNKAssetViewController class];
+	
+	_selectButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", nil) style:UIBarButtonItemStylePlain target:self action:@selector(toggleSelection)];
+	_deselectButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Deselect", nil) style:UIBarButtonItemStylePlain target:self action:@selector(toggleSelection)];
+	self.navigationItem.rightBarButtonItem = _selectButton;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -189,6 +195,16 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     CGRect titleFrame = CGRectZero;
     titleFrame.size = [_titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     _titleView.frame = titleFrame;
+	
+	
+	
+	NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
+	BOOL selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
+	if (selected) {
+		[self.navigationItem setRightBarButtonItem:_deselectButton animated:YES];
+	} else {
+		[self.navigationItem setRightBarButtonItem:_selectButton animated:YES];
+	}
 }
 
 
@@ -199,10 +215,6 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     [self.navigationController setNavigationBarHidden:_fullscreen animated:YES];
     
     [UIView animateWithDuration:0.2 animations:^{
-        for (TNKAssetViewController *viewController in self.viewControllers) {
-            viewController.fullscreen = _fullscreen;
-        }
-        
         if (_fullscreen) {
             self.view.backgroundColor = [UIColor blackColor];
         } else {
@@ -211,16 +223,21 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     }];
 }
 
-- (IBAction)toggleSelection:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    
-    NSIndexPath *indexPath = objc_getAssociatedObject(sender, @selector(indexPath));
-    
-    if (sender.selected) {
+- (IBAction)toggleSelection {
+    NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
+	
+	BOOL selected = ![self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
+	
+	if (selected) {
         [self.assetDelegate assetsDetailViewController:self selectAssetAtIndexPath:indexPath];
     } else {
         [self.assetDelegate assetsDetailViewController:self deselectAssetAtIndexPath:indexPath];
     }
+	
+	[self _updateTitle];
+	
+	
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (TNKAssetViewController *)_assetViewControllerWithAssetAtIndexPath:(NSIndexPath *)indexPath {
@@ -235,12 +252,6 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     TNKAssetViewController *next = [[self.assetViewControllerClass alloc] init];
     next.view.backgroundColor = [UIColor clearColor];
     next.view.frame = self.view.bounds;
-    objc_setAssociatedObject(next, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    [next.selectButton addTarget:self action:@selector(toggleSelection:) forControlEvents:UIControlEventTouchUpInside];
-    next.selectButton.selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
-    objc_setAssociatedObject(next.selectButton, @selector(indexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    next.fullscreen = _fullscreen;
     
     next.asset = asset;
     next.assetIndexPath = indexPath;
@@ -265,7 +276,7 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(TNKAssetViewController *)last
 {
-    NSIndexPath *lastIndexPath = objc_getAssociatedObject(last, @selector(indexPath));
+    NSIndexPath *lastIndexPath = last.assetIndexPath;
     NSIndexPath *nextIndexPath = nil;
     
     if (self.assetCollection == nil) {
@@ -297,7 +308,7 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(TNKAssetViewController *)last {
-    NSIndexPath *lastIndexPath = objc_getAssociatedObject(last, @selector(indexPath));
+    NSIndexPath *lastIndexPath = last.assetIndexPath;
     NSIndexPath *nextIndexPath = nil;
     
     if (self.assetCollection == nil) {
@@ -332,8 +343,6 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     for (TNKAssetViewController *viewController in pendingViewControllers) {
-        viewController.fullscreen = _fullscreen;
-        
         NSDictionary *userInfo = @{
                                    TNKImagePickerControllerAssetViewControllerNotificationKey : viewController,
                                    };
@@ -342,7 +351,7 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
-    [self _updateTitle];
+	[self _updateTitle];
 }
 
 

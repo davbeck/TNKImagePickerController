@@ -16,9 +16,4 @@
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, strong) NSIndexPath *assetIndexPath;
 
-@property (nonatomic) BOOL fullscreen;
-
-
-@property (nonatomic, readonly) UIButton *selectButton;
-
 @end
