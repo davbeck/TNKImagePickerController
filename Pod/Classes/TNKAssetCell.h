@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class TNKAssetImageView;
+@class PHAsset;
 
 
 @interface TNKAssetCell : UICollectionViewCell
 
-@property (nonatomic, strong) TNKAssetImageView *imageView;
-@property (nonatomic, strong) UIImageView *selectIcon;
+@property (nonatomic, strong) PHAsset *asset;
 
 @end
