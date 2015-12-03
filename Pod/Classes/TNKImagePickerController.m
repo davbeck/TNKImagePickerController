@@ -199,7 +199,7 @@
         NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
         PHAsset *asset = [self _assetAtIndexPath:indexPath];
         
-        cell.selectButton.selected = [_selectedAssets containsObject:asset];
+        cell.selectIcon.hidden = ![_selectedAssets containsObject:asset];
     }
 }
 
@@ -288,6 +288,10 @@
     [self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
     
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+	
+	UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showAsset:)];
+	recognizer.minimumPressDuration = 0.5;
+	[self.collectionView addGestureRecognizer:recognizer];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -423,6 +427,36 @@
     });
 }
 
+- (void)showAsset:(UILongPressGestureRecognizer *)recognizer {
+	if (recognizer.state != UIGestureRecognizerStateBegan) {
+		return;
+	}
+	
+	CGPoint location = [recognizer locationInView:self.collectionView];
+	
+	NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
+	if (indexPath != nil){
+		TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
+		detailViewController.navigationItem.rightBarButtonItem = self.doneButton;
+		detailViewController.assetDelegate = self;
+		detailViewController.assetCollection = self.assetCollection;
+		detailViewController.assetFetchOptions = [self _assetFetchOptions];
+		[detailViewController showAssetAtIndexPath:indexPath];
+		
+		if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
+			PHAsset *asset = [self _assetAtIndexPath:indexPath];
+			UIViewController *viewController = [self.delegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
+			
+			if (viewController != nil) {
+				[self.navigationController pushViewController:viewController animated:YES];
+			}
+		} else {
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+
+	}
+}
+
 - (IBAction)changeCollection:(id)sender {
     if (_collectionPicker == nil) {
         _collectionPicker = [[TNKCollectionPickerController alloc] init];
@@ -448,31 +482,6 @@
     navigationController.popoverPresentationController.delegate = self;
     
     [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)toggleSelection:(UIButton *)sender {
-    UICollectionViewCell *cell = (UICollectionViewCell *)sender;
-    while (cell != nil && ![cell isKindOfClass:[UICollectionViewCell class]]) {
-        cell = (UICollectionViewCell *)cell.superview;
-    }
-    
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    
-    PHAsset *asset = nil;
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[indexPath.section];
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        asset = fetchResult[indexPath.row];
-    } else {
-        asset = _fetchResult[indexPath.row];
-    }
-    
-    if ([_selectedAssets containsObject:asset]) {
-        [self deselectAsset:asset];
-    } else {
-        [self selectAsset:asset];
-    }
-    sender.selected = [_selectedAssets containsObject:asset];
 }
 
 - (void)_addImages:(NSArray *)images {
@@ -598,11 +607,8 @@
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
     
     cell.imageView.asset = asset;
-    
-    if ([cell.selectButton actionsForTarget:self forControlEvent:UIControlEventTouchUpInside].count == 0) {
-        [cell.selectButton addTarget:self action:@selector(toggleSelection:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    cell.selectButton.selected = [_selectedAssets containsObject:asset];
+	
+    cell.selectIcon.hidden = ![_selectedAssets containsObject:asset];
     
     return cell;
 }
@@ -669,23 +675,23 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
-    detailViewController.navigationItem.rightBarButtonItem = self.doneButton;
-    detailViewController.assetDelegate = self;
-    detailViewController.assetCollection = self.assetCollection;
-    detailViewController.assetFetchOptions = [self _assetFetchOptions];
-    [detailViewController showAssetAtIndexPath:indexPath];
-    
-    if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
-        PHAsset *asset = [self _assetAtIndexPath:indexPath];
-        UIViewController *viewController = [self.delegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
-        
-        if (viewController != nil) {
-            [self.navigationController pushViewController:viewController animated:YES];
-        }
-    } else {
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    }
+	TNKAssetCell *cell = (TNKAssetCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	
+	PHAsset *asset = nil;
+	if (_moments != nil) {
+		PHAssetCollection *collection = _moments[indexPath.section];
+		PHFetchResult *fetchResult = [self _assetsForMoment:collection];
+		asset = fetchResult[indexPath.row];
+	} else {
+		asset = _fetchResult[indexPath.row];
+	}
+	
+	if ([_selectedAssets containsObject:asset]) {
+		[self deselectAsset:asset];
+	} else {
+		[self selectAsset:asset];
+	}
+	cell.selectIcon.hidden = ![_selectedAssets containsObject:asset];
 }
 
 - (void)_scrollToBottomAnimated:(BOOL)animated {
@@ -805,7 +811,7 @@
     [self selectAsset:asset];
     
     TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    cell.selectButton.selected = [_selectedAssets containsObject:asset];
+    cell.selectIcon.hidden = ![_selectedAssets containsObject:asset];
 }
 
 - (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController deselectAssetAtIndexPath:(NSIndexPath *)indexPath {
@@ -813,7 +819,7 @@
     [self deselectAsset:asset];
     
     TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    cell.selectButton.selected = [_selectedAssets containsObject:asset];
+    cell.selectIcon.hidden = ![_selectedAssets containsObject:asset];
 }
 
 

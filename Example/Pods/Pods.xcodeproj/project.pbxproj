@@ -37,7 +37,6 @@
 		2C88FC9FC55DDFB86D2A4F7C /* Pods-Tests-TNKImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DDED447FC666AECEF54D692A /* Pods-Tests-TNKImagePickerController-dummy.m */; };
 		2E06748533B294A432ED33BD /* TNKAssetViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A00081A9D2B061A928562E6 /* TNKAssetViewController.h */; };
 		3053EAF49A6DA2925D66E042 /* TNKCollectionViewFloatingHeaderFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 411CB1DD271450E16788371F /* TNKCollectionViewFloatingHeaderFlowLayout.h */; };
-		313E992B0F7CA1A66562FFDA /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A74A10C09538BAA21A71FA0D /* checkmark@2x.png */; };
 		320EA35458892D009DCBBA52 /* TNKMomentHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F701CA8CF8785B0759E6B7BA /* TNKMomentHeaderView.m */; };
 		394CB80BB13BF71B5DDAE3A8 /* TUConstraintInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BB2606DFE80CFDD1110C3B35 /* TUConstraintInfo.m */; };
 		3A64E125405157C4B11791C0 /* TNKImagePickerControllerBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 773C0C11C0CC74559B8B3829 /* TNKImagePickerControllerBundle.m */; };
@@ -104,7 +103,6 @@
 		C5BF0D233D97DA7A78665077 /* FBSnapshotTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 813B0C735D3F0B632EF8CC5B /* FBSnapshotTestCase.m */; };
 		C95F2F254E67432BA89B8A62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4D12AEEF46D4037AA28228 /* Foundation.framework */; };
 		CAF3DB5945C8D724F7E075EA /* TNKAssetsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D676F063635D9F7E5096ACD4 /* TNKAssetsDetailViewController.m */; };
-		CF115E26DE4BACC30FC4D830 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F434ADBCDBC6AF7D041DD19 /* checkmark.png */; };
 		D041F83F46F978F0C27D42D3 /* default-collection-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 682702A9706B88217146FA6F /* default-collection-list.png */; };
 		D0CBF3BBED4FF0E39A785CEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4D12AEEF46D4037AA28228 /* Foundation.framework */; };
 		D12741527517DF7DA5BAAE59 /* UIViewController+TULayoutAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B691043156CDDF431FA53CDC /* UIViewController+TULayoutAdditions.h */; };
@@ -125,7 +123,6 @@
 		EEA45F23E8A33D3DCBA15AF3 /* UIImage+TNKAspectDraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 7076A9DA7A927B6A5B4079CC /* UIImage+TNKAspectDraw.h */; };
 		EF1AB341417FE432EC081053 /* UIImage+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = 30AF449EF87A1C13FDEB2201 /* UIImage+Compare.h */; };
 		EF38C65D759D433146BFADBC /* PHCollection+TNKThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B86FDA711D192F56B0865 /* PHCollection+TNKThumbnail.m */; };
-		F4A83FF9216E3CAA48116241 /* checkmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2BEF7EC77E3035F1219FDB /* checkmark@3x.png */; };
 		F7B36BFD3792544CAC662A7C /* NSLayoutConstraint+TULayoutAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E0031823708E606508ABF4 /* NSLayoutConstraint+TULayoutAdditions.m */; };
 		F894A2BCC94E25EE08A703BA /* TNKImageZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B3F46166AF21AAD957A7C61 /* TNKImageZoomView.m */; };
 		F9C91E5F4CBAC9A08F9190EE /* default-collection-list@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B84824FDB1153F9C06CC6BCC /* default-collection-list@3x.png */; };
@@ -239,7 +236,6 @@
 		5572A5694CA5C572A9D66BBA /* checkmark-selected@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "checkmark-selected@3x.png"; path = "Pod/Assets/checkmark-selected@3x.png"; sourceTree = "<group>"; };
 		57F039876D7472D03F306418 /* UIImage+Diff.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIImage+Diff.h"; sourceTree = "<group>"; };
 		5A9434EC6F56F69918FEED0E /* Pods-Tests-FBSnapshotTestCase-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests-FBSnapshotTestCase-Private.xcconfig"; sourceTree = "<group>"; };
-		5F434ADBCDBC6AF7D041DD19 /* checkmark.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = checkmark.png; path = Pod/Assets/checkmark.png; sourceTree = "<group>"; };
 		618E193A435535C0AEB104E2 /* Pods-Tests-TULayoutAdditions-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Pods-Tests-TULayoutAdditions-dummy.m"; path = "../Pods-Tests-TULayoutAdditions/Pods-Tests-TULayoutAdditions-dummy.m"; sourceTree = "<group>"; };
 		621B171396BF796F70F6F507 /* TNKCollectionsTitleButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNKCollectionsTitleButton.h; path = Pod/Classes/TNKCollectionsTitleButton.h; sourceTree = "<group>"; };
 		623EA7559E857788C8DFE96E /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -269,7 +265,6 @@
 		974276C75A6A0A450580C528 /* Pods-TNKImagePickerController-TULayoutAdditions-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TNKImagePickerController-TULayoutAdditions-dummy.m"; sourceTree = "<group>"; };
 		975C9B011996C6F24DCC9E4D /* UIImage+Diff.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Diff.m"; sourceTree = "<group>"; };
 		99BD3F32FDEF817286CF2B55 /* Pods-Tests-FBSnapshotTestCase-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Tests-FBSnapshotTestCase-dummy.m"; sourceTree = "<group>"; };
-		9C2BEF7EC77E3035F1219FDB /* checkmark@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "checkmark@3x.png"; path = "Pod/Assets/checkmark@3x.png"; sourceTree = "<group>"; };
 		9CE734361CAA76353C98CD88 /* Pods-TNKImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TNKImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
 		A14AD2F2149E239500C1AA28 /* libPods-TNKImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TNKImagePickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16A829E92959692C07A4595 /* Pods-TNKImagePickerController-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TNKImagePickerController-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -277,7 +272,6 @@
 		A35249034386F51CAB714AA5 /* NSNumber+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSNumber+TULayoutAdditions.h"; path = "TULayoutAdditions/NSNumber+TULayoutAdditions.h"; sourceTree = "<group>"; };
 		A466BC274C5F73A9DF5EC4E6 /* PHImageManager+TNKRequestImages.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PHImageManager+TNKRequestImages.h"; path = "Pod/Classes/PHImageManager+TNKRequestImages.h"; sourceTree = "<group>"; };
 		A5512871E595BB68FBCF2357 /* TNKAssetImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNKAssetImageView.m; path = Pod/Classes/TNKAssetImageView.m; sourceTree = "<group>"; };
-		A74A10C09538BAA21A71FA0D /* checkmark@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "checkmark@2x.png"; path = "Pod/Assets/checkmark@2x.png"; sourceTree = "<group>"; };
 		B19B941DAD991C2F6A6D2667 /* TNKImagePickerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNKImagePickerController.h; path = Pod/Classes/TNKImagePickerController.h; sourceTree = "<group>"; };
 		B691043156CDDF431FA53CDC /* UIViewController+TULayoutAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+TULayoutAdditions.h"; path = "TULayoutAdditions/UIViewController+TULayoutAdditions.h"; sourceTree = "<group>"; };
 		B84824FDB1153F9C06CC6BCC /* default-collection-list@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "default-collection-list@3x.png"; path = "Pod/Assets/default-collection-list@3x.png"; sourceTree = "<group>"; };
@@ -462,12 +456,9 @@
 		9C5CD7370DE783A56DE53E89 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5F434ADBCDBC6AF7D041DD19 /* checkmark.png */,
 				4082D71929549B011CD847B0 /* checkmark-selected.png */,
 				FE8EEC1033F949CD6A44C3CE /* checkmark-selected@2x.png */,
 				5572A5694CA5C572A9D66BBA /* checkmark-selected@3x.png */,
-				A74A10C09538BAA21A71FA0D /* checkmark@2x.png */,
-				9C2BEF7EC77E3035F1219FDB /* checkmark@3x.png */,
 				6A20CBF4B740E8C507E71EE5 /* default-collection.png */,
 				682702A9706B88217146FA6F /* default-collection-list.png */,
 				D79C0103A29B1C2CDB1FF5CA /* default-collection-list@2x.png */,
@@ -898,9 +889,6 @@
 				274FA6C5B99E4F05B1A9444D /* checkmark-selected.png in Resources */,
 				E83DBEF8B0FCACB16C8D78BD /* checkmark-selected@2x.png in Resources */,
 				D6B54984817572EFF94C43CE /* checkmark-selected@3x.png in Resources */,
-				CF115E26DE4BACC30FC4D830 /* checkmark.png in Resources */,
-				313E992B0F7CA1A66562FFDA /* checkmark@2x.png in Resources */,
-				F4A83FF9216E3CAA48116241 /* checkmark@3x.png in Resources */,
 				D041F83F46F978F0C27D42D3 /* default-collection-list.png in Resources */,
 				4BCE6A85ABEEE175F345D508 /* default-collection-list@2x.png in Resources */,
 				F9C91E5F4CBAC9A08F9190EE /* default-collection-list@3x.png in Resources */,

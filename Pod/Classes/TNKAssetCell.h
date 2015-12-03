@@ -14,6 +14,6 @@
 @interface TNKAssetCell : UICollectionViewCell
 
 @property (nonatomic, strong) TNKAssetImageView *imageView;
-@property (nonatomic, strong) UIButton *selectButton;
+@property (nonatomic, strong) UIImageView *selectIcon;
 
 @end

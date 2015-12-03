@@ -82,7 +82,6 @@
     
     
     _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark") forState:UIControlStateNormal];
     [_selectButton setImage:TNKImagePickerControllerImageNamed(@"checkmark-selected") forState:UIControlStateSelected];
     [self.view addSubview:_selectButton];
     _selectButton.constrainedLeft = @0.0;
