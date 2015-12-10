@@ -48,6 +48,7 @@
     
     _selectIcon = [[UIImageView alloc] init];
 	_selectIcon.image = TNKImagePickerControllerImageNamed(@"checkmark-selected");
+	_selectIcon.hidden = YES;
     [self.contentView addSubview:_selectIcon];
 	
 	
