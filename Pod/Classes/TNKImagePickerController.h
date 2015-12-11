@@ -81,6 +81,11 @@
 
 @interface TNKImagePickerController : UICollectionViewController
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout NS_UNAVAILABLE;
+
 @property (nonatomic, weak) id<TNKImagePickerControllerDelegate> delegate;
 
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;

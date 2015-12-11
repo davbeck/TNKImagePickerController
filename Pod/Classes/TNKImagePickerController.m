@@ -264,19 +264,14 @@
     UICollectionViewFlowLayout *layout = [[TNKCollectionViewFloatingHeaderFlowLayout alloc] init];
     layout.minimumLineSpacing = TNKObjectSpacing;
     layout.minimumInteritemSpacing = 0.0;
-    return [self initWithCollectionViewLayout:layout];
-}
-
-- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
-{
     self = [super initWithCollectionViewLayout:layout];
-    if (self) {
-        [self _init];
-    }
-    return self;
+	if (self) {
+		[self _init];
+	}
+	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
