@@ -53,7 +53,6 @@
 	
 	
 	self.isAccessibilityElement = YES;
-	self.accessibilityTraits = UIAccessibilityTraitImage;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
