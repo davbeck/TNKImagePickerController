@@ -13,10 +13,10 @@
 @class PHAsset;
 @class PHFetchOptions;
 
+NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *TNKImagePickerControllerWillShowAssetNotification;
-extern NSString *TNKImagePickerControllerAssetViewControllerNotificationKey;
-
+extern NSString *const TNKImagePickerControllerWillShowAssetNotification;
+extern NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey;
 
 @protocol TNKAssetsDetailViewControllerDelegate <NSObject>
 
@@ -30,22 +30,24 @@ extern NSString *TNKImagePickerControllerAssetViewControllerNotificationKey;
 
 @interface TNKAssetsDetailViewController : UIPageViewController
 
-@property (nonatomic, weak) id<TNKAssetsDetailViewControllerDelegate> assetDelegate;
+@property (nonatomic, weak, nullable) id<TNKAssetsDetailViewControllerDelegate> assetDelegate;
 
 /** The class used to create individual asset view controllers
  
  This class should be a subclass of `TNKAssetViewController`.
  */
-@property (nonatomic, strong) Class assetViewControllerClass;
+@property (nonatomic, assign) Class assetViewControllerClass;
 
 /** The asset collection the picker will display to the user.
  
  nil (the default) will cause the picker to display the user's moments.
  */
-@property (nonatomic, strong) PHAssetCollection *assetCollection;
+@property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
 - (void)showAssetAtIndexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic, copy) PHFetchOptions *assetFetchOptions;
 
 @end
+
+NS_ASSUME_NONNULL_END

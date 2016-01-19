@@ -16,8 +16,8 @@
 #import "NSDate+TNKFormattedDay.h"
 
 
-NSString *TNKImagePickerControllerWillShowAssetNotification = @"TNKImagePickerControllerWillShowAsset";
-NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetViewController";
+NSString *const TNKImagePickerControllerWillShowAssetNotification = @"TNKImagePickerControllerWillShowAsset";
+NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetViewController";
 
 
 @interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate, UIPageViewControllerDelegate, UIPageViewControllerDataSource>
