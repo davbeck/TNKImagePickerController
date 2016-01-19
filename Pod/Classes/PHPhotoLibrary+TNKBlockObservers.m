@@ -10,61 +10,39 @@
 
 #import <objc/runtime.h>
 
+@interface TNKBlockObserverToken () <PHPhotoLibraryChangeObserver>
+
+@property (nonatomic, copy) TNKPhotoLibraryChangeObserverBlock changeObserverBlock;
+@property (nonatomic, strong) TNKBlockObserverToken *strongSelf;
+
+@end
+
+@implementation TNKBlockObserverToken
+
+- (void)photoLibraryDidChange:(PHChange *)changeInstance
+{
+    self.changeObserverBlock(changeInstance);
+}
+
+@end
 
 @implementation PHPhotoLibrary (TNKBlockObservers)
 
-- (dispatch_queue_t)_TNKBlockObserverQueue
+- (TNKBlockObserverToken *)tnk_registerChangeObserverBlock:(TNKPhotoLibraryChangeObserverBlock)block
 {
-    static dispatch_queue_t queue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("_TNKBlockObserverQueue", NULL);
-    });
-    
-    return queue;
+    TNKBlockObserverToken *token = [[TNKBlockObserverToken alloc] init];
+    token.changeObserverBlock = block;
+    token.strongSelf = token;
+
+    [self registerChangeObserver:token];
+
+    return token;
 }
 
-- (NSMutableDictionary *)_TNKBlockObservers
+- (void)tnk_unregisterChangeObserverBlock:(TNKBlockObserverToken *)token
 {
-    NSMutableDictionary *observers = objc_getAssociatedObject(self, _cmd);
-    if (observers == nil) {
-        observers = [NSMutableDictionary new];
-        objc_setAssociatedObject(self, _cmd, observers, OBJC_ASSOCIATION_RETAIN);
-        
-        [self registerChangeObserver:self];
-    }
-    
-    return observers;
-}
-
-- (id)registerChangeObserverBlock:(void(^)(PHChange *))observer {
-    id key = [NSUUID UUID];
-    
-    dispatch_sync([self _TNKBlockObserverQueue], ^{
-        [[self _TNKBlockObservers] setObject:observer forKey:key];
-    });
-    
-    return key;
-}
-
-- (void)unregisterChangeObserverBlock:(id)observer {
-    dispatch_async([self _TNKBlockObserverQueue], ^{
-        [[self _TNKBlockObservers] removeObjectForKey:observer];
-    });
-}
-
-
-#pragma mark - PHPhotoLibraryChangeObserver
-
-- (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    __block NSDictionary *observers;
-    dispatch_async([self _TNKBlockObserverQueue], ^{
-        observers = [[self _TNKBlockObservers] copy];
-    });
-    
-    for (void(^observerBlock)(PHChange *) in [observers allValues]) {
-        observerBlock(changeInstance);
-    }
+    [self unregisterChangeObserver:token];
+    token.strongSelf = nil;
 }
 
 @end

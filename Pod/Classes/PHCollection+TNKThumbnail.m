@@ -30,7 +30,7 @@
         imageCache = [[NSCache alloc] init];
         imageCache.name = @"PHCollection/TNKThumbnail";
         
-        [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserverBlock:^(PHChange *change) {
+        [[PHPhotoLibrary sharedPhotoLibrary] tnk_registerChangeObserverBlock:^(PHChange *change) {
             [PHCollection tnk_clearThumbnailCache];
         }];
     });
