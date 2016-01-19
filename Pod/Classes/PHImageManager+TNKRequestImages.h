@@ -8,13 +8,17 @@
 
 #import <Photos/Photos.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PHImageManager (TNKRequestImages)
 
-- (NSDictionary *)requestImagesForAssets:(NSArray *)assets
-                              targetSize:(CGSize)targetSize
-                             contentMode:(PHImageContentMode)contentMode
-                                 options:(PHImageRequestOptions *)options
-                           resultHandler:(void (^)(NSDictionary *results,
-                                                   NSDictionary *infos))resultHandler;
+- (NSDictionary<NSString *, NSNumber *> *)tnk_requestImagesForAssets:(NSArray<PHAsset *> *)assets
+                                                          targetSize:(CGSize)targetSize
+                                                         contentMode:(PHImageContentMode)contentMode
+                                                             options:(nullable PHImageRequestOptions *)options
+                                                       resultHandler:(void (^)(NSDictionary<NSString *, UIImage *> *__nullable results,
+                                                                               NSDictionary<NSString *, NSDictionary *> *__nullable infos))resultHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END

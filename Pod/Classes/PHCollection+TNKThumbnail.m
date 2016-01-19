@@ -113,7 +113,7 @@
         *stop = assets.count >= 3;
     }];
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         
         for (NSInteger index = 2; index >= 0; index--) {
@@ -227,7 +227,7 @@
         }
     }
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         
         for (NSInteger index = 2; index >= 0; index--) {
@@ -303,7 +303,7 @@
     
     NSArray *assets = [self _TNKKeyAssets];
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         //        CGContextRef context = UIGraphicsGetCurrentContext();
         
