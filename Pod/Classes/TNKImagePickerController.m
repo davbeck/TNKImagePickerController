@@ -221,6 +221,7 @@
 
 - (void)_init
 {
+    _selectedAssetBadgeImage = TNKImagePickerControllerImageNamed(@"checkmark-selected");
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
     _selectedAssets = [NSMutableOrderedSet new];
     
@@ -634,9 +635,10 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    
+
     cell.asset = asset;
-    
+    cell.selectedBadgeImage = _selectedAssetBadgeImage;
+
     return cell;
 }
 

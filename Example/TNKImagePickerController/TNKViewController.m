@@ -34,7 +34,8 @@
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     picker.mediaTypes = @[ (id)kUTTypeImage ];
 	picker.delegate = self;
-    
+    picker.selectedAssetBadgeImage = [UIImage imageNamed:@"checkmark-selected"];
+
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
