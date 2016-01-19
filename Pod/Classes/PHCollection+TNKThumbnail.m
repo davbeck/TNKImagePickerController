@@ -20,7 +20,6 @@
 #define TNKListRows 3.0
 
 
-
 @implementation PHCollection (TNKThumbnail)
 
 + (NSCache *)_tnk_thumbnailImageCache
