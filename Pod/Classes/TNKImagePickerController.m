@@ -216,6 +216,10 @@
 	}
 }
 
+- (void)setSelectedAssetBadgeImage:(UIImage *)selectedAssetBadgeImage
+{
+    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: TNKImagePickerControllerImageNamed(@"checkmark-selected");
+}
 
 #pragma mark - Initialization
 

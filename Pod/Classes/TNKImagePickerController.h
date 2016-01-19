@@ -15,6 +15,7 @@
 @class PHAssetCollection;
 @class TNKImagePickerController;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol TNKImagePickerControllerDelegate <NSObject>
 
@@ -53,9 +54,9 @@
  @param asset The asset being displayed.
  @return Either a view controller to be pushed, or nil to cancel.
  */
-- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
-            willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
-                                   forAsset:(PHAsset *)asset;
+- (nullable UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+                     willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
+                                            forAsset:(PHAsset *)asset;
 
 /** Tells the delegate that the camera is about to be used.
  
@@ -65,8 +66,8 @@
  @param viewController The proposed view controller to be pushed.
  @return Either a view controller to be pushed, or nil to cancel.
  */
-- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
-            willDisplayCameraViewController:(UIImagePickerController *)viewController;
+- (nullable UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+                     willDisplayCameraViewController:(UIImagePickerController *)viewController;
 
 /** Asks the delegate for a title for the done button
  
@@ -83,10 +84,10 @@
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout NS_UNAVAILABLE;
 
-@property (nonatomic, weak) id<TNKImagePickerControllerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TNKImagePickerControllerDelegate> delegate;
 
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;
 @property (nonatomic, readonly) UIBarButtonItem *doneButton;
@@ -94,7 +95,7 @@
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
-@property (nonatomic, strong) UIImage *selectedAssetBadgeImage;
+@property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage;
 
 @property (nonatomic, copy) NSArray *mediaTypes;
 
@@ -102,7 +103,7 @@
  
  The user can change this, but you can set this as a default. nil (the default) will cause the picker to display the user's moments.
  */
-@property (nonatomic, strong) PHAssetCollection *assetCollection;
+@property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
 /** The currently selected assets.
  
@@ -113,3 +114,5 @@
 - (void)deselectAsset:(PHAsset *)asset;
 
 @end
+
+NS_ASSUME_NONNULL_END
