@@ -1,6 +1,6 @@
 PODS:
   - FBSnapshotTestCase (1.5)
-  - TNKImagePickerController (0.1.0):
+  - TNKImagePickerController (2.0.0):
     - TULayoutAdditions (~> 0.2)
   - TULayoutAdditions (0.2.0)
 
@@ -13,8 +13,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: e2914fbaabccea1dcc773d6a16b1c24540642488
-  TNKImagePickerController: dca9109cbd57a5fe6c45464e1ec5cb7191c6553f
-  TULayoutAdditions: 297415db1d77f65df4abe6844203835d10719324
+  FBSnapshotTestCase: 26f32d8fa9eb30e9f09712ecfb097808bc79b898
+  TNKImagePickerController: 696000a6c7829796308521a3a526181a54793b93
+  TULayoutAdditions: 67690d7620ef5f44d05173e30b5a87c68e56653c
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.39.0

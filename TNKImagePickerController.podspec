@@ -13,10 +13,11 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
+  s.public_header_files = 'Pod/Classes/{TNKImagePickerController,TNKAssetsDetailViewController,PHImageManager+TNKRequestImages}.h'
   s.resource_bundles = {
     'TNKImagePickerController' => ['Pod/Assets/*']
   }
   
-  s.frameworks = 'UIKit', 'Photos'
+  s.frameworks = 'Photos'
   s.dependency 'TULayoutAdditions', '~> 0.2'
 end

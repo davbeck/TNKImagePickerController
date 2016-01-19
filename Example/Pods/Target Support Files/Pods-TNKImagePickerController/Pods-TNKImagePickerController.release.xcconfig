@@ -1,6 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FBSnapshotTestCase" "${PODS_ROOT}/Headers/Public/TNKImagePickerController" "${PODS_ROOT}/Headers/Public/TULayoutAdditions"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FBSnapshotTestCase" "${PODS_ROOT}/Headers/Public/TNKImagePickerController" "${PODS_ROOT}/Headers/Public/TULayoutAdditions"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/FBSnapshotTestCase" -isystem "${PODS_ROOT}/Headers/Public/TNKImagePickerController" -isystem "${PODS_ROOT}/Headers/Public/TULayoutAdditions"
-OTHER_LDFLAGS = -ObjC -l"Pods-TNKImagePickerController-TNKImagePickerController" -l"Pods-TNKImagePickerController-TULayoutAdditions"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+OTHER_LDFLAGS = $(inherited) -ObjC -l"TNKImagePickerController" -l"TULayoutAdditions" -framework "Photos" -framework "UIKit"
 PODS_ROOT = ${SRCROOT}/Pods
