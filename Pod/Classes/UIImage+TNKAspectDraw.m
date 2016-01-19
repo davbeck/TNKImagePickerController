@@ -10,7 +10,7 @@
 
 @implementation UIImage (TNKAspectDraw)
 
-- (void)drawInRectWithAspectFill:(CGRect)rect {
+- (void)tnk_drawInRectWithAspectFill:(CGRect)rect {
     float hfactor = self.size.width / rect.size.width;
     float vfactor = self.size.height / rect.size.height;
     

@@ -130,7 +130,7 @@
             }
             
             if (image != nil) {
-                [image drawInRectWithAspectFill:assetFrame];
+                [image tnk_drawInRectWithAspectFill:assetFrame];
             }
             
             CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
@@ -244,7 +244,7 @@
             }
             
             if (image != nil) {
-                [image drawInRectWithAspectFill:assetFrame];
+                [image tnk_drawInRectWithAspectFill:assetFrame];
             }
             
             CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
@@ -324,7 +324,7 @@
                 }
                 
                 if (image != nil) {
-                    [image drawInRectWithAspectFill:assetFrame];
+                    [image tnk_drawInRectWithAspectFill:assetFrame];
                 } else {
                     [[UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000] setFill];
                     [[UIBezierPath bezierPathWithRect:assetFrame] fill];
