@@ -8,9 +8,6 @@
 
 #import "TNKCollectionCell.h"
 
-#import <TULayoutAdditions/TULayoutAdditions.h>
-
-
 @interface TNKCollectionCell ()
 {
     UIView *_labelsView;
@@ -25,44 +22,53 @@
 {
     // we hide collections by making them 0pts tall
     self.clipsToBounds = YES;
-    
-    
+
     _labelsView = [[UIView alloc] init];
-    [self addSubview:_labelsView];
-    _labelsView.constrainedCenterY = @0.0;
-    _labelsView.constrainedTrailing = @0.0;
-    
-    
+    _labelsView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.contentView addSubview:_labelsView];
+
+
     _titleLabel = [[UILabel alloc] init];
     [_labelsView addSubview:_titleLabel];
     _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _titleLabel.textColor = [UIColor blackColor];
-    _titleLabel.constrainedTop = @0.0;
-    _titleLabel.constrainedLeading = @0.0;
-    _titleLabel.constrainedTrailing = @0.0;
-    
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+
     
     _subtitleLabel = [[UILabel alloc] init];
     [_labelsView addSubview:_subtitleLabel];
     _subtitleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     _subtitleLabel.textColor = [UIColor blackColor];
-    _subtitleLabel.constrainedBottom = @0.0;
-    _subtitleLabel.constrainedLeading = @0.0;
-    _subtitleLabel.constrainedTrailing = @0.0;
-    _subtitleLabel.constrainedTop = _titleLabel.constrainedBottom;
-    
+    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = false;
+
     
     _thumbnailView = [[UIImageView alloc] init];
-    [self addSubview:_thumbnailView];
+    [self.contentView addSubview:_thumbnailView];
     _thumbnailView.contentMode = UIViewContentModeCenter;
     _thumbnailView.clipsToBounds = YES;
-    _thumbnailView.constrainedTop = @4.0;
-    _thumbnailView.constrainedLeading = @4.0;
-    _thumbnailView.constrainedWidth = @76.0;
-    _thumbnailView.constrainedHeight = @76.0;
+    _thumbnailView.translatesAutoresizingMaskIntoConstraints = false;
     
     
-    _labelsView.constrainedLeading = [_thumbnailView.constrainedTrailing plus:18.0];
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-18],
+
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_titleLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:4],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:4],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:76],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:76],
+
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_thumbnailView attribute:NSLayoutAttributeTrailing multiplier:1 constant:18],
+    ]];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder

@@ -28,13 +28,5 @@
       "Pod/Assets/*"
     ]
   },
-  "frameworks": [
-    "UIKit",
-    "Photos"
-  ],
-  "dependencies": {
-    "TULayoutAdditions": [
-      "~> 0.2"
-    ]
-  }
+  "frameworks": "Photos"
 }

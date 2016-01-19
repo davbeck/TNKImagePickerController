@@ -19,5 +19,4 @@ Pod::Spec.new do |s|
   }
   
   s.frameworks = 'Photos'
-  s.dependency 'TULayoutAdditions', '~> 0.2'
 end

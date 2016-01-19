@@ -9,7 +9,6 @@
 #import "TNKAssetViewController.h"
 
 @import Photos;
-#import <TULayoutAdditions/TULayoutAdditions.h>
 
 #import "TNKImageZoomView.h"
 #import "TNKImagePickerControllerBundle.h"
@@ -60,11 +59,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _scrollView = [TNKImageZoomView new];
+    _scrollView.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:_scrollView];
-    _scrollView.constrainedLeft = @0.0;
-    _scrollView.constrainedRight = @0.0;
-    _scrollView.constrainedTop = @0.0;
-    _scrollView.constrainedBottom = @0.0;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+    ]];
 }
 
 @end

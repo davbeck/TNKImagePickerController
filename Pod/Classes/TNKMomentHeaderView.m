@@ -8,8 +8,6 @@
 
 #import "TNKMomentHeaderView.h"
 
-#import <TULayoutAdditions/TULayoutAdditions.h>
-
 
 @interface TNKMomentHeaderView ()
 {
@@ -24,40 +22,52 @@
 - (void)_init
 {
     _backgroundView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+    _backgroundView.translatesAutoresizingMaskIntoConstraints = false;
     [self addSubview:_backgroundView];
-    _backgroundView.constrainedTop = @0.0;
-    _backgroundView.constrainedLeft = @0.0;
-    _backgroundView.constrainedRight = @0.0;
-    _backgroundView.constrainedBottom = @0.0;
-    
+
     _centeringView = [[UIView alloc] init];
+    _centeringView.translatesAutoresizingMaskIntoConstraints = false;
     [self addSubview:_centeringView];
-    _centeringView.constrainedLeading = @8.0;
-    _centeringView.constrainedTrailing = @-8.0;
-    _centeringView.constrainedCenterY = @0.0;
-    
+
     _primaryLabel = [[UILabel alloc] init];
     _primaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    _primaryLabel.translatesAutoresizingMaskIntoConstraints = false;
     [_centeringView addSubview:_primaryLabel];
-    _primaryLabel.constrainedTop = @0.0;
-    _primaryLabel.constrainedLeading = @0.0;
-    _primaryLabel.constrainedTrailing = @0.0;
-    
+
     _secondaryLabel = [[UILabel alloc] init];
     _secondaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    _secondaryLabel.translatesAutoresizingMaskIntoConstraints = false;
     [_centeringView addSubview:_secondaryLabel];
-    _secondaryLabel.constrainedTop = _primaryLabel.constrainedBottom;
-    _secondaryLabel.constrainedLeading = @0.0;
-    _secondaryLabel.constrainedBottom = @0.0;
-    
+
     _detailLabel = [[UILabel alloc] init];
     _detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    _detailLabel.translatesAutoresizingMaskIntoConstraints = false;
     [_centeringView addSubview:_detailLabel];
-    _detailLabel.constrainedTop = _primaryLabel.constrainedBottom;
-    _detailLabel.constrainedLeading = [_secondaryLabel.constrainedTrailing plus:8.0];
-    _detailLabel.constrainedTrailing = @0.0;
-    _detailLabel.constrainedBottom = @0.0;
     [_detailLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:8],
+        [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8],
+        [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_primaryLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_primaryLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_secondaryLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8],
+        [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+    ]];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
