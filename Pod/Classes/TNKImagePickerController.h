@@ -25,9 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  Your delegate object’s implementation of this method should pass the specified media on to any custom code that needs it, and should then dismiss the picker view.
  
- Instances of the assets set are `PHAsset` objects. You can request images for all the assets at once using the `TNKRequestImages` category on `PHImageManager` (`requestImagesForAssets:targetSize:contentMode:options:resultHandler:`).
+ Instances of the assets set are `PHAsset` objects. You can request images for all the assets at once using the `TNKRequestImages` category on `PHImageManager` (`tnk_requestImagesForAssets:targetSize:contentMode:options:resultHandler:`).
  
- Implementation of this method is optional, but expected. If it is not implimented, the picker will be dismissed as a modal view controller.
+ Implementation of this method is optional, but expected. If it is not implemented, the picker will be dismissed as a modal view controller.
  
  @param picker The controller object managing the image picker interface.
  @param assets The assets that were picked. These are the same as selectedAssets.
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Your delegate’s implementation of this method should dismiss the picker view by calling the dismissModalViewControllerAnimated: method of the parent view controller.
  
- Implementation of this method is optional. If it is not implimented, the picker will be dismissed as a modal view controller.
+ Implementation of this method is optional. If it is not implemented, the picker will be dismissed as a modal view controller.
  
  @param picker The controller object managing the image picker interface.
  */
