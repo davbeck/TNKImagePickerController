@@ -59,7 +59,7 @@
 
 - (void)imagePickerController:(TNKImagePickerController *)picker
        didFinishPickingAssets:(NSOrderedSet *)assets {
-    [[PHImageManager defaultManager] requestImagesForAssets:assets.array targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets.array targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         NSArray *images = results.allValues;
         NSLog(@"images: %@", images);
     }];
