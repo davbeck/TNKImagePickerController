@@ -1,10 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
 
-target 'TNKImagePickerController', :exclusive => true do
+target 'TNKImagePickerController_Example', :exclusive => true do
   pod "TNKImagePickerController", :path => "../"
 end
 
-target 'Tests', :exclusive => true do
+target 'TNKImagePickerController_Tests', :exclusive => true do
   pod "TNKImagePickerController", :path => "../"
 
   pod 'FBSnapshotTestCase'

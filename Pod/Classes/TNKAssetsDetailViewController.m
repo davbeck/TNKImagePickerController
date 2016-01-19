@@ -10,7 +10,6 @@
 
 @import Photos;
 @import ObjectiveC;
-#import <TULayoutAdditions/TULayoutAdditions.h>
 
 #import "TNKAssetViewController.h"
 #import "NSDate+TNKFormattedDay.h"
@@ -126,25 +125,33 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     
     
     _titleView = [UIView new];
+	_titleView.translatesAutoresizingMaskIntoConstraints = NO;
     
     _titleLabel = [UILabel new];
+	_titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline] size:15.0];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     [_titleView addSubview:_titleLabel];
-    _titleLabel.constrainedTop = @0.0;
-    _titleLabel.constrainedLeft = @0.0;
-    _titleLabel.constrainedRight = @0.0;
     
     _subtitleLabel = [UILabel new];
+	_subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _subtitleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote] size:11.0];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
     [_titleView addSubview:_subtitleLabel];
-    _subtitleLabel.constrainedTop = _titleLabel.constrainedBottom;
-    _subtitleLabel.constrainedBottom = @0.0;
-    _subtitleLabel.constrainedLeft = @0.0;
-    _subtitleLabel.constrainedRight = @0.0;
     
     self.navigationItem.titleView = _titleView;
+	
+	
+	[NSLayoutConstraint activateConstraints:@[
+											  [_titleLabel.topAnchor constraintEqualToAnchor:_titleView.topAnchor],
+											  [_titleLabel.leftAnchor constraintEqualToAnchor:_titleView.leftAnchor],
+											  [_titleLabel.rightAnchor constraintEqualToAnchor:_titleView.rightAnchor],
+											  
+											  [_subtitleLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor],
+											  [_subtitleLabel.bottomAnchor constraintEqualToAnchor:_titleView.bottomAnchor],
+											  [_subtitleLabel.leftAnchor constraintEqualToAnchor:_titleView.leftAnchor],
+											  [_subtitleLabel.rightAnchor constraintEqualToAnchor:_titleView.rightAnchor],
+											  ]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
