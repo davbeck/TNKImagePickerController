@@ -1,6 +1,10 @@
 PODS:
-  - FBSnapshotTestCase (1.5)
-  - TNKImagePickerController (2.0.0)
+  - FBSnapshotTestCase (2.0.7):
+    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
+  - FBSnapshotTestCase/Core (2.0.7)
+  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+    - FBSnapshotTestCase/Core
+  - TNKImagePickerController (2.1.0)
 
 DEPENDENCIES:
   - FBSnapshotTestCase
@@ -11,7 +15,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 26f32d8fa9eb30e9f09712ecfb097808bc79b898
-  TNKImagePickerController: 756efbfafee13c15e8a803cdc7e4b43223a3c879
+  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
+  TNKImagePickerController: ae0db01819870ea7a3d3eb6c4e1c0fa3e17ca9dd
 
 COCOAPODS: 0.39.0

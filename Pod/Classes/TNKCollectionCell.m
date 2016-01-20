@@ -24,7 +24,7 @@
     self.clipsToBounds = YES;
 
     _labelsView = [[UIView alloc] init];
-    _labelsView.translatesAutoresizingMaskIntoConstraints = false;
+    _labelsView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_labelsView];
 
 
@@ -32,21 +32,21 @@
     [_labelsView addSubview:_titleLabel];
     _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _titleLabel.textColor = [UIColor blackColor];
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
     
     _subtitleLabel = [[UILabel alloc] init];
     [_labelsView addSubview:_subtitleLabel];
     _subtitleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     _subtitleLabel.textColor = [UIColor blackColor];
-    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
     
     _thumbnailView = [[UIImageView alloc] init];
     [self.contentView addSubview:_thumbnailView];
     _thumbnailView.contentMode = UIViewContentModeCenter;
     _thumbnailView.clipsToBounds = YES;
-    _thumbnailView.translatesAutoresizingMaskIntoConstraints = false;
+    _thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
     
     
     [NSLayoutConstraint activateConstraints:@[

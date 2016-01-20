@@ -125,17 +125,17 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     
     
     _titleView = [UIView new];
-    
+
     _titleLabel = [UILabel new];
     _titleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline] size:15.0];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_titleView addSubview:_titleLabel];
 
     _subtitleLabel = [UILabel new];
     _subtitleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote] size:11.0];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
-    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_titleView addSubview:_subtitleLabel];
 
     [NSLayoutConstraint activateConstraints:@[

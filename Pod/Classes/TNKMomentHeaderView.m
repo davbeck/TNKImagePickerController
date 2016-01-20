@@ -22,26 +22,26 @@
 - (void)_init
 {
     _backgroundView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
-    _backgroundView.translatesAutoresizingMaskIntoConstraints = false;
+    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_backgroundView];
 
     _centeringView = [[UIView alloc] init];
-    _centeringView.translatesAutoresizingMaskIntoConstraints = false;
+    _centeringView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_centeringView];
 
     _primaryLabel = [[UILabel alloc] init];
     _primaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    _primaryLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_centeringView addSubview:_primaryLabel];
 
     _secondaryLabel = [[UILabel alloc] init];
     _secondaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    _secondaryLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _secondaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_centeringView addSubview:_secondaryLabel];
 
     _detailLabel = [[UILabel alloc] init];
     _detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-    _detailLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_centeringView addSubview:_detailLabel];
     [_detailLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
 

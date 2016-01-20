@@ -59,7 +59,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _scrollView = [TNKImageZoomView new];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = false;
+    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_scrollView];
 
     [NSLayoutConstraint activateConstraints:@[
