@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage;
 
-@property (nonatomic, copy) NSArray *mediaTypes;
+@property (nonatomic, copy) NSArray <NSString *> *mediaTypes;
 
 /** The asset collection the picker will display to the user.
  
