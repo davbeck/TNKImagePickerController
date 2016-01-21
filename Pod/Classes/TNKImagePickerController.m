@@ -235,6 +235,10 @@
 	}
 }
 
+- (void)setSelectedAssetBadgeImage:(UIImage *)selectedAssetBadgeImage
+{
+    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: TNKImagePickerControllerImageNamed(@"checkmark-selected");
+}
 
 #pragma mark - Initialization
 
@@ -242,6 +246,7 @@
 {
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
     _selectedAssets = [NSMutableOrderedSet new];
+    _selectedAssetBadgeImage = TNKImagePickerControllerImageNamed(@"checkmark-selected");
     
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
@@ -655,6 +660,7 @@
     
     cell.asset = asset;
     cell.selectedBadgeImageView.hidden = ![_selectedAssets containsObject:asset];
+    cell.selectedBadgeImageView.image = _selectedAssetBadgeImage;
 
     return cell;
 }

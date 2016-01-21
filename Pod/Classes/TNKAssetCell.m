@@ -41,7 +41,6 @@
     [self.contentView addSubview:_imageView];
     
     _selectedBadgeImageView = [[UIImageView alloc] init];
-	_selectedBadgeImageView.image = TNKImagePickerControllerImageNamed(@"checkmark-selected");
 	_selectedBadgeImageView.hidden = YES;
     [self.contentView addSubview:_selectedBadgeImageView];
 	

@@ -8,6 +8,8 @@
 
 #import <Photos/Photos.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKBlockObserverToken : NSObject
 
 @end
@@ -20,3 +22,5 @@ typedef void (^TNKPhotoLibraryChangeObserverBlock)(PHChange *change);
 - (void)tnk_unregisterChangeObserverBlock:(TNKBlockObserverToken *)token;
 
 @end
+
+NS_ASSUME_NONNULL_END
