@@ -34,12 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 	return self.imageView.asset;
 }
 
-- (void)setSelected:(BOOL)selected {
-	[super setSelected:selected];
-	
-	self.selectedBadgeImageView.hidden = !self.selected;
-}
-
 - (void)_init {
     _imageView = [[TNKAssetImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
