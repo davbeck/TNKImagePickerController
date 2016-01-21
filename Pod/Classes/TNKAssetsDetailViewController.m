@@ -15,9 +15,10 @@
 #import "NSDate+TNKFormattedDay.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString *const TNKImagePickerControllerWillShowAssetNotification = @"TNKImagePickerControllerWillShowAsset";
 NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetViewController";
-
 
 @interface TNKAssetsDetailViewController () <UIGestureRecognizerDelegate, UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 {
@@ -38,13 +39,13 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 
 #pragma mark - Properties
 
-- (void)setAssetCollection:(PHAssetCollection *)assetCollection {
+- (void)setAssetCollection:(nullable PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
     
     [self _refetch];
 }
 
-- (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+- (void)setAssetFetchOptions:(nullable PHFetchOptions *)assetFetchOptions {
     _assetFetchOptions = [assetFetchOptions copy];
     
     [self _refetch];
@@ -83,7 +84,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 	self.navigationItem.rightBarButtonItem = _selectButton;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -92,7 +93,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     return self;
 }
 
-- (id)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(NSDictionary *)originalOptions
+- (instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(nullable NSDictionary<NSString *, id> *)originalOptions
 {
     NSDictionary *options = @{
                               UIPageViewControllerOptionInterPageSpacingKey: @5.0,
@@ -105,7 +106,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -279,7 +280,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 
 #pragma mark - UIPageViewControllerDelegate
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(TNKAssetViewController *)last
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(TNKAssetViewController *)last
 {
     NSIndexPath *lastIndexPath = last.assetIndexPath;
     NSIndexPath *nextIndexPath = nil;
@@ -312,7 +313,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     return nil;
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(TNKAssetViewController *)last {
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(TNKAssetViewController *)last {
     NSIndexPath *lastIndexPath = last.assetIndexPath;
     NSIndexPath *nextIndexPath = nil;
     
@@ -346,7 +347,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     return nil;
 }
 
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
     for (TNKAssetViewController *viewController in pendingViewControllers) {
         NSDictionary *userInfo = @{
                                    TNKImagePickerControllerAssetViewControllerNotificationKey : viewController,
@@ -355,7 +356,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     }
 }
 
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
 	[self _updateTitle];
 }
 
@@ -367,3 +368,5 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

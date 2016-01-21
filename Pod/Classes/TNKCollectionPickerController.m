@@ -31,7 +31,7 @@
 
 #pragma mark - Properties
 
-- (void)setAdditionalAssetCollections:(NSArray *)additionalAssetCollections
+- (void)setAdditionalAssetCollections:(NSArray<PHAssetCollection *> *)additionalAssetCollections
 {
     _additionalAssetCollections = [additionalAssetCollections copy];
     
@@ -58,7 +58,7 @@
     self.restorationIdentifier = @"TNKCollectionPickerController";
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self _init];
@@ -66,7 +66,7 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self _init];
@@ -74,7 +74,7 @@
     return self;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (instancetype)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
@@ -405,7 +405,7 @@
     }
 }
 
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray<NSString *> *)identifierComponents coder:(NSCoder *)coder {
     TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] init];
     
     return picker;

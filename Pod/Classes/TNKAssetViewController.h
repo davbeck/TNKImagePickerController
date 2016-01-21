@@ -10,10 +10,13 @@
 
 @class PHAsset;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKAssetViewController : UIViewController
 
-@property (nonatomic, strong) PHAsset *asset;
-@property (nonatomic, strong) NSIndexPath *assetIndexPath;
+@property (nonatomic, strong, nullable) PHAsset *asset;
+@property (nonatomic, strong, nullable) NSIndexPath *assetIndexPath;
 
 @end
+
+NS_ASSUME_NONNULL_END

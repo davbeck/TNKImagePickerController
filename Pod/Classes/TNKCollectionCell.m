@@ -8,6 +8,8 @@
 
 #import "TNKCollectionCell.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKCollectionCell ()
 {
     UIView *_labelsView;
@@ -71,7 +73,7 @@
     ]];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -80,7 +82,7 @@
     return self;
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -99,3 +101,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

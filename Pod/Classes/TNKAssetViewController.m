@@ -14,6 +14,8 @@
 #import "TNKImagePickerControllerBundle.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKAssetViewController ()
 {
     TNKImageZoomView *_scrollView;
@@ -23,7 +25,7 @@
 
 @implementation TNKAssetViewController
 
-- (void)setAsset:(PHAsset *)asset {
+- (void)setAsset:(nullable PHAsset *)asset {
     _asset = asset;
     
     [self.view layoutIfNeeded];
@@ -71,3 +73,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

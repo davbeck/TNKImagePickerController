@@ -8,10 +8,12 @@
 
 #import "PHPhotoLibrary+TNKBlockObservers.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKBlockObserverToken () <PHPhotoLibraryChangeObserver>
 
 @property (nonatomic, copy) TNKPhotoLibraryChangeObserverBlock changeObserverBlock;
-@property (nonatomic, strong) TNKBlockObserverToken *strongSelf;
+@property (nonatomic, strong, nullable) TNKBlockObserverToken *strongSelf;
 
 @end
 
@@ -44,3 +46,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

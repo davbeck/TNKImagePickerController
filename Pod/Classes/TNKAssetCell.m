@@ -12,6 +12,8 @@
 #import "TNKImagePickerControllerBundle.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKAssetCell ()
 
 @property (nonatomic, strong) TNKAssetImageView *imageView;
@@ -22,13 +24,13 @@
 
 @implementation TNKAssetCell
 
-- (void)setAsset:(PHAsset *)asset {
+- (void)setAsset:(nullable PHAsset *)asset {
 	self.imageView.asset = asset;
 	
 	[self _updateAccessibility];
 }
 
-- (PHAsset *)asset {
+- (nullable PHAsset *)asset {
 	return self.imageView.asset;
 }
 
@@ -54,7 +56,7 @@
 	self.isAccessibilityElement = YES;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self _init];
@@ -62,7 +64,7 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self _init];
@@ -100,3 +102,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

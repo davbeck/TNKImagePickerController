@@ -11,6 +11,8 @@
 #import "TNKImagePickerControllerBundle.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKAssetImageView ()
 {
     BOOL _needsAssetReload;
@@ -20,7 +22,7 @@
 
 @implementation TNKAssetImageView
 
-- (void)setAsset:(PHAsset *)asset
+- (void)setAsset:(nullable PHAsset *)asset
 {
     if (_asset != asset) {
         [self cancelAssetImageRequest];
@@ -94,3 +96,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -10,16 +10,19 @@
 
 @import Photos;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKAssetImageView : UIImageView
 
-@property (nonatomic, strong) UIImage *defaultImage;
+@property (nonatomic, strong, nullable) UIImage *defaultImage;
 
-@property PHImageRequestID imageRequestID;
-@property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic) PHImageRequestID imageRequestID;
+@property (nonatomic, strong, nullable) PHAsset *asset;
 
 - (void)setNeedsAssetReload;
 - (void)loadAssetImage;
 - (void)cancelAssetImageRequest;
 
 @end
+
+NS_ASSUME_NONNULL_END
