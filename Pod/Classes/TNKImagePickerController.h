@@ -94,6 +94,7 @@
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
+@property (nonatomic, strong) UIImage *selectedAssetBadgeImage;
 
 @property (nonatomic, copy) NSArray *mediaTypes;
 
