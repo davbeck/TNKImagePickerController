@@ -58,7 +58,7 @@
 	[self _updateSelection];
 }
 
-- (NSSet *)selectedAssets {
+- (NSOrderedSet *)selectedAssets {
     return [_selectedAssets copy];
 }
 
@@ -496,7 +496,7 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)_addImages:(NSArray *)images {
+- (void)_addImages:(NSArray<UIImage *> *)images {
     NSMutableArray *localIdentifiers = [NSMutableArray new];
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -526,7 +526,7 @@
     }];
 }
 
-- (void)_addVideos:(NSArray *)videos {
+- (void)_addVideos:(NSArray<NSURL *> *)videos {
     NSMutableArray *localIdentifiers = [NSMutableArray new];
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -842,7 +842,7 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     

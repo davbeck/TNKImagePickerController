@@ -8,5 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSBundle *TNKImagePickerControllerBundle();
 UIImage *TNKImagePickerControllerImageNamed(NSString *imageName);
+
+NS_ASSUME_NONNULL_END

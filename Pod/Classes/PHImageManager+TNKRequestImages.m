@@ -9,6 +9,8 @@
 #import "PHImageManager+TNKRequestImages.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation PHImageManager (TNKRequestImages)
 
 - (NSDictionary<NSString *, NSNumber *> *)tnk_requestImagesForAssets:(NSArray<PHAsset *> *)assets
@@ -49,3 +51,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

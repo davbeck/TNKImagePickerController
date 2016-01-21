@@ -20,6 +20,7 @@
 #define TNKListRows 3.0
 
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation PHCollection (TNKThumbnail)
 
@@ -56,7 +57,7 @@
     return [NSString stringWithFormat:@"%lu", (unsigned long)[keyString hash]];
 }
 
-+ (void)tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
++ (void)tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler
 {
     NSString *cacheKey = nil;
     if (assetFetchOptions == nil) {
@@ -89,7 +90,7 @@
     }
 }
 
-+ (void)_tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
++ (void)_tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler
 {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
@@ -149,7 +150,7 @@
     }];
 }
 
-- (void)tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
+- (void)tnk_requestThumbnailWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler
 {
     NSString *cacheKey = nil;
     if (assetFetchOptions == nil) {
@@ -182,7 +183,7 @@
     }
 }
 
-- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler
 {
     resultHandler(nil);
 }
@@ -197,7 +198,7 @@
 
 @implementation PHAssetCollection (TNKThumbnail)
 
-- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
     assetSize.height *= [UIScreen mainScreen].scale;
@@ -268,7 +269,7 @@
 
 @implementation PHCollectionList (TNKThumbnail)
 
-- (NSArray *)_tnk_keyAssets {
+- (NSArray<PHAsset *> *)_tnk_keyAssets {
     PHFetchResult *collections = [PHCollection fetchCollectionsInCollectionList:self options:nil];
     NSMutableArray *assets = [NSMutableArray new];
     
@@ -291,7 +292,7 @@
     return assets;
 }
 
-- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(nullable PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *__nullable result))resultHandler {
     CGFloat individualWidth = (TNKPrimaryThumbnailWidth - TNKListRows + 1.0) / TNKListRows;
     CGSize assetSize = CGSizeMake(individualWidth, individualWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
@@ -343,3 +344,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

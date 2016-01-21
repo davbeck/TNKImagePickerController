@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKCollectionCell : UITableViewCell
 
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
@@ -15,3 +17,5 @@
 @property (nonatomic, readonly, strong) UIImageView *thumbnailView;
 
 @end
+
+NS_ASSUME_NONNULL_END

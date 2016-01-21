@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKImageZoomView : UIScrollView
 
 @property (nonatomic) CGSize imageSize;
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong, nullable) UIImage *image;
 
 @property (nonatomic, readonly) UIView *imageView;
 @property (nonatomic, readonly) CGFloat fullZoomLevel;
@@ -19,3 +21,5 @@
 @property (nonatomic, readonly) UITapGestureRecognizer *zoomRecognizer;
 
 @end
+
+NS_ASSUME_NONNULL_END
