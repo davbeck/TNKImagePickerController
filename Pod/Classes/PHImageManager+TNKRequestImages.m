@@ -11,12 +11,12 @@
 
 @implementation PHImageManager (TNKRequestImages)
 
-- (NSDictionary *)requestImagesForAssets:(NSArray *)assets
-                              targetSize:(CGSize)targetSize
-                             contentMode:(PHImageContentMode)contentMode
-                                 options:(PHImageRequestOptions *)options
-                           resultHandler:(void (^)(NSDictionary *results,
-                                                   NSDictionary *infos))resultHandler {
+- (NSDictionary *)tnk_requestImagesForAssets:(NSArray *)assets
+                                  targetSize:(CGSize)targetSize
+                                 contentMode:(PHImageContentMode)contentMode
+                                     options:(PHImageRequestOptions *)options
+                               resultHandler:(void (^)(NSDictionary *results,
+                                                       NSDictionary *infos))resultHandler {
     if (options.deliveryMode == PHImageRequestOptionsDeliveryModeOpportunistic) {
         options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     }

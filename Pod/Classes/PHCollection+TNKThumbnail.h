@@ -10,9 +10,9 @@
 
 @interface PHCollection (TNKThumbnail)
 
-+ (void)requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler;
-- (void)requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler;
++ (void)tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler;
+- (void)tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler;
 
-+ (void)clearThumbnailCache;
++ (void)tnk_clearThumbnailCache;
 
 @end

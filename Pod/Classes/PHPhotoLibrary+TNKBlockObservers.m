@@ -13,7 +13,7 @@
 
 @implementation PHPhotoLibrary (TNKBlockObservers)
 
-- (dispatch_queue_t)_TNKBlockObserverQueue
+- (dispatch_queue_t)_tnk_blockObserverQueue
 {
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
@@ -24,7 +24,7 @@
     return queue;
 }
 
-- (NSMutableDictionary *)_TNKBlockObservers
+- (NSMutableDictionary *)_tnk_blockObservers
 {
     NSMutableDictionary *observers = objc_getAssociatedObject(self, _cmd);
     if (observers == nil) {
@@ -37,19 +37,19 @@
     return observers;
 }
 
-- (id)registerChangeObserverBlock:(void(^)(PHChange *))observer {
+- (id)tnk_registerChangeObserverBlock:(void(^)(PHChange *))observer {
     id key = [NSUUID UUID];
     
-    dispatch_sync([self _TNKBlockObserverQueue], ^{
-        [[self _TNKBlockObservers] setObject:observer forKey:key];
+    dispatch_sync([self _tnk_blockObserverQueue], ^{
+        [[self _tnk_blockObservers] setObject:observer forKey:key];
     });
     
     return key;
 }
 
-- (void)unregisterChangeObserverBlock:(id)observer {
-    dispatch_async([self _TNKBlockObserverQueue], ^{
-        [[self _TNKBlockObservers] removeObjectForKey:observer];
+- (void)tnk_unregisterChangeObserverBlock:(id)observer {
+    dispatch_async([self _tnk_blockObserverQueue], ^{
+        [[self _tnk_blockObservers] removeObjectForKey:observer];
     });
 }
 
@@ -58,8 +58,8 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     __block NSDictionary *observers;
-    dispatch_async([self _TNKBlockObserverQueue], ^{
-        observers = [[self _TNKBlockObservers] copy];
+    dispatch_async([self _tnk_blockObserverQueue], ^{
+        observers = [[self _tnk_blockObservers] copy];
     });
     
     for (void(^observerBlock)(PHChange *) in [observers allValues]) {

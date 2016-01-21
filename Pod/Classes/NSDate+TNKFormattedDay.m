@@ -11,7 +11,7 @@
 
 @implementation NSDate (TNKFormattedDay)
 
-- (NSString *)TNKLocalizedDay {
+- (NSString *)tnk_localizedDay {
     static NSDateFormatter *relativeFormatter = nil;
     static NSDateFormatter *comparisonFormatter = nil;
     static NSDateFormatter *weekdayFormatter = nil;
