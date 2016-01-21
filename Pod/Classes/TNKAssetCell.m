@@ -15,7 +15,7 @@
 @interface TNKAssetCell ()
 
 @property (nonatomic, strong) TNKAssetImageView *imageView;
-@property (nonatomic, strong) UIImageView *selectIcon;
+@property (nonatomic, strong) UIImageView *selectedBadgeImageView;
 
 @end
 
@@ -32,12 +32,6 @@
 	return self.imageView.asset;
 }
 
-- (void)setSelected:(BOOL)selected {
-	[super setSelected:selected];
-	
-	self.selectIcon.hidden = !self.selected;
-}
-
 - (void)_init {
     _imageView = [[TNKAssetImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -46,10 +40,10 @@
     _imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
     [self.contentView addSubview:_imageView];
     
-    _selectIcon = [[UIImageView alloc] init];
-	_selectIcon.image = TNKImagePickerControllerImageNamed(@"checkmark-selected");
-	_selectIcon.hidden = YES;
-    [self.contentView addSubview:_selectIcon];
+    _selectedBadgeImageView = [[UIImageView alloc] init];
+	_selectedBadgeImageView.image = TNKImagePickerControllerImageNamed(@"checkmark-selected");
+	_selectedBadgeImageView.hidden = YES;
+    [self.contentView addSubview:_selectedBadgeImageView];
 	
 	
 	self.isAccessibilityElement = YES;
@@ -76,7 +70,7 @@
     
     _imageView.frame = self.contentView.bounds;
     
-    _selectIcon.frame = CGRectMake(10.0, 10.0, _selectIcon.image.size.width, _selectIcon.image.size.height);
+    _selectedBadgeImageView.frame = CGRectMake(10.0, 10.0, _selectedBadgeImageView.image.size.width, _selectedBadgeImageView.image.size.height);
 }
 
 - (void)_updateAccessibility {
