@@ -8,9 +8,15 @@
 
 #import <Photos/Photos.h>
 
-@interface PHPhotoLibrary (TNKBlockObservers) <PHPhotoLibraryChangeObserver>
+@interface TNKBlockObserverToken : NSObject
 
-- (id)tnk_registerChangeObserverBlock:(void(^)(PHChange *change))observer;
-- (void)tnk_unregisterChangeObserverBlock:(id)observer;
+@end
+
+typedef void (^TNKPhotoLibraryChangeObserverBlock)(PHChange *change);
+
+@interface PHPhotoLibrary (TNKBlockObservers)
+
+- (TNKBlockObserverToken *)tnk_registerChangeObserverBlock:(TNKPhotoLibraryChangeObserverBlock)observer;
+- (void)tnk_unregisterChangeObserverBlock:(TNKBlockObserverToken *)token;
 
 @end
