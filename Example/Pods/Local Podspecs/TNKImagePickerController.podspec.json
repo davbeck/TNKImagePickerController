@@ -18,17 +18,15 @@
   },
   "social_media_url": "https://twitter.com/davbeck",
   "platforms": {
-    "ios": "9.0"
+    "ios": "8.0"
   },
   "requires_arc": true,
   "source_files": "Pod/Classes/**/*",
+  "public_header_files": "Pod/Classes/{TNKImagePickerController,TNKAssetsDetailViewController,PHImageManager+TNKRequestImages}.h",
   "resource_bundles": {
     "TNKImagePickerController": [
       "Pod/Assets/*"
     ]
   },
-  "frameworks": [
-    "UIKit",
-    "Photos"
-  ]
+  "frameworks": "Photos"
 }

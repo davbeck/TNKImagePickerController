@@ -20,10 +20,9 @@
 #define TNKListRows 3.0
 
 
-
 @implementation PHCollection (TNKThumbnail)
 
-+ (NSCache *)_thumbnailImageCache
++ (NSCache *)_tnk_thumbnailImageCache
 {
     static NSCache *imageCache = nil;
     static dispatch_once_t onceToken;
@@ -31,15 +30,15 @@
         imageCache = [[NSCache alloc] init];
         imageCache.name = @"PHCollection/TNKThumbnail";
         
-        [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserverBlock:^(PHChange *change) {
-            [self clearThumbnailCache];
+        [[PHPhotoLibrary sharedPhotoLibrary] tnk_registerChangeObserverBlock:^(PHChange *change) {
+            [PHCollection tnk_clearThumbnailCache];
         }];
     });
     
     return imageCache;
 }
 
-+ (NSString *)_cacheKeyForOptions:(PHFetchOptions *)assetFetchOptions
++ (NSString *)_tnk_cacheKeyForOptions:(PHFetchOptions *)assetFetchOptions
 {
     NSMutableString *keyString = [NSMutableString new];
     
@@ -56,23 +55,23 @@
     return [NSString stringWithFormat:@"%lu", (unsigned long)[keyString hash]];
 }
 
-+ (void)requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
++ (void)tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     NSString *cacheKey = nil;
     if (assetFetchOptions == nil) {
         cacheKey = TNKMomentsIdentifier;
     } else {
-        cacheKey = [NSString stringWithFormat:@"%@/%@", TNKMomentsIdentifier, [self _cacheKeyForOptions:assetFetchOptions]];
+        cacheKey = [NSString stringWithFormat:@"%@/%@", TNKMomentsIdentifier, [PHCollection _tnk_cacheKeyForOptions:assetFetchOptions]];
     }
     
-    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:cacheKey];
+    UIImage *thumbnail = [[PHCollection _tnk_thumbnailImageCache] objectForKey:cacheKey];
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self _requestThumbnailForMomentsWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
+            [self _tnk_requestThumbnailForMomentsWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
                 if (result == nil) {
-                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
+                    [[PHCollection _tnk_thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
                 } else {
-                    [[[self class] _thumbnailImageCache] setObject:result forKey:cacheKey];
+                    [[PHCollection _tnk_thumbnailImageCache] setObject:result forKey:cacheKey];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -89,7 +88,7 @@
     }
 }
 
-+ (void)_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
++ (void)_tnk_requestThumbnailForMomentsWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
@@ -113,7 +112,7 @@
         *stop = assets.count >= 3;
     }];
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         
         for (NSInteger index = 2; index >= 0; index--) {
@@ -130,7 +129,7 @@
             }
             
             if (image != nil) {
-                [image drawInRectWithAspectFill:assetFrame];
+                [image tnk_drawInRectWithAspectFill:assetFrame];
             }
             
             CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
@@ -149,23 +148,23 @@
     }];
 }
 
-- (void)requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
+- (void)tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     NSString *cacheKey = nil;
     if (assetFetchOptions == nil) {
         cacheKey = self.localIdentifier;
     } else {
-        cacheKey = [NSString stringWithFormat:@"%@/%@", self.localIdentifier, [self.class _cacheKeyForOptions:assetFetchOptions]];
+        cacheKey = [NSString stringWithFormat:@"%@/%@", self.localIdentifier, [PHCollection _tnk_cacheKeyForOptions:assetFetchOptions]];
     }
     
-    UIImage *thumbnail = [[[self class] _thumbnailImageCache] objectForKey:cacheKey];
+    UIImage *thumbnail = [[PHCollection _tnk_thumbnailImageCache] objectForKey:cacheKey];
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self _requestThumbnailWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
+            [self _tnk_requestThumbnailWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
                 if (result == nil) {
-                    [[[self class] _thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
+                    [[PHCollection _tnk_thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
                 } else {
-                    [[[self class] _thumbnailImageCache] setObject:result forKey:cacheKey];
+                    [[PHCollection _tnk_thumbnailImageCache] setObject:result forKey:cacheKey];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -182,14 +181,14 @@
     }
 }
 
-- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler
 {
     resultHandler(nil);
 }
 
-+ (void)clearThumbnailCache
++ (void)tnk_clearThumbnailCache
 {
-    [[[self class] _thumbnailImageCache] removeAllObjects];
+    [[PHCollection _tnk_thumbnailImageCache] removeAllObjects];
 }
 
 @end
@@ -197,7 +196,7 @@
 
 @implementation PHAssetCollection (TNKThumbnail)
 
-- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
     CGSize assetSize = CGSizeMake(TNKPrimaryThumbnailWidth, TNKPrimaryThumbnailWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
     assetSize.height *= [UIScreen mainScreen].scale;
@@ -227,7 +226,7 @@
         }
     }
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         
         for (NSInteger index = 2; index >= 0; index--) {
@@ -244,7 +243,7 @@
             }
             
             if (image != nil) {
-                [image drawInRectWithAspectFill:assetFrame];
+                [image tnk_drawInRectWithAspectFill:assetFrame];
             }
             
             CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
@@ -268,7 +267,7 @@
 
 @implementation PHCollectionList (TNKThumbnail)
 
-- (NSArray *)_TNKKeyAssets {
+- (NSArray *)_tnk_keyAssets {
     PHFetchResult *collections = [PHCollection fetchCollectionsInCollectionList:self options:nil];
     NSMutableArray *assets = [NSMutableArray new];
     
@@ -291,7 +290,7 @@
     return assets;
 }
 
-- (void)_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
+- (void)_tnk_requestThumbnailWithAssetsFetchOptions:(PHFetchOptions *)assetFetchOptions completion:(void (^)(UIImage *result))resultHandler {
     CGFloat individualWidth = (TNKPrimaryThumbnailWidth - TNKListRows + 1.0) / TNKListRows;
     CGSize assetSize = CGSizeMake(individualWidth, individualWidth);
     assetSize.width *= [UIScreen mainScreen].scale;
@@ -301,9 +300,9 @@
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
     
-    NSArray *assets = [self _TNKKeyAssets];
+    NSArray *assets = [self _tnk_keyAssets];
     
-    [[PHImageManager defaultManager] requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets targetSize:assetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(TNKTotalThumbnailWidth, TNKTotalThumbnailWidth), NO, 0.0);
         //        CGContextRef context = UIGraphicsGetCurrentContext();
         
@@ -324,7 +323,7 @@
                 }
                 
                 if (image != nil) {
-                    [image drawInRectWithAspectFill:assetFrame];
+                    [image tnk_drawInRectWithAspectFill:assetFrame];
                 } else {
                     [[UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000] setFill];
                     [[UIBezierPath bezierPathWithRect:assetFrame] fill];

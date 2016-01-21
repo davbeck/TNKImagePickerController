@@ -15,5 +15,6 @@
 @interface TNKAssetCell : UICollectionViewCell
 
 @property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, strong, readonly) UIImageView *selectedBadgeImageView;
 
 @end

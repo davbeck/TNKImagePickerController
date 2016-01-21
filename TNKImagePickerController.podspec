@@ -9,13 +9,14 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/davbeck/TNKImagePickerController.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/davbeck'
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
+  s.public_header_files = 'Pod/Classes/{TNKImagePickerController,TNKAssetsDetailViewController,PHImageManager+TNKRequestImages}.h'
   s.resource_bundles = {
     'TNKImagePickerController' => ['Pod/Assets/*']
   }
   
-  s.frameworks = 'UIKit', 'Photos'
+  s.frameworks = 'Photos'
 end

@@ -245,7 +245,7 @@
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
         cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
-        [PHCollection requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
+        [PHCollection tnk_requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
             if (result != nil) {
                 cell.thumbnailView.image = result;
             }
@@ -291,7 +291,7 @@
             cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(count)];
             
             cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
-            [collection requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
+            [collection tnk_requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
                 }
@@ -306,7 +306,7 @@
             cell.titleLabel.text = collection.localizedTitle;
             
             cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection-list");
-            [collection requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
+            [collection tnk_requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
                 if (result != nil) {
                     cell.thumbnailView.image = result;
                 }

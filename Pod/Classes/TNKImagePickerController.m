@@ -62,9 +62,27 @@
     return [_selectedAssets copy];
 }
 
+- (void)_setSelectedBageImageViewsForAssets:(NSOrderedSet *)assets hidden:(BOOL)hidden
+{
+    if (!self.isViewLoaded) {
+        return;
+    }
+
+    for (PHAsset *asset in assets) {
+        NSIndexPath *indexPath = [self _indexPathForAsset:asset];
+        if (indexPath != nil) {
+            TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+            if (cell != nil) {
+                cell.selectedBadgeImageView.hidden = hidden;
+            }
+        }
+    }
+}
+
 - (void)addSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets unionOrderedSet:objects];
-    
+
+    [self _setSelectedBageImageViewsForAssets:objects hidden:NO];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -75,7 +93,8 @@
 
 - (void)removeSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets minusOrderedSet:objects];
-    
+
+    [self _setSelectedBageImageViewsForAssets:objects hidden:YES];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -216,11 +235,16 @@
 	}
 }
 
+- (void)setSelectedAssetBadgeImage:(UIImage *)selectedAssetBadgeImage
+{
+    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: TNKImagePickerControllerImageNamed(@"checkmark-selected");
+}
 
 #pragma mark - Initialization
 
 - (void)_init
 {
+    _selectedAssetBadgeImage = TNKImagePickerControllerImageNamed(@"checkmark-selected");
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
     _selectedAssets = [NSMutableOrderedSet new];
     
@@ -292,7 +316,6 @@
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.collectionView registerClass:[TNKAssetCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.alwaysBounceVertical = YES;
-	self.collectionView.allowsMultipleSelection = YES;
     
     [self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
     
@@ -634,9 +657,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    
+
     cell.asset = asset;
-    
+    cell.selectedBadgeImageView.hidden = ![_selectedAssets containsObject:asset];
+    cell.selectedBadgeImageView.image = _selectedAssetBadgeImage;
+
     return cell;
 }
 
@@ -703,12 +728,12 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	PHAsset *asset = [self _assetAtIndexPath:indexPath];
-	[self selectAsset:asset];
-}
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-	PHAsset *asset = [self _assetAtIndexPath:indexPath];
-	[self deselectAsset:asset];
+    if ([_selectedAssets containsObject:asset]) {
+        [self deselectAsset:asset];
+    } else {
+        [self selectAsset:asset];
+    }
 }
 
 - (void)_scrollToBottomAnimated:(BOOL)animated {

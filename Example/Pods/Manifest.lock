@@ -12,10 +12,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   TNKImagePickerController:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  TNKImagePickerController: 7c05b913338a42e15fa254e74eace08717bd5fa6
+  TNKImagePickerController: ae0db01819870ea7a3d3eb6c4e1c0fa3e17ca9dd
 
 COCOAPODS: 0.39.0

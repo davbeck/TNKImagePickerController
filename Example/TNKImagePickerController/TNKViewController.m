@@ -34,7 +34,8 @@
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     picker.mediaTypes = @[ (id)kUTTypeImage ];
 	picker.delegate = self;
-    
+    picker.selectedAssetBadgeImage = [UIImage imageNamed:@"checkmark-selected"];
+
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
@@ -56,9 +57,10 @@
 
 #pragma mark - TNKImagePickerControllerDelegate
 
-- (void)imagePickerController:(TNKImagePickerController *)picker
-       didFinishPickingAssets:(NSOrderedSet *)assets {
-    [[PHImageManager defaultManager] requestImagesForAssets:assets.array targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
+- (void)imagePickerController:(TNKImagePickerController *)picker didFinishPickingAssets:(NSOrderedSet *)assets {
+    NSLog(@"assets: %@", assets);
+
+    [[PHImageManager defaultManager] tnk_requestImagesForAssets:assets.array targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(NSDictionary *results, NSDictionary *infos) {
         NSArray *images = results.allValues;
         NSLog(@"images: %@", images);
     }];
