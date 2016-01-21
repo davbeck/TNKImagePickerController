@@ -8,8 +8,10 @@
 
 #import "TNKCollectionCell.h"
 
-
 @interface TNKCollectionCell ()
+{
+    UIView *_labelsView;
+}
 
 @end
 
@@ -20,53 +22,53 @@
 {
     // we hide collections by making them 0pts tall
     self.clipsToBounds = YES;
-    
-    
-    UILayoutGuide *labelsGuide = [[UILayoutGuide alloc] init];
-    [self addLayoutGuide:labelsGuide];
-    
-    
-	_titleLabel = [[UILabel alloc] init];
-	_titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_titleLabel];
+
+    _labelsView = [[UIView alloc] init];
+    _labelsView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:_labelsView];
+
+
+    _titleLabel = [[UILabel alloc] init];
+    [_labelsView addSubview:_titleLabel];
     _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _titleLabel.textColor = [UIColor blackColor];
-    
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+
     
     _subtitleLabel = [[UILabel alloc] init];
-	_subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_subtitleLabel];
+    [_labelsView addSubview:_subtitleLabel];
     _subtitleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     _subtitleLabel.textColor = [UIColor blackColor];
-	
+    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+
     
-	_thumbnailView = [[UIImageView alloc] init];
-	_thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_thumbnailView];
+    _thumbnailView = [[UIImageView alloc] init];
+    [self.contentView addSubview:_thumbnailView];
     _thumbnailView.contentMode = UIViewContentModeCenter;
     _thumbnailView.clipsToBounds = YES;
-	
-	
-	[NSLayoutConstraint activateConstraints:@[
-											  [labelsGuide.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
-											  [labelsGuide.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-											  
-											  [_titleLabel.topAnchor constraintEqualToAnchor:labelsGuide.topAnchor],
-											  [_titleLabel.leadingAnchor constraintEqualToAnchor:labelsGuide.leadingAnchor],
-											  [_titleLabel.trailingAnchor constraintEqualToAnchor:labelsGuide.trailingAnchor],
-											  
-											  [_subtitleLabel.bottomAnchor constraintEqualToAnchor:labelsGuide.bottomAnchor],
-											  [_subtitleLabel.leadingAnchor constraintEqualToAnchor:labelsGuide.leadingAnchor],
-											  [_subtitleLabel.trailingAnchor constraintEqualToAnchor:labelsGuide.trailingAnchor],
-											  [_subtitleLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor],
-											  
-											  [_thumbnailView.topAnchor constraintEqualToAnchor:self.topAnchor constant:4],
-											  [_thumbnailView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:4],
-											  [_thumbnailView.widthAnchor constraintEqualToConstant:76],
-											  [_thumbnailView.heightAnchor constraintEqualToConstant:76],
-											  
-											  [labelsGuide.leadingAnchor constraintEqualToAnchor:_thumbnailView.trailingAnchor constant:18],
-											  ]];
+    _thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-18],
+
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_titleLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_labelsView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:4],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:4],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:76],
+        [NSLayoutConstraint constraintWithItem:_thumbnailView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:76],
+
+        [NSLayoutConstraint constraintWithItem:_labelsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_thumbnailView attribute:NSLayoutAttributeTrailing multiplier:1 constant:18],
+    ]];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder

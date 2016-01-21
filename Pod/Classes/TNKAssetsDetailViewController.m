@@ -125,33 +125,31 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     
     
     _titleView = [UIView new];
-	_titleView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
     _titleLabel = [UILabel new];
-	_titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline] size:15.0];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_titleView addSubview:_titleLabel];
-    
+
     _subtitleLabel = [UILabel new];
-	_subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _subtitleLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote] size:11.0];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    _subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_titleView addSubview:_subtitleLabel];
-    
+
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_titleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_titleLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:_subtitleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_titleView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
+    ]];
+
     self.navigationItem.titleView = _titleView;
-	
-	
-	[NSLayoutConstraint activateConstraints:@[
-											  [_titleLabel.topAnchor constraintEqualToAnchor:_titleView.topAnchor],
-											  [_titleLabel.leftAnchor constraintEqualToAnchor:_titleView.leftAnchor],
-											  [_titleLabel.rightAnchor constraintEqualToAnchor:_titleView.rightAnchor],
-											  
-											  [_subtitleLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor],
-											  [_subtitleLabel.bottomAnchor constraintEqualToAnchor:_titleView.bottomAnchor],
-											  [_subtitleLabel.leftAnchor constraintEqualToAnchor:_titleView.leftAnchor],
-											  [_subtitleLabel.rightAnchor constraintEqualToAnchor:_titleView.rightAnchor],
-											  ]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
