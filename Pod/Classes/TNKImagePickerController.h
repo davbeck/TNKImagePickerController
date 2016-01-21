@@ -16,6 +16,8 @@
 @class TNKImagePickerController;
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol TNKImagePickerControllerDelegate <NSObject>
 
 @optional
@@ -24,21 +26,21 @@
  
  Your delegate object’s implementation of this method should pass the specified media on to any custom code that needs it, and should then dismiss the picker view.
  
- Instances of the assets set are `PHAsset` objects. You can request images for all the assets at once using the `TNKRequestImages` category on `PHImageManager` (`requestImagesForAssets:targetSize:contentMode:options:resultHandler:`).
+ Instances of the assets set are `PHAsset` objects. You can request images for all the assets at once using the `TNKRequestImages` category on `PHImageManager` (`tnk_requestImagesForAssets:targetSize:contentMode:options:resultHandler:`).
  
- Implementation of this method is optional, but expected. If it is not implimented, the picker will be dismissed as a modal view controller.
+ Implementation of this method is optional, but expected. If it is not implemented, the picker will be dismissed as a modal view controller.
  
  @param picker The controller object managing the image picker interface.
  @param assets The assets that were picked. These are the same as selectedAssets.
  */
 - (void)imagePickerController:(TNKImagePickerController *)picker
-       didFinishPickingAssets:(NSOrderedSet *)assets;
+       didFinishPickingAssets:(NSOrderedSet<PHAsset *> *)assets;
 
 /** Tells the delegate that the user cancelled the pick operation.
  
- Your delegate’s implementation of this method should dismiss the picker view by calling the dismissModalViewControllerAnimated: method of the parent view controller.
+ Your delegate’s implementation of this method should dismiss the picker view by calling the `-dismissModalViewControllerAnimated:` method of the parent view controller.
  
- Implementation of this method is optional. If it is not implimented, the picker will be dismissed as a modal view controller.
+ Implementation of this method is optional. If it is not implemented, the picker will be dismissed as a modal view controller.
  
  @param picker The controller object managing the image picker interface.
  */
@@ -53,9 +55,9 @@
  @param asset The asset being displayed.
  @return Either a view controller to be pushed, or nil to cancel.
  */
-- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
-            willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
-                                   forAsset:(PHAsset *)asset;
+- (nullable UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+                     willDisplayDetailViewController:(TNKAssetsDetailViewController *)viewController
+                                            forAsset:(PHAsset *)asset;
 
 /** Tells the delegate that the camera is about to be used.
  
@@ -65,8 +67,8 @@
  @param viewController The proposed view controller to be pushed.
  @return Either a view controller to be pushed, or nil to cancel.
  */
-- (UIViewController *)imagePickerController:(TNKImagePickerController *)picker
-            willDisplayCameraViewController:(UIImagePickerController *)viewController;
+- (nullable UIViewController *)imagePickerController:(TNKImagePickerController *)picker
+                     willDisplayCameraViewController:(UIImagePickerController *)viewController;
 
 /** Asks the delegate for a title for the done button
  
@@ -83,10 +85,10 @@
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout NS_UNAVAILABLE;
 
-@property (nonatomic, weak) id<TNKImagePickerControllerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TNKImagePickerControllerDelegate> delegate;
 
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;
 @property (nonatomic, readonly) UIBarButtonItem *doneButton;
@@ -96,20 +98,22 @@
 
 @property (nonatomic, strong) UIImage *selectedAssetBadgeImage;
 
-@property (nonatomic, copy) NSArray *mediaTypes;
+@property (nonatomic, copy) NSArray<NSString *> *mediaTypes;
 
 /** The asset collection the picker will display to the user.
  
  The user can change this, but you can set this as a default. nil (the default) will cause the picker to display the user's moments.
  */
-@property (nonatomic, strong) PHAssetCollection *assetCollection;
+@property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
 /** The currently selected assets.
  
  Instances are `PHAsset` objects. You can set this to provide default assets to be selected, or read them to see what the user has selected. The order will be roughly the same as the order that the user selected them in.
  */
-@property (nonatomic, copy) NSOrderedSet *selectedAssets;
+@property (nonatomic, copy) NSOrderedSet<PHAsset *> *selectedAssets;
 - (void)selectAsset:(PHAsset *)asset;
 - (void)deselectAsset:(PHAsset *)asset;
 
 @end
+
+NS_ASSUME_NONNULL_END
