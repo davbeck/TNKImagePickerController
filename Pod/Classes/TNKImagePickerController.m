@@ -654,7 +654,7 @@
         PHAssetCollection *collection = _moments[indexPath.section];
         
         
-        NSString *dateString = [collection.startDate TNKLocalizedDay];
+        NSString *dateString = [collection.startDate tnk_localizedDay];
         
         
         if (collection.localizedTitle != nil) {

@@ -10,7 +10,7 @@
 
 @interface PHPhotoLibrary (TNKBlockObservers) <PHPhotoLibraryChangeObserver>
 
-- (id)registerChangeObserverBlock:(void(^)(PHChange *change))observer;
-- (void)unregisterChangeObserverBlock:(id)observer;
+- (id)tnk_registerChangeObserverBlock:(void(^)(PHChange *change))observer;
+- (void)tnk_unregisterChangeObserverBlock:(id)observer;
 
 @end

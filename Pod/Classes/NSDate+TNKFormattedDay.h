@@ -10,6 +10,6 @@
 
 @interface NSDate (TNKFormattedDay)
 
-- (NSString *)TNKLocalizedDay;
+- (NSString *)tnk_localizedDay;
 
 @end

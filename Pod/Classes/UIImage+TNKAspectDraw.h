@@ -10,6 +10,6 @@
 
 @interface UIImage (TNKAspectDraw)
 
-- (void)drawInRectWithAspectFill:(CGRect)rect;
+- (void)tnk_drawInRectWithAspectFill:(CGRect)rect;
 
 @end

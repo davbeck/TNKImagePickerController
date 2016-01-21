@@ -191,10 +191,10 @@ NSString *TNKImagePickerControllerAssetViewControllerNotificationKey = @"AssetVi
     });
     
     if (_titleLabel.text == nil) {
-        _titleLabel.text = [asset.creationDate TNKLocalizedDay];
+        _titleLabel.text = [asset.creationDate tnk_localizedDay];
         _subtitleLabel.text = [timeFormatter stringFromDate:asset.creationDate];
     } else {
-        _subtitleLabel.text = [NSString stringWithFormat:@"%@ %@", [asset.creationDate TNKLocalizedDay], [timeFormatter stringFromDate:asset.creationDate]];
+        _subtitleLabel.text = [NSString stringWithFormat:@"%@ %@", [asset.creationDate tnk_localizedDay], [timeFormatter stringFromDate:asset.creationDate]];
     }
     
     CGRect titleFrame = CGRectZero;
