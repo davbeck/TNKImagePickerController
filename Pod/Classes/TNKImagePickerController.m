@@ -50,20 +50,20 @@
 	[self _updateDoneButton];
 }
 
-- (void)setSelectedAssets:(NSOrderedSet *)selectedAssets {
-    _selectedAssets = [selectedAssets mutableCopy] ?: [NSMutableOrderedSet new];
-    
+- (void)setSelectedAssets:(NSArray *)selectedAssets {
+    _selectedAssets = [NSMutableOrderedSet orderedSetWithArray:selectedAssets];
+
     [self _updateDoneButton];
     [self _updateSelectAllButton];
-	[self _updateSelection];
+    [self _updateSelection];
 }
 
-- (NSOrderedSet *)selectedAssets {
-    return [_selectedAssets copy];
+- (NSArray *)selectedAssets {
+    // -[NSOrderedSet array] is an array proxy so copy the result
+    return [_selectedAssets.array copy];
 }
 
-- (void)_setSelectedBageImageViewsForAssets:(NSOrderedSet *)assets hidden:(BOOL)hidden
-{
+- (void)_setSelectedBageImageViewsForAssets:(NSOrderedSet *)assets hidden:(BOOL)hidden {
     if (!self.isViewLoaded) {
         return;
     }
@@ -229,7 +229,7 @@
 		[self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
 	}
 	
-	for (PHAsset *asset in self.selectedAssets) {
+	for (PHAsset *asset in _selectedAssets) {
 		NSIndexPath *indexPath = [self _indexPathForAsset:asset];
 		[self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 	}
@@ -888,7 +888,7 @@
     
     [coder encodeObject:self.mediaTypes forKey:@"mediaTypes"];
     [coder encodeObject:self.assetCollection.localIdentifier forKey:@"assetCollection"];
-    [coder encodeObject:[self.selectedAssets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
+    [coder encodeObject:[_selectedAssets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
     [coder encodeObject:_collectionPicker forKey:@"collectionPicker"];
     [coder encodeObject:_collectionPicker.navigationController forKey:@"collectionPickerNavigationController"];
 }

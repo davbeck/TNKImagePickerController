@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param assets The assets that were picked. These are the same as selectedAssets.
  */
 - (void)imagePickerController:(TNKImagePickerController *)picker
-       didFinishPickingAssets:(NSOrderedSet<PHAsset *> *)assets;
+       didFinishPickingAssets:(NSArray<PHAsset *> *)assets;
 
 /** Tells the delegate that the user cancelled the pick operation.
  
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Instances are `PHAsset` objects. You can set this to provide default assets to be selected, or read them to see what the user has selected. The order will be roughly the same as the order that the user selected them in.
  */
-@property (nonatomic, copy) NSOrderedSet<PHAsset *> *selectedAssets;
+@property (nonatomic, copy) NSArray<PHAsset *> *selectedAssets;
 - (void)selectAsset:(PHAsset *)asset;
 - (void)deselectAsset:(PHAsset *)asset;
 
