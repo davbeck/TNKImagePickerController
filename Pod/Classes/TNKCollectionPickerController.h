@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  By default we display a list of all of the user's collections. Set this to only show a particular collection list of asset collections.
  */
-@property (nonatomic, strong) PHCollectionList *collectionList;
+@property (nonatomic, strong, nullable) PHCollectionList *collectionList;
 
 @property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
 

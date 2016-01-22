@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL _needsAssetReload;
 }
 
+@property (nonatomic, assign) PHImageRequestID imageRequestID;
+
 @end
 
 @implementation TNKAssetImageView
