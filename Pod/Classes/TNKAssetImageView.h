@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) UIImage *defaultImage;
 
-@property (nonatomic) PHImageRequestID imageRequestID;
+@property (nonatomic, readonly) PHImageRequestID imageRequestID;
 @property (nonatomic, strong, nullable) PHAsset *asset;
 
 - (void)setNeedsAssetReload;

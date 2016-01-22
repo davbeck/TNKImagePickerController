@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKMomentHeaderView : UICollectionReusableView
 
-@property (nonatomic, strong) UILabel *primaryLabel;
-@property (nonatomic, strong) UILabel *secondaryLabel;
-@property (nonatomic, strong) UILabel *detailLabel;
+@property (nonatomic, strong, readonly) UILabel *primaryLabel;
+@property (nonatomic, strong, readonly) UILabel *secondaryLabel;
+@property (nonatomic, strong, readonly) UILabel *detailLabel;
 
 @end
 
