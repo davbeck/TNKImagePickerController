@@ -63,22 +63,10 @@
     return [_selectedAssets.array copy];
 }
 
-- (void)_setSelected:(BOOL)selected forAssets:(NSOrderedSet *)assets {
-    if (!self.isViewLoaded) {
-        return;
-    }
-	
-	for (TNKAssetCell *cell in self.collectionView.visibleCells) {
-		if ([assets containsObject:cell.asset]) {
-			cell.assetSelected = selected;
-		}
-	}
-}
-
 - (void)addSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets unionOrderedSet:objects];
 
-	[self _setSelected:YES forAssets:objects];
+	[self _updateSelection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -90,7 +78,7 @@
 - (void)removeSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets minusOrderedSet:objects];
 	
-	[self _setSelected:NO forAssets:objects];
+	[self _updateSelection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -221,13 +209,12 @@
 }
 
 - (void)_updateSelection {
-	for (NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
-		[self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+	if (!self.isViewLoaded) {
+		return;
 	}
 	
-	for (PHAsset *asset in _selectedAssets) {
-		NSIndexPath *indexPath = [self _indexPathForAsset:asset];
-		[self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+	for (TNKAssetCell *cell in self.collectionView.visibleCells) {
+		cell.assetSelected = [_selectedAssets containsObject:cell.asset];
 	}
 }
 
