@@ -11,6 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSBundle *TNKImagePickerControllerBundle();
-UIImage *TNKImagePickerControllerImageNamed(NSString *imageName);
+UIImage *__nullable TNKImagePickerControllerImageNamed(NSString *imageName);
 
 NS_ASSUME_NONNULL_END
