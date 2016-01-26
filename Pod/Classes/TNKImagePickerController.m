@@ -62,27 +62,23 @@
     return [_selectedAssets copy];
 }
 
-- (void)_setSelectedBageImageViewsForAssets:(NSOrderedSet *)assets hidden:(BOOL)hidden
+- (void)_setSelected:(BOOL)selected forAssets:(NSOrderedSet *)assets
 {
     if (!self.isViewLoaded) {
         return;
     }
-
-    for (PHAsset *asset in assets) {
-        NSIndexPath *indexPath = [self _indexPathForAsset:asset];
-        if (indexPath != nil) {
-            TNKAssetCell *cell = (TNKAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-            if (cell != nil) {
-                cell.selectedBadgeImageView.hidden = hidden;
-            }
-        }
-    }
+	
+	for (TNKAssetCell *cell in self.collectionView.visibleCells) {
+		if ([assets containsObject:cell.asset]) {
+			cell.assetSelected = selected;
+		}
+	}
 }
 
 - (void)addSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets unionOrderedSet:objects];
 
-    [self _setSelectedBageImageViewsForAssets:objects hidden:NO];
+	[self _setSelected:YES forAssets:objects];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -93,8 +89,8 @@
 
 - (void)removeSelectedAssets:(NSOrderedSet *)objects {
     [_selectedAssets minusOrderedSet:objects];
-
-    [self _setSelectedBageImageViewsForAssets:objects hidden:YES];
+	
+	[self _setSelected:NO forAssets:objects];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
 }
@@ -659,7 +655,7 @@
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
     
     cell.asset = asset;
-    cell.selectedBadgeImageView.hidden = ![_selectedAssets containsObject:asset];
+    cell.assetSelected = [_selectedAssets containsObject:asset];
     cell.selectedBadgeImageView.image = _selectedAssetBadgeImage;
 
     return cell;

@@ -34,6 +34,20 @@ NS_ASSUME_NONNULL_BEGIN
 	return self.imageView.asset;
 }
 
+- (void)setAssetSelected:(BOOL)assetSelected {
+	_assetSelected = assetSelected;
+	
+	self.selectedBadgeImageView.hidden = !_assetSelected;
+	
+	[self _updateAccessibility];
+}
+
+- (void)setSelected:(BOOL)selected {
+	[super setSelected:NO];
+	
+	[self _updateAccessibility];
+}
+
 - (void)_init {
     _imageView = [[TNKAssetImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -91,6 +105,11 @@ NS_ASSUME_NONNULL_BEGIN
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			self.accessibilityLabel = accessibilityLabel;
+			if (self.assetSelected) {
+				self.accessibilityTraits |= UIAccessibilityTraitSelected;
+			} else {
+				self.accessibilityTraits &= ~UIAccessibilityTraitSelected;
+			}
 		});
 	});
 }

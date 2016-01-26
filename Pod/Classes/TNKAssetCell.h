@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TNKAssetCell : UICollectionViewCell
 
 @property (nonatomic, strong, nullable) PHAsset *asset;
+@property (nonatomic) BOOL assetSelected;
 @property (nonatomic, strong, readonly) UIImageView *selectedBadgeImageView;
 
 @end
