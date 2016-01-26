@@ -1,5 +1,17 @@
 # TUMessagePackSerialization CHANGELOG
 
+## 3.0.0
+
+A big thanks to [Alexsander Akers](https://github.com/a2) on this release for all of his pull requests.
+
+- [Added nullability and generics annotations.](https://github.com/davbeck/TNKImagePickerController/pull/8)
+- [Refactored auto layout constraints to use iOS 8 compatible API.](https://github.com/davbeck/TNKImagePickerController/pull/2)
+- [Prefix category methods to prevent namespace collisions.](https://github.com/davbeck/TNKImagePickerController/pull/3)
+- [Fix for asset selection persistence issues.](https://github.com/davbeck/TNKImagePickerController/pull/9)
+- [Add ability to customize selected asset badge image.](https://github.com/davbeck/TNKImagePickerController/pull/10)
+
+> Note that if you were using any of the extensions provided by this framework, they are now prefixed with `tnk_`.
+
 ## 2.1.0
 
 - [Set designated initializer.](https://github.com/davbeck/TNKImagePickerController/commit/dfe88eb9f49963c2ed72110edd5d23b020ac73f3)
