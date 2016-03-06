@@ -114,6 +114,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)selectAsset:(PHAsset *)asset;
 - (void)deselectAsset:(PHAsset *)asset;
 
+/** The maximum number of images the user is allowed to select.
+ A value of 0 means unlimited.
+ */
+@property (nonatomic) NSUInteger maxNumberOfSelectableImages;
+
 @end
 
 NS_ASSUME_NONNULL_END
