@@ -114,6 +114,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)selectAsset:(PHAsset *)asset;
 - (void)deselectAsset:(PHAsset *)asset;
 
+@property (nonatomic) bool hideSelectAll;
+
 @end
 
 NS_ASSUME_NONNULL_END
