@@ -1,1 +1,0 @@
-../../../../../Pod/Classes/PHPhotoLibrary+TNKBlockObservers.h

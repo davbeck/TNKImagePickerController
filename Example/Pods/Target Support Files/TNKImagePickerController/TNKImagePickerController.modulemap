@@ -1,6 +1,0 @@
-framework module TNKImagePickerController {
-  umbrella header "TNKImagePickerController-umbrella.h"
-
-  export *
-  module * { export * }
-}

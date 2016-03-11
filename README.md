@@ -55,7 +55,7 @@ Your delegate should impliment the following methods in order to get the image a
 
 ## Installation
 
-### CocoaPods
+### Cocoapods
 
 TNKImagePickerController is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
