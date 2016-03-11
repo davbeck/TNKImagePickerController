@@ -1,6 +1,12 @@
 # TUMessagePackSerialization CHANGELOG
 
-## 3.0.0
+## 3.1.0
+
+- Reorganized the project for better compatibility with Carthage.
+- [Fixed detail title view layout.](https://github.com/davbeck/TNKImagePickerController/pull/16) Thanks again [Alexsander Akers](https://github.com/a2).
+- [Added an option to suppress the "Select All" button](https://github.com/davbeck/TNKImagePickerController/pull/17). Thanks to [Martin J. Rehder](https://github.com/mjrehder).
+
+# 3.0.0
 
 A big thanks to [Alexsander Akers](https://github.com/a2) on this release for all of his pull requests.
 
