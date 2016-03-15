@@ -35,6 +35,17 @@
     picker.mediaTypes = @[ (id)kUTTypeImage ];
 	picker.delegate = self;
     
+    picker.maximumSelectionCount = 3;
+    
+    typeof(picker) __weak weakPicker = picker;
+    picker.maximumSelectionCountExceededHandler = ^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@""
+                                                                                 message:[NSString stringWithFormat:@"You can only add %lu items at a time", weakPicker.maximumSelectionCount]
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [weakPicker presentViewController:alertController animated:YES completion:nil];
+    };
+    
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
     navigationController.modalPresentationStyle = UIModalPresentationPopover;

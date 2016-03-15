@@ -118,6 +118,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 
+@property (nonatomic, assign) NSUInteger maximumSelectionCount;
+@property (nonatomic, copy, nullable) void (^maximumSelectionCountExceededHandler)(void);
+
 @property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage;
 
 @property (nonatomic, copy) NSArray<NSString *> *mediaTypes;
