@@ -72,6 +72,13 @@
 }
 
 - (void)selectAsset:(PHAsset *)asset {
+    if (_selectedAssets.count >= self.maximumSelectionCount && self.maximumSelectionCount != 0) {
+        if (self.maximumSelectionCountExceededHandler) {
+            self.maximumSelectionCountExceededHandler();
+        }
+        return;
+    }
+    
     [self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
