@@ -117,6 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIBarButtonItem *cameraButton;
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
+@property (nonatomic) BOOL hideSelectAll;
 
 @property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage;
 

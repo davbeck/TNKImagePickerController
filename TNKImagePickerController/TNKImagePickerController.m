@@ -144,6 +144,11 @@
     }
 }
 
+- (void)setHideSelectAll:(BOOL)hideSelectAll {
+	_hideSelectAll = hideSelectAll;
+	[self _updateToolbarItems:false];
+}
+
 - (void)_updateDoneButton {
     _doneButton.enabled = _selectedAssets.count > 0;
 	
@@ -202,8 +207,10 @@
     }
     
     [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
-    
-    [items addObject:_selectAllButton];
+	
+	if (!self.hideSelectAll) {
+		[items addObject:_selectAllButton];
+	}
     
     [self setToolbarItems:items animated:animated];
 }
