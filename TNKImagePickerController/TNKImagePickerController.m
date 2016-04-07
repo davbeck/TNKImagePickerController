@@ -64,15 +64,24 @@
 }
 
 - (void)addSelectedAssets:(NSOrderedSet *)objects {
+	if ([self.delegate respondsToSelector:@selector(imagePickerController:shouldSelectAssets:)]) {
+		NSArray *filtered = [self.delegate imagePickerController:self shouldSelectAssets:objects.array];
+		objects = [NSOrderedSet orderedSetWithArray:filtered];
+	}
+	
     [_selectedAssets unionOrderedSet:objects];
 
 	[self _updateSelection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
+	
+	if ([self.delegate respondsToSelector:@selector(imagePickerController:didSelectAssets:)]) {
+		[self.delegate imagePickerController:self didSelectAssets:objects.array];
+	}
 }
 
 - (void)selectAsset:(PHAsset *)asset {
-    [self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
+	[self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
 - (void)removeSelectedAssets:(NSOrderedSet *)objects {

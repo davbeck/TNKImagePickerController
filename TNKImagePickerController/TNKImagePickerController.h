@@ -100,6 +100,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)imagePickerControllerTitleForDoneButton:(TNKImagePickerController *)picker;
 
+/** Asks the delegate to confirm or modify a new selection.
+ 
+ When the user taps on an asset, or takes a photo or does anything to select assets, this will be called to verify the new selection. You can return `assets` unchanged, modified, or an empty array to block selection entirely.
+ 
+ Use this method for things like limiting the number of selected assets. You can perform aditional actions to let the user know why they can't select more photos, or unselect older assets.
+ 
+ @param assets The new assets to be added to the selection.
+ @return The assets that the delegate wants to add.
+ */
+- (NSArray<PHAsset *> *)imagePickerController:(TNKImagePickerController *)picker shouldSelectAssets:(NSArray<PHAsset *> *)assets;
+
+/** Tells the delegate that selection has been changed.
+ 
+ @param assets The new assets that were selected.
+ */
+- (void)imagePickerController:(TNKImagePickerController *)picker didSelectAssets:(NSArray<PHAsset *> *)assets;
+
 @end
 
 
