@@ -13,6 +13,8 @@
 
 @interface TNKViewController () <TNKImagePickerControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UISwitch *singlePhotoModeSwitch;
+
 @end
 
 @implementation TNKViewController
@@ -34,6 +36,9 @@
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     picker.mediaTypes = @[ (id)kUTTypeImage ];
 	picker.delegate = self;
+	if (self.singlePhotoModeSwitch.on) {
+		picker.hideSelectAll = YES;
+	}
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:picker];
     navigationController.toolbarHidden = NO;
@@ -76,6 +81,16 @@
 	} else {
 		return NSLocalizedString(@"Next", nil);
 	}
+}
+
+- (NSArray<PHAsset *> *)imagePickerController:(TNKImagePickerController *)picker shouldSelectAssets:(NSArray<PHAsset *> *)assets {
+	if (self.singlePhotoModeSwitch.on && assets.count > 0) {
+		picker.selectedAssets = @[ assets.lastObject ];
+		
+		return @[];
+	}
+	
+	return assets;
 }
 
 @end

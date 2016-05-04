@@ -64,15 +64,24 @@
 }
 
 - (void)addSelectedAssets:(NSOrderedSet *)objects {
+	if ([self.delegate respondsToSelector:@selector(imagePickerController:shouldSelectAssets:)]) {
+		NSArray *filtered = [self.delegate imagePickerController:self shouldSelectAssets:objects.array];
+		objects = [NSOrderedSet orderedSetWithArray:filtered];
+	}
+	
     [_selectedAssets unionOrderedSet:objects];
 
 	[self _updateSelection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
+	
+	if ([self.delegate respondsToSelector:@selector(imagePickerController:didSelectAssets:)]) {
+		[self.delegate imagePickerController:self didSelectAssets:objects.array];
+	}
 }
 
 - (void)selectAsset:(PHAsset *)asset {
-    [self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
+	[self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
 - (void)removeSelectedAssets:(NSOrderedSet *)objects {
@@ -144,6 +153,11 @@
     }
 }
 
+- (void)setHideSelectAll:(BOOL)hideSelectAll {
+	_hideSelectAll = hideSelectAll;
+	[self _updateToolbarItems:false];
+}
+
 - (void)_updateDoneButton {
     _doneButton.enabled = _selectedAssets.count > 0;
 	
@@ -202,8 +216,10 @@
     }
     
     [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
-    
-    [items addObject:_selectAllButton];
+	
+	if (!self.hideSelectAll) {
+		[items addObject:_selectAllButton];
+	}
     
     [self setToolbarItems:items animated:animated];
 }
