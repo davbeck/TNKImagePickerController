@@ -97,6 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     assetSize.height *= [UIScreen mainScreen].scale;
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+	options.networkAccessAllowed = YES;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
     
@@ -203,7 +204,8 @@ NS_ASSUME_NONNULL_BEGIN
     assetSize.width *= [UIScreen mainScreen].scale;
     assetSize.height *= [UIScreen mainScreen].scale;
     
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+	PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+	options.networkAccessAllowed = YES;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
     
@@ -298,7 +300,8 @@ NS_ASSUME_NONNULL_BEGIN
     assetSize.width *= [UIScreen mainScreen].scale;
     assetSize.height *= [UIScreen mainScreen].scale;
     
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+	PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+	options.networkAccessAllowed = YES;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
     

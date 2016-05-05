@@ -52,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     if (_asset != nil && self.bounds.size.width > 0.0 && self.bounds.size.height > 0.0) {
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+		options.networkAccessAllowed = YES;
         options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
         options.resizeMode = PHImageRequestOptionsResizeModeExact;
         
