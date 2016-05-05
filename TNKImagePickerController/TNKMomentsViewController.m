@@ -185,10 +185,18 @@
 
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
+			BOOL wasEmpty = _moments.count == 0;
+			
 			_moments = [details fetchResultAfterChanges];
 			
 			// incremental updates throw exceptions too often
 			[self.collectionView reloadData];
+			
+			if (wasEmpty) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self _scrollToBottomAnimated:NO];
+				});
+			}
 		}
     });
 }

@@ -42,7 +42,7 @@
 
 - (void)_init
 {
-	
+	[[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
 - (instancetype)init
