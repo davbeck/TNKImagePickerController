@@ -84,6 +84,7 @@
 
 - (void)setCollectionViewController:(TNKCollectionViewController *)collectionViewController {
 	_collectionViewController = collectionViewController;
+	_collectionViewController.assetFetchOptions = [self _assetFetchOptions];
 	_collectionViewController.assetSelection = _assetSelection;
 	
 	[self setViewControllers:@[ collectionViewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];

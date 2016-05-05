@@ -17,10 +17,15 @@
 #define TNKCollectionViewControllerCellIdentifier @"Cell"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TNKCollectionViewController : UICollectionViewController
 
 - (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForAsset:(PHAsset *)asset;
-- (PHFetchOptions *)assetFetchOptions;
+
+@property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
 
 @end
+
+NS_ASSUME_NONNULL_END

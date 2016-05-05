@@ -82,18 +82,6 @@
 
 #pragma mark - Asset Management
 
-- (PHFetchOptions *)assetFetchOptions
-{
-	NSMutableArray *assetMediaTypes = [NSMutableArray new];
-	[assetMediaTypes addObject:@(PHAssetMediaTypeImage)];
-	
-	PHFetchOptions *options = [[PHFetchOptions alloc] init];
-	options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", assetMediaTypes];
-	options.includeAllBurstAssets = NO;
-	
-	return options;
-}
-
 - (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath
 {
 	return nil;
