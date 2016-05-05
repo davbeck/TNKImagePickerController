@@ -10,10 +10,10 @@
 
 @import Photos;
 
-#import "TNKImagePickerControllerBundle.h"
 #import "TNKAssetImageView.h"
 #import "TNKCollectionCell.h"
 #import "PHCollection+TNKThumbnail.h"
+#import "UIImage+TNKIcons.h"
 
 
 @interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver, UIViewControllerRestoration>
@@ -241,13 +241,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < [self _momentsSections]) {
         TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
-		cell.assetCollection = nil;
+		cell.collection = nil;
         
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
-        cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
+        cell.thumbnailView.image = [UIImage tnk_defaultCollectionIcon];
         [PHCollection tnk_requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
-            if (result != nil && cell.assetCollection == nil) {
+            if (result != nil && cell.collection == nil) {
                 cell.thumbnailView.image = result;
             }
         }];
@@ -262,12 +262,12 @@
             collection = fetchResult[indexPath.row];
         } else {
             collection = (PHCollection *)fetchResult;
-        }
-        
+		}
+		
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
-            TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+			TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+			cell.collection = collection;
             PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
-			cell.assetCollection = assetCollection;
             
             cell.titleLabel.text = collection.localizedTitle;
             
@@ -292,9 +292,9 @@
             });
             cell.subtitleLabel.text = [numberFormatter stringFromNumber:@(count)];
             
-            cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
+            cell.thumbnailView.image = [UIImage tnk_defaultCollectionIcon];
             [collection tnk_requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
-                if (result != nil && cell.assetCollection == assetCollection) {
+                if (result != nil && cell.collection == assetCollection) {
                     cell.thumbnailView.image = result;
                 }
             }];
@@ -303,13 +303,14 @@
             
             return cell;
         } else {
-            TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
-            
+			TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+			cell.collection = collection;
+			
             cell.titleLabel.text = collection.localizedTitle;
             
-            cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection-list");
+            cell.thumbnailView.image = [UIImage tnk_defaultCollectionListIcon];
             [collection tnk_requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
-                if (result != nil) {
+                if (result != nil && cell.collection == collection) {
                     cell.thumbnailView.image = result;
                 }
             }];

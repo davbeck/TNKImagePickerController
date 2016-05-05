@@ -11,7 +11,6 @@
 @import Photos;
 
 #import "TNKImageZoomView.h"
-#import "TNKImagePickerControllerBundle.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -13,9 +13,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'TNKImagePickerController/**/*.{h,m,swift}'
-  s.resource_bundles = {
-    'TNKImagePickerController' => ['TNKImagePickerController/TNKImagePickerController.bundle/*']
-  }
   
   s.frameworks = 'UIKit', 'Photos'
 end

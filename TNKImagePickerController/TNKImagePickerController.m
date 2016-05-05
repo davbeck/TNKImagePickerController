@@ -10,7 +10,6 @@
 
 @import Photos;
 
-#import "TNKImagePickerControllerBundle.h"
 #import "TNKCollectionsTitleButton.h"
 #import "TNKCollectionPickerController.h"
 #import "TNKAssetCell.h"
@@ -19,6 +18,7 @@
 #import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
+#import "UIImage+TNKIcons.h"
 
 
 #define TNKObjectSpacing 1.0
@@ -236,7 +236,7 @@
 
 - (void)setSelectedAssetBadgeImage:(UIImage *)selectedAssetBadgeImage
 {
-    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: TNKImagePickerControllerImageNamed(@"checkmark-selected");
+    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: [UIImage tnk_checkmarkSelectedIcon];
 }
 
 #pragma mark - Initialization
@@ -245,7 +245,7 @@
 {
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
     _selectedAssets = [NSMutableOrderedSet new];
-    _selectedAssetBadgeImage = TNKImagePickerControllerImageNamed(@"checkmark-selected");
+    _selectedAssetBadgeImage = [UIImage tnk_checkmarkSelectedIcon];
     
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
@@ -267,7 +267,7 @@
     [_collectionButton addTarget:self action:@selector(changeCollection:) forControlEvents:UIControlEventTouchUpInside];
     _collectionButton.titleLabel.font = [UIFont boldSystemFontOfSize:17.0];
     _collectionButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, 3.0, 0.0, 0.0);
-    [_collectionButton setImage:[TNKImagePickerControllerImageNamed(@"nav-disclosure") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [_collectionButton setImage:[[UIImage tnk_navDisclosureIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [_collectionButton sizeToFit];
     self.navigationItem.titleView = _collectionButton;
     

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKCollectionCell : UITableViewCell
 
-@property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
+@property (nonatomic, strong, nullable) PHCollection *collection;
 
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *subtitleLabel;

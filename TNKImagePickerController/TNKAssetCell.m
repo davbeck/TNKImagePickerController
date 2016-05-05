@@ -9,7 +9,6 @@
 #import "TNKAssetCell.h"
 
 #import "TNKAssetImageView.h"
-#import "TNKImagePickerControllerBundle.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

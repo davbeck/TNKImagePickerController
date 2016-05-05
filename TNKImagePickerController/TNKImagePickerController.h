@@ -29,7 +29,6 @@ FOUNDATION_EXPORT const unsigned char TNKImagePickerControllerVersionString[];
 #import <TNKImagePickerController/TNKCollectionPickerController.h>
 #import <TNKImagePickerController/TNKCollectionsTitleButton.h>
 #import <TNKImagePickerController/TNKCollectionViewFloatingHeaderFlowLayout.h>
-#import <TNKImagePickerController/TNKImagePickerControllerBundle.h>
 #import <TNKImagePickerController/TNKImageZoomView.h>
 #import <TNKImagePickerController/TNKMomentHeaderView.h>
 #import <TNKImagePickerController/UIImage+TNKAspectDraw.h>
