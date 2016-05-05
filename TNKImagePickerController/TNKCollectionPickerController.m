@@ -241,12 +241,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < [self _momentsSections]) {
         TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
+		cell.assetCollection = nil;
         
         cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
         
         cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
         [PHCollection tnk_requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
-            if (result != nil) {
+            if (result != nil && cell.assetCollection == nil) {
                 cell.thumbnailView.image = result;
             }
         }];
@@ -266,6 +267,7 @@
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
             TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
             PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
+			cell.assetCollection = assetCollection;
             
             cell.titleLabel.text = collection.localizedTitle;
             
@@ -292,7 +294,7 @@
             
             cell.thumbnailView.image = TNKImagePickerControllerImageNamed(@"default-collection");
             [collection tnk_requestThumbnailWithAssetsFetchOptions:self.assetFetchOptions completion:^(UIImage *result) {
-                if (result != nil) {
+                if (result != nil && cell.assetCollection == assetCollection) {
                     cell.thumbnailView.image = result;
                 }
             }];

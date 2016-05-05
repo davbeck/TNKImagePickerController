@@ -49,8 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadAssetImage
 {
     [self cancelAssetImageRequest];
+	
+	PHAsset *asset = _asset;
     
-    if (_asset != nil && self.bounds.size.width > 0.0 && self.bounds.size.height > 0.0) {
+    if (asset != nil && self.bounds.size.width > 0.0 && self.bounds.size.height > 0.0) {
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
 		options.networkAccessAllowed = YES;
         options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
@@ -61,7 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
         size.height *= self.traitCollection.displayScale;
         
         self.imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:size contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-            self.image = result;
+			if (_asset == asset) {
+				self.image = result;
+			}
         }];
     }
     

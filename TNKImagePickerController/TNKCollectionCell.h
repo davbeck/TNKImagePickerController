@@ -6,11 +6,15 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+@import Photos;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKCollectionCell : UITableViewCell
+
+@property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *subtitleLabel;
