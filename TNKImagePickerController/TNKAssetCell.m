@@ -9,6 +9,7 @@
 #import "TNKAssetCell.h"
 
 #import "TNKAssetImageView.h"
+#import "UIImage+TNKIcons.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @implementation TNKAssetCell
+
+@synthesize selectedAssetBadgeImage = _selectedAssetBadgeImage;
 
 - (void)setAsset:(nullable PHAsset *)asset {
 	self.imageView.asset = asset;
@@ -47,16 +50,27 @@ NS_ASSUME_NONNULL_BEGIN
 	[self _updateAccessibility];
 }
 
+- (void)setSelectedAssetBadgeImage:(nullable UIImage *)selectedAssetBadgeImage {
+	_selectedAssetBadgeImage = selectedAssetBadgeImage;
+	
+	self.selectedBadgeImageView.image = selectedAssetBadgeImage;
+}
+
+- (UIImage *)selectedAssetBadgeImage {
+	return _selectedAssetBadgeImage ?: [UIImage tnk_checkmarkSelectedIcon];
+}
+
 - (void)_init {
     _imageView = [[TNKAssetImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.clipsToBounds = YES;
     _imageView.backgroundColor = [UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000];
-    _imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
+	_imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
     [self.contentView addSubview:_imageView];
     
     _selectedBadgeImageView = [[UIImageView alloc] init];
 	_selectedBadgeImageView.hidden = YES;
+	_selectedBadgeImageView.image = self.selectedAssetBadgeImage;
     [self.contentView addSubview:_selectedBadgeImageView];
 	
 	

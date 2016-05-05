@@ -32,6 +32,10 @@ FOUNDATION_EXPORT const unsigned char TNKImagePickerControllerVersionString[];
 #import <TNKImagePickerController/TNKImageZoomView.h>
 #import <TNKImagePickerController/TNKMomentHeaderView.h>
 #import <TNKImagePickerController/UIImage+TNKAspectDraw.h>
+#import <TNKImagePickerController/TNKCollectionViewController.h>
+#import <TNKImagePickerController/TNKAssetCollectionViewController.h>
+#import <TNKImagePickerController/TNKMomentsViewController.h>
+#import <TNKImagePickerController/TNKAssetSelection.h>
 
 @class PHAssetCollection;
 @class TNKImagePickerController;
@@ -119,14 +123,14 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface TNKImagePickerController : UICollectionViewController
+@interface TNKImagePickerController : UIPageViewController
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout NS_UNAVAILABLE;
+- (instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(nullable NSDictionary<NSString *, id> *)options NS_UNAVAILABLE;
 
-@property (nonatomic, weak, nullable) id<TNKImagePickerControllerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TNKImagePickerControllerDelegate> pickerDelegate;
 
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;
 @property (nonatomic, readonly) UIBarButtonItem *doneButton;
@@ -134,8 +138,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
 @property (nonatomic) BOOL hideSelectAll;
-
-@property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage;
 
 @property (nonatomic, copy) NSArray<NSString *> *mediaTypes;
 

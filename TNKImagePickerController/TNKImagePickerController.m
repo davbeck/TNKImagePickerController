@@ -12,31 +12,31 @@
 
 #import "TNKCollectionsTitleButton.h"
 #import "TNKCollectionPickerController.h"
-#import "TNKAssetCell.h"
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
 #import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
+#import "TNKAssetSelection.h"
+#import "TNKCollectionViewController.h"
+#import "TNKCollectionViewController_Private.h"
 
 
 #define TNKObjectSpacing 1.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, TNKAssetsDetailViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration>
 {
-    NSMutableOrderedSet *_selectedAssets;
+	TNKAssetSelection *_assetSelection;
     
     UIButton *_collectionButton;
-    PHFetchResult *_fetchResult;
-    PHFetchResult *_moments;
-    NSCache *_momentCache;
-    BOOL _windowLoaded;
     NSInteger _pasteChangeCount;
     
     TNKCollectionPickerController *_collectionPicker;
 }
+
+@property (nonatomic, nonnull) TNKCollectionViewController *collectionViewController;
 
 @end
 
@@ -44,56 +44,10 @@
 
 #pragma mark - Properties
 
-- (void)setDelegate:(id<TNKImagePickerControllerDelegate>)delegate {
-	_delegate = delegate;
+- (void)setPickerDelegate:(id<TNKImagePickerControllerDelegate>)delegate {
+	_pickerDelegate = delegate;
 	
 	[self _updateDoneButton];
-}
-
-- (void)setSelectedAssets:(NSArray *)selectedAssets {
-    _selectedAssets = [NSMutableOrderedSet orderedSetWithArray:selectedAssets];
-
-    [self _updateDoneButton];
-    [self _updateSelectAllButton];
-    [self _updateSelection];
-}
-
-- (NSArray *)selectedAssets {
-    // -[NSOrderedSet array] is an array proxy so copy the result
-    return [_selectedAssets.array copy];
-}
-
-- (void)addSelectedAssets:(NSOrderedSet *)objects {
-	if ([self.delegate respondsToSelector:@selector(imagePickerController:shouldSelectAssets:)]) {
-		NSArray *filtered = [self.delegate imagePickerController:self shouldSelectAssets:objects.array];
-		objects = [NSOrderedSet orderedSetWithArray:filtered];
-	}
-	
-    [_selectedAssets unionOrderedSet:objects];
-
-	[self _updateSelection];
-    [self _updateDoneButton];
-    [self _updateSelectAllButton];
-	
-	if ([self.delegate respondsToSelector:@selector(imagePickerController:didSelectAssets:)]) {
-		[self.delegate imagePickerController:self didSelectAssets:objects.array];
-	}
-}
-
-- (void)selectAsset:(PHAsset *)asset {
-	[self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
-}
-
-- (void)removeSelectedAssets:(NSOrderedSet *)objects {
-    [_selectedAssets minusOrderedSet:objects];
-	
-	[self _updateSelection];
-    [self _updateDoneButton];
-    [self _updateSelectAllButton];
-}
-
-- (void)deselectAsset:(PHAsset *)asset {
-    [self removeSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
 }
 
 - (PHFetchOptions *)_assetFetchOptions {
@@ -117,9 +71,24 @@
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
+	
+	if (_assetCollection == nil) {
+		self.collectionViewController = [[TNKMomentsViewController alloc] init];
+	} else {
+		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection];
+	}
     
     [self _updateForAssetCollection];
     [self _updateSelectAllButton];
+}
+
+- (void)setCollectionViewController:(TNKCollectionViewController *)collectionViewController {
+	_collectionViewController = collectionViewController;
+	_collectionViewController.assetSelection = _assetSelection;
+	
+	[self setViewControllers:@[ collectionViewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+	
+	[self _updateLayoutGuides];
 }
 
 - (void)_updateForAssetCollection
@@ -131,26 +100,6 @@
     }
     [_collectionButton setTitle:self.title forState:UIControlStateNormal];
     [_collectionButton sizeToFit];
-    
-    
-    if (_assetCollection != nil) {
-        _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self _assetFetchOptions]];
-        _moments = nil;
-    } else {
-        _fetchResult = nil;
-        _moments = [PHAssetCollection fetchMomentsWithOptions:nil];
-    }
-    
-    if (self.isViewLoaded) {
-        [self.collectionView reloadData];
-        
-        if (_moments != nil) {
-            [self.collectionView layoutIfNeeded];
-            [self _scrollToBottomAnimated:NO];
-        } else {
-            [self.collectionView setContentOffset:CGPointMake(0.0, -self.topLayoutGuide.length) animated:NO];
-        }
-    }
 }
 
 - (void)setHideSelectAll:(BOOL)hideSelectAll {
@@ -159,14 +108,14 @@
 }
 
 - (void)_updateDoneButton {
-    _doneButton.enabled = _selectedAssets.count > 0;
+    _doneButton.enabled = _assetSelection.count > 0;
 	
 	NSString *title = nil;
 	
-	if ([self.delegate respondsToSelector:@selector(imagePickerControllerTitleForDoneButton:)]) {
-		title = [self.delegate imagePickerControllerTitleForDoneButton:self];
-	} else if (_selectedAssets.count > 0) {
-		title = [NSString localizedStringWithFormat:NSLocalizedString(@"Done (%d)", @"Title for photo picker done button (short)."), _selectedAssets.count];
+	if ([self.pickerDelegate respondsToSelector:@selector(imagePickerControllerTitleForDoneButton:)]) {
+		title = [self.pickerDelegate imagePickerControllerTitleForDoneButton:self];
+	} else if (_assetSelection.count > 0) {
+		title = [NSString localizedStringWithFormat:NSLocalizedString(@"Done (%d)", @"Title for photo picker done button (short)."), _assetSelection.count];
 	} else {
 		title = NSLocalizedString(@"Done", nil);
 	}
@@ -175,28 +124,34 @@
 }
 
 - (void)_updateSelectAllButton {
-    _selectAllButton.enabled = _moments == nil;
-    __block BOOL allSelected = _moments == nil;
-    
-    PHFetchResult *fetchResult = _fetchResult;
-    NSSet *selectedAssets = [_selectedAssets copy];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
-            allSelected &= [selectedAssets containsObject:asset];
-            *stop = !allSelected;
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (allSelected) {
-                _selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
-                _selectAllButton.action = @selector(deselectAll:);
-            } else {
-                _selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
-                _selectAllButton.action = @selector(selectAll:);
-            }
-        });
-    });
+	if ([self.collectionViewController isKindOfClass:[TNKAssetCollectionViewController class]]) {
+		_selectAllButton.enabled = YES;
+		__block BOOL allSelected = YES;
+		
+		PHFetchResult *fetchResult = ((TNKAssetCollectionViewController *)self.collectionViewController).fetchResult;
+		NSArray *selectedAssets = _assetSelection.assets;
+		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			[fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+				allSelected &= [selectedAssets containsObject:asset];
+				*stop = !allSelected;
+			}];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if (allSelected) {
+					_selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
+					_selectAllButton.action = @selector(deselectAll:);
+				} else {
+					_selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
+					_selectAllButton.action = @selector(selectAll:);
+				}
+			});
+		});
+	} else {
+		_selectAllButton.enabled = NO;
+		_selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
+		_selectAllButton.action = @selector(selectAll:);
+	}
 }
 
 - (void)_updateToolbarItems:(BOOL)animated {
@@ -224,28 +179,21 @@
     [self setToolbarItems:items animated:animated];
 }
 
-- (void)_updateSelection {
-	if (!self.isViewLoaded) {
-		return;
-	}
-	
-	for (TNKAssetCell *cell in self.collectionView.visibleCells) {
-		cell.assetSelected = [_selectedAssets containsObject:cell.asset];
+- (void)_updateLayoutGuides {
+	if (self.isViewLoaded) {
+		self.collectionViewController.collectionView.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
 	}
 }
 
-- (void)setSelectedAssetBadgeImage:(UIImage *)selectedAssetBadgeImage
-{
-    _selectedAssetBadgeImage = selectedAssetBadgeImage ?: [UIImage tnk_checkmarkSelectedIcon];
-}
 
 #pragma mark - Initialization
 
 - (void)_init
 {
+	_assetSelection = [[TNKAssetSelection alloc] init];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetSelectionDidChange:) name:TNKAssetSelectionDidChangeNotification object:_assetSelection];
+	
     _mediaTypes = @[ (NSString *)kUTTypeImage ];
-    _selectedAssets = [NSMutableOrderedSet new];
-    _selectedAssetBadgeImage = [UIImage tnk_checkmarkSelectedIcon];
     
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
@@ -271,7 +219,6 @@
     [_collectionButton sizeToFit];
     self.navigationItem.titleView = _collectionButton;
     
-    _momentCache = [[NSCache alloc] init];
     [self _updateForAssetCollection];
     [self _updateDoneButton];
     [self _updateSelectAllButton];
@@ -280,6 +227,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pasteboardChanged:) name:UIPasteboardChangedNotification object:[UIPasteboard generalPasteboard]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	
+	
+	self.automaticallyAdjustsScrollViewInsets = false;
+	
+	self.assetCollection = nil;
 }
 
 - (instancetype)init
@@ -287,7 +239,7 @@
     UICollectionViewFlowLayout *layout = [[TNKCollectionViewFloatingHeaderFlowLayout alloc] init];
     layout.minimumLineSpacing = TNKObjectSpacing;
     layout.minimumInteritemSpacing = 0.0;
-    self = [super initWithCollectionViewLayout:layout];
+    self = [super initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
 	if (self) {
 		[self _init];
 	}
@@ -303,43 +255,16 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-    [self.collectionView registerClass:[TNKAssetCell class] forCellWithReuseIdentifier:@"Cell"];
-    self.collectionView.alwaysBounceVertical = YES;
-    
-    [self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
-    
-    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 	
 	UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showAsset:)];
 	recognizer.minimumPressDuration = 0.5;
-	[self.collectionView addGestureRecognizer:recognizer];
+	[self.view addGestureRecognizer:recognizer];
 }
 
-- (void)viewDidLayoutSubviews {
-    if (self.view.window && !_windowLoaded) {
-        _windowLoaded = YES;
-        
-        [self.collectionView reloadData];
-        
-        if (_moments != nil) {
-            [self.collectionView layoutIfNeeded];
-            [self _scrollToBottomAnimated:NO];
-        }
-    }
-}
-
-- (void)didMoveToParentViewController:(UIViewController *)parent
-{
+- (void)didMoveToParentViewController:(UIViewController *)parent {
     [super didMoveToParentViewController:parent];
     
     UIFont *font = self.navigationController.navigationBar.titleTextAttributes[NSFontAttributeName];
@@ -349,20 +274,26 @@
     }
 }
 
+- (void)viewDidLayoutSubviews {
+	[super viewDidLayoutSubviews];
+	
+	[self _updateLayoutGuides];
+}
+
 
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingAssets:)]) {
-        [self.delegate imagePickerController:self didFinishPickingAssets:self.selectedAssets];
+    if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingAssets:)]) {
+        [self.pickerDelegate imagePickerController:self didFinishPickingAssets:self.selectedAssets];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
 - (IBAction)cancel:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {
-        [self.delegate imagePickerControllerDidCancel:self];
+    if ([self.pickerDelegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {
+        [self.pickerDelegate imagePickerControllerDidCancel:self];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
@@ -375,8 +306,8 @@
     imagePicker.mediaTypes = self.mediaTypes;
     
     UIViewController *viewController = imagePicker;
-    if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayCameraViewController:)]) {
-        viewController = [self.delegate imagePickerController:self willDisplayCameraViewController:imagePicker];
+    if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:willDisplayCameraViewController:)]) {
+        viewController = [self.pickerDelegate imagePickerController:self willDisplayCameraViewController:imagePicker];
     }
     
     if (viewController != nil) {
@@ -398,7 +329,6 @@
         
         if (result.firstObject != nil) {
             [self selectAsset:result.firstObject];
-            [self _updateSelection];
             validAsset = YES;
         }
     }
@@ -416,46 +346,44 @@
 }
 
 - (IBAction)selectAll:(id)sender {
-    if (_moments != nil) {
-        return;
-    }
-    
-    PHFetchResult *fetchResult = _fetchResult;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
-        
-        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
-            [assets addObject:asset];
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self addSelectedAssets:assets];
-            [self _updateSelection];
-        });
-    });
+	if ([self.collectionViewController isKindOfClass:[TNKAssetCollectionViewController class]]) {
+		TNKAssetCollectionViewController *viewController = (TNKAssetCollectionViewController *)self.collectionViewController;
+		PHFetchResult *fetchResult = viewController.fetchResult;
+		
+		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
+			
+			[fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+				[assets addObject:asset];
+			}];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[_assetSelection addAssets:assets];
+			});
+		});
+	}
 }
 
 - (IBAction)deselectAll:(id)sender
 {
-    if (_moments != nil) {
-        return;
-    }
-    
-    PHFetchResult *fetchResult = _fetchResult;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
-        
-        [fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
-            [assets addObject:asset];
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self removeSelectedAssets:assets];
-            [self _updateSelection];
-        });
-    });
+	if ([self.collectionViewController isKindOfClass:[TNKAssetCollectionViewController class]]) {
+		TNKAssetCollectionViewController *viewController = (TNKAssetCollectionViewController *)self.collectionViewController;
+		PHFetchResult *fetchResult = viewController.fetchResult;
+		
+		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
+			
+			[fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+				[assets addObject:asset];
+			}];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[_assetSelection removeAssets:assets];
+			});
+		});
+	}
 }
 
 - (void)showAsset:(UILongPressGestureRecognizer *)recognizer {
@@ -463,19 +391,19 @@
 		return;
 	}
 	
-	CGPoint location = [recognizer locationInView:self.collectionView];
+	CGPoint location = [recognizer locationInView:self.collectionViewController.collectionView];
 	
-	NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
+	NSIndexPath *indexPath = [self.collectionViewController.collectionView indexPathForItemAtPoint:location];
 	if (indexPath != nil){
 		TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
-		detailViewController.assetDelegate = self;
+		detailViewController.assetSelection = _assetSelection;
 		detailViewController.assetCollection = self.assetCollection;
 		detailViewController.assetFetchOptions = [self _assetFetchOptions];
 		[detailViewController showAssetAtIndexPath:indexPath];
 		
-		if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
-			PHAsset *asset = [self _assetAtIndexPath:indexPath];
-			UIViewController *viewController = [self.delegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
+		if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
+			PHAsset *asset = [self.collectionViewController assetAtIndexPath:indexPath];
+			UIViewController *viewController = [self.pickerDelegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
 			
 			if (viewController != nil) {
 				[self.navigationController pushViewController:viewController animated:YES];
@@ -493,8 +421,8 @@
     }
     
     _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
-    if (_selectedAssets.count > 0) {
-        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+    if (_assetSelection.count > 0) {
+        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
         _collectionPicker.additionalAssetCollections = @[ collection ];
     } else {
         _collectionPicker.additionalAssetCollections = @[];
@@ -535,8 +463,7 @@
             
             if (assets.count > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self addSelectedAssets:assets];
-                    [self _updateSelection];
+                    [_assetSelection addAssets:assets];
                 });
             }
         }
@@ -565,8 +492,7 @@
             
             if (assets.count > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self addSelectedAssets:assets];
-                    [self _updateSelection];
+                    [_assetSelection addAssets:assets];
                 });
             }
         }
@@ -585,162 +511,9 @@
     [self _updateToolbarItems:NO];
 }
 
-
-#pragma mark - UICollectionViewDataSource
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if (_moments != nil) {
-        return _moments.count;
-    } else {
-        return 1;
-    }
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[section];
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        return fetchResult.count;
-    } else {
-        return _fetchResult.count;
-    }
-}
-
-- (PHFetchResult *)_assetsForMoment:(PHAssetCollection *)collection
-{
-    PHFetchResult *result = [_momentCache objectForKey:collection.localIdentifier];
-    if (result == nil) {
-        result = [PHAsset fetchAssetsInAssetCollection:collection options:[self _assetFetchOptions]];
-        [_momentCache setObject:result forKey:collection.localIdentifier];
-    }
-    
-    return result;
-}
-
-- (PHAsset *)_assetAtIndexPath:(NSIndexPath *)indexPath
-{
-    PHAsset *asset = nil;
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[indexPath.section];
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        asset = fetchResult[indexPath.row];
-    } else {
-        asset = _fetchResult[indexPath.row];
-    }
-    
-    return asset;
-}
-
-- (NSIndexPath *)_indexPathForAsset:(PHAsset *)asset {
-	if (_moments != nil) {
-		PHAssetCollection *collection = [PHAssetCollection fetchAssetCollectionsContainingAsset:asset withType:PHAssetCollectionTypeMoment options:nil].firstObject;
-		NSUInteger section = [_moments indexOfObject:collection];
-		
-		PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-		NSUInteger item = [fetchResult indexOfObject:asset];
-		
-		if (item != NSNotFound && section != NSNotFound) {
-			return [NSIndexPath indexPathForItem:item inSection:section];
-		}
-	} else {
-		NSUInteger item = [_fetchResult indexOfObject:asset];
-		
-		if (item != NSNotFound) {
-			return [NSIndexPath indexPathForItem:item inSection:0];
-		}
-	}
-	
-	return nil;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    
-    cell.asset = asset;
-    cell.assetSelected = [_selectedAssets containsObject:asset];
-    cell.selectedBadgeImageView.image = _selectedAssetBadgeImage;
-
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger columns = floor(collectionView.bounds.size.width / 100.0);
-    CGFloat width = floor((collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
-    
-    return CGSizeMake(width, width);
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    TNKMomentHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-    
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[indexPath.section];
-        
-        
-        NSString *dateString = [collection.startDate tnk_localizedDay];
-        
-        
-        if (collection.localizedTitle != nil) {
-            headerView.primaryLabel.text = collection.localizedTitle;
-            headerView.secondaryLabel.text = [collection.localizedLocationNames componentsJoinedByString:@" & "];
-            headerView.detailLabel.text = dateString;
-        } else {
-            headerView.primaryLabel.text = dateString;
-            headerView.secondaryLabel.text = nil;
-            headerView.detailLabel.text = nil;
-        }
-    }
-    
-    return headerView;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[section];
-        
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        if (fetchResult.count == 0) {
-            return CGSizeZero;
-        }
-        
-        return CGSizeMake(collectionView.bounds.size.width, 44.0);
-    } else {
-        return CGSizeZero;
-    }
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[section];
-        
-        PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-        if (fetchResult.count == 0) {
-            return UIEdgeInsetsZero;
-        }
-        
-        return UIEdgeInsetsMake(0.0, 0.0, 10.0, 0.0);
-    } else {
-        return UIEdgeInsetsZero;
-    }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	PHAsset *asset = [self _assetAtIndexPath:indexPath];
-
-    if ([_selectedAssets containsObject:asset]) {
-        [self deselectAsset:asset];
-    } else {
-        [self selectAsset:asset];
-    }
-}
-
-- (void)_scrollToBottomAnimated:(BOOL)animated {
-    CGPoint contentOffset = self.collectionView.contentOffset;
-    contentOffset.y = self.collectionView.contentSize.height - self.collectionView.bounds.size.height + self.collectionView.contentInset.bottom;
-    contentOffset.y = MAX(contentOffset.y, -self.collectionView.contentInset.top);
-    contentOffset.y = MAX(self.collectionView.contentSize.height - self.collectionView.bounds.size.height + self.collectionView.contentInset.bottom, -self.collectionView.contentInset.top);
-    [self.collectionView setContentOffset:contentOffset animated:animated];
+- (void)assetSelectionDidChange:(NSNotification *)notification {
+	[self _updateDoneButton];
+	[self _updateSelectAllButton];
 }
 
 
@@ -757,104 +530,6 @@
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
-}
-
-
-#pragma mark - PHPhotoLibraryChangeObserver
-
-- (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_momentCache removeAllObjects];
-        
-        if (_moments != nil) {
-            PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
-            if (details != nil) {
-                _moments = [details fetchResultAfterChanges];
-                
-                // incremental updates throw exceptions too often
-                [self.collectionView reloadData];
-                
-//                if (details.hasIncrementalChanges) {
-//                    [self.collectionView performBatchUpdates:^{
-//                        if (details.removedIndexes != nil) {
-//                            [self.collectionView deleteSections:details.removedIndexes];
-//                        }
-//                        
-//                        if (details.insertedIndexes != nil) {
-//                            [self.collectionView insertSections:details.insertedIndexes];
-//                        }
-//                        
-//                        if (details.changedIndexes != nil) {
-//                            [self.collectionView reloadSections:details.changedIndexes];
-//                        }
-//                        
-//                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
-//                            [self.collectionView moveSection:fromIndex toSection:toIndex];
-//                        }];
-//                    } completion:nil];
-//                } else {
-//                    [self.collectionView reloadData];
-//                }
-            }
-        } else {
-            PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_fetchResult];
-            if (details != nil) {
-                _fetchResult = [details fetchResultAfterChanges];
-                
-                if (details.hasIncrementalChanges) {
-                    [self.collectionView performBatchUpdates:^{
-                        NSMutableArray *removedIndexPaths = [NSMutableArray new];
-                        [details.removedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                            [removedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                        }];
-                        [self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
-                        
-                        
-                        NSMutableArray *insertedIndexPaths = [NSMutableArray new];
-                        [details.insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                            [insertedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                        }];
-                        [self.collectionView insertItemsAtIndexPaths:insertedIndexPaths];
-                        
-                        
-                        NSMutableArray *changedIndexPaths = [NSMutableArray new];
-                        [details.changedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                            [changedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-                        }];
-                        [self.collectionView reloadItemsAtIndexPaths:changedIndexPaths];
-                        
-                        
-                        [details enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
-                            NSIndexPath *from = [NSIndexPath indexPathForRow:fromIndex inSection:0];
-                            NSIndexPath *to = [NSIndexPath indexPathForRow:fromIndex inSection:0];
-                            
-                            [self.collectionView moveItemAtIndexPath:from toIndexPath:to];
-                        }];
-                    } completion:nil];
-                } else {
-                    [self.collectionView reloadData];
-                }
-            }
-        }
-    });
-}
-
-
-#pragma mark - TNKAssetsDetailViewControllerDelegate
-
-- (BOOL)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController isAssetSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    return [_selectedAssets containsObject:asset];
-}
-
-- (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController selectAssetAtIndexPath:(NSIndexPath *)indexPath {
-    PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    [self selectAsset:asset];
-}
-
-- (void)assetsDetailViewController:(TNKAssetsDetailViewController *)viewController deselectAssetAtIndexPath:(NSIndexPath *)indexPath {
-    PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    [self deselectAsset:asset];
 }
 
 
@@ -881,19 +556,17 @@
 
 #pragma mark - State Restoration
 
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
     
     [coder encodeObject:self.mediaTypes forKey:@"mediaTypes"];
     [coder encodeObject:self.assetCollection.localIdentifier forKey:@"assetCollection"];
-    [coder encodeObject:[_selectedAssets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
+    [coder encodeObject:[_assetSelection.assets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
     [coder encodeObject:_collectionPicker forKey:@"collectionPicker"];
     [coder encodeObject:_collectionPicker.navigationController forKey:@"collectionPickerNavigationController"];
 }
 
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     [super decodeRestorableStateWithCoder:coder];
     
     self.mediaTypes = [coder decodeObjectForKey:@"mediaTypes"];
@@ -903,21 +576,21 @@
         self.assetCollection = [[PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[ assetCollectionIdentifier ] options:nil] firstObject];
     }
     
-    NSOrderedSet *selectedAssetsIdentifiers = [coder decodeObjectForKey:@"selectedAssets"];
-    if (selectedAssetsIdentifiers != nil) {
+    NSArray *selectedAssetsIdentifiers = [coder decodeObjectForKey:@"selectedAssets"];
+    if ([selectedAssetsIdentifiers isKindOfClass:[NSArray class]]) {
         NSMutableOrderedSet *assets = [NSMutableOrderedSet new];
-        for (PHAsset *asset in [PHAsset fetchAssetsWithLocalIdentifiers:selectedAssetsIdentifiers.array options:nil]) {
+        for (PHAsset *asset in [PHAsset fetchAssetsWithLocalIdentifiers:selectedAssetsIdentifiers options:nil]) {
             [assets addObject:asset];
         }
-        [self addSelectedAssets:assets];
+        [_assetSelection addAssets:assets];
     }
     
     TNKCollectionPickerController *collectionPicker = [coder decodeObjectForKey:@"collectionPicker"];
     if (collectionPicker != nil) {
         _collectionPicker = collectionPicker;
         _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
-        if (_selectedAssets.count > 0) {
-            PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+        if (_assetSelection.count > 0) {
+            PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
             _collectionPicker.additionalAssetCollections = @[ collection ];
         }
         _collectionPicker.delegate = self;
@@ -930,8 +603,7 @@
     navigationController.popoverPresentationController.delegate = self;
 }
 
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
     if ([identifierComponents.lastObject isEqual:@"TNKCollectionPickerController.NavigationController"]) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[TNKCollectionPickerController alloc] init]];
         navigationController.restorationIdentifier = @"TNKCollectionPickerController.NavigationController";
@@ -942,6 +614,43 @@
     }
     
     return nil;
+}
+
+
+#pragma mark - TNKAssetSelectionDelegate
+
+- (void)setSelectedAssets:(NSArray *)selectedAssets {
+	_assetSelection.assets = selectedAssets;
+}
+
+- (NSArray *)selectedAssets {
+	return _assetSelection.assets;
+}
+
+- (void)selectAsset:(PHAsset *)asset {
+	[_assetSelection selectAsset:asset];
+}
+
+- (void)deselectAsset:(PHAsset *)asset {
+	[_assetSelection deselectAsset:asset];
+}
+
+// mostly we just forward these to our own delegate
+
+- (NSArray<PHAsset *> *)assetSelection:(TNKAssetSelection *)assetSelection shouldSelectAssets:(NSArray<PHAsset *> *)assets {
+	NSArray<PHAsset *> *objects = assets;
+	
+	if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:shouldSelectAssets:)]) {
+		objects = [self.pickerDelegate imagePickerController:self shouldSelectAssets:objects];
+	}
+	
+	return objects;
+}
+
+- (void)assetSelection:(TNKAssetSelection *)assetSelection didSelectAssets:(NSArray<PHAsset *> *)assets {
+	if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:didSelectAssets:)]) {
+		[self.pickerDelegate imagePickerController:self didSelectAssets:assets];
+	}
 }
 
 @end

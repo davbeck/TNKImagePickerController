@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL assetSelected;
 @property (nonatomic, strong, readonly) UIImageView *selectedBadgeImageView;
 
+@property (nonatomic, strong, null_resettable) UIImage *selectedAssetBadgeImage UI_APPEARANCE_SELECTOR;
+
 @end
 
 NS_ASSUME_NONNULL_END

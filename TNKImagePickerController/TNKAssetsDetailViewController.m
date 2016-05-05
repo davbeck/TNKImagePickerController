@@ -13,6 +13,7 @@
 
 #import "TNKAssetViewController.h"
 #import "NSDate+TNKFormattedDay.h"
+#import "TNKAssetSelection.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -204,8 +205,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 	
 	
 	
-	NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
-	BOOL selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
+	BOOL selected = [self.assetSelection isAssetSelected:asset];
 	if (selected) {
 		[self.navigationItem setRightBarButtonItem:_deselectButton animated:YES];
 	} else {
@@ -230,14 +230,15 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 }
 
 - (IBAction)toggleSelection {
-    NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
+	NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
+	PHAsset *asset = [self _assetAtIndexPath:indexPath];
 	
-	BOOL selected = ![self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
+	BOOL selected = ![self.assetSelection isAssetSelected:asset];
 	
 	if (selected) {
-        [self.assetDelegate assetsDetailViewController:self selectAssetAtIndexPath:indexPath];
-    } else {
-        [self.assetDelegate assetsDetailViewController:self deselectAssetAtIndexPath:indexPath];
+		[self.assetSelection selectAsset:asset];
+	} else {
+		[self.assetSelection deselectAsset:asset];
     }
 	
 	[self _updateTitle];
@@ -246,14 +247,20 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (PHAsset *)_assetAtIndexPath:(NSIndexPath *)indexPath {
+	PHAsset *asset = nil;
+	if (self.assetCollection != nil) {
+		asset = _fetchResult[indexPath.row];
+	} else {
+		PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[indexPath.section] options:self.assetFetchOptions];
+		asset = moment[indexPath.row];
+	}
+	
+	return asset;
+}
+
 - (TNKAssetViewController *)_assetViewControllerWithAssetAtIndexPath:(NSIndexPath *)indexPath {
-    PHAsset *asset = nil;
-    if (self.assetCollection != nil) {
-        asset = _fetchResult[indexPath.row];
-    } else {
-        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[indexPath.section] options:self.assetFetchOptions];
-        asset = moment[indexPath.row];
-    }
+	PHAsset *asset = [self _assetAtIndexPath:indexPath];
     
     TNKAssetViewController *next = [[self.assetViewControllerClass alloc] init];
     next.view.backgroundColor = [UIColor clearColor];

@@ -51,6 +51,15 @@
 		110353AB1C93899600D652BA /* TNKImagePickerController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 110353251C937EE300D652BA /* TNKImagePickerController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		11E88CF81CDAEAF800E41A33 /* UIImage+TNKIcons.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88CF61CDAEAF800E41A33 /* UIImage+TNKIcons.h */; };
 		11E88CF91CDAEAF800E41A33 /* UIImage+TNKIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E88CF71CDAEAF800E41A33 /* UIImage+TNKIcons.m */; };
+		11E88D001CDB9AD800E41A33 /* TNKMomentsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88CFE1CDB9AD800E41A33 /* TNKMomentsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11E88D011CDB9AD800E41A33 /* TNKMomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E88CFF1CDB9AD800E41A33 /* TNKMomentsViewController.m */; };
+		11E88D041CDBA5A500E41A33 /* TNKCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88D021CDBA5A500E41A33 /* TNKCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11E88D051CDBA5A500E41A33 /* TNKCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E88D031CDBA5A500E41A33 /* TNKCollectionViewController.m */; };
+		11E88D081CDBA5B700E41A33 /* TNKAssetCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88D061CDBA5B700E41A33 /* TNKAssetCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11E88D091CDBA5B700E41A33 /* TNKAssetCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E88D071CDBA5B700E41A33 /* TNKAssetCollectionViewController.m */; };
+		11E88D0D1CDBBBE600E41A33 /* TNKAssetSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88D0B1CDBBBE600E41A33 /* TNKAssetSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11E88D0E1CDBBBE600E41A33 /* TNKAssetSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E88D0C1CDBBBE600E41A33 /* TNKAssetSelection.m */; };
+		11E88D101CDBC5E300E41A33 /* TNKCollectionViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E88D0F1CDBC5E300E41A33 /* TNKCollectionViewController_Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +143,15 @@
 		110353A81C93892900D652BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11E88CF61CDAEAF800E41A33 /* UIImage+TNKIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TNKIcons.h"; sourceTree = "<group>"; };
 		11E88CF71CDAEAF800E41A33 /* UIImage+TNKIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TNKIcons.m"; sourceTree = "<group>"; };
+		11E88CFE1CDB9AD800E41A33 /* TNKMomentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKMomentsViewController.h; sourceTree = "<group>"; };
+		11E88CFF1CDB9AD800E41A33 /* TNKMomentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKMomentsViewController.m; sourceTree = "<group>"; };
+		11E88D021CDBA5A500E41A33 /* TNKCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKCollectionViewController.h; sourceTree = "<group>"; };
+		11E88D031CDBA5A500E41A33 /* TNKCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKCollectionViewController.m; sourceTree = "<group>"; };
+		11E88D061CDBA5B700E41A33 /* TNKAssetCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKAssetCollectionViewController.h; sourceTree = "<group>"; };
+		11E88D071CDBA5B700E41A33 /* TNKAssetCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKAssetCollectionViewController.m; sourceTree = "<group>"; };
+		11E88D0B1CDBBBE600E41A33 /* TNKAssetSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKAssetSelection.h; sourceTree = "<group>"; };
+		11E88D0C1CDBBBE600E41A33 /* TNKAssetSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKAssetSelection.m; sourceTree = "<group>"; };
+		11E88D0F1CDBC5E300E41A33 /* TNKCollectionViewController_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKCollectionViewController_Private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +207,9 @@
 			children = (
 				110353581C937F7900D652BA /* TNKImagePickerController.h */,
 				110353591C937F7900D652BA /* TNKImagePickerController.m */,
+				11E88D0B1CDBBBE600E41A33 /* TNKAssetSelection.h */,
+				11E88D0C1CDBBBE600E41A33 /* TNKAssetSelection.m */,
+				11E88D0A1CDBA5BE00E41A33 /* Collections */,
 				110353401C937F7900D652BA /* NSDate+TNKFormattedDay.h */,
 				110353411C937F7900D652BA /* NSDate+TNKFormattedDay.m */,
 				110353421C937F7900D652BA /* PHCollection+TNKThumbnail.h */,
@@ -197,8 +218,6 @@
 				110353451C937F7900D652BA /* PHImageManager+TNKRequestImages.m */,
 				110353461C937F7900D652BA /* PHPhotoLibrary+TNKBlockObservers.h */,
 				110353471C937F7900D652BA /* PHPhotoLibrary+TNKBlockObservers.m */,
-				110353481C937F7900D652BA /* TNKAssetCell.h */,
-				110353491C937F7900D652BA /* TNKAssetCell.m */,
 				1103534A1C937F7900D652BA /* TNKAssetImageView.h */,
 				1103534B1C937F7900D652BA /* TNKAssetImageView.m */,
 				1103534C1C937F7900D652BA /* TNKAssetsDetailViewController.h */,
@@ -259,6 +278,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		11E88D0A1CDBA5BE00E41A33 /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				11E88D0F1CDBC5E300E41A33 /* TNKCollectionViewController_Private.h */,
+				11E88D021CDBA5A500E41A33 /* TNKCollectionViewController.h */,
+				11E88D031CDBA5A500E41A33 /* TNKCollectionViewController.m */,
+				11E88D061CDBA5B700E41A33 /* TNKAssetCollectionViewController.h */,
+				11E88D071CDBA5B700E41A33 /* TNKAssetCollectionViewController.m */,
+				11E88CFE1CDB9AD800E41A33 /* TNKMomentsViewController.h */,
+				11E88CFF1CDB9AD800E41A33 /* TNKMomentsViewController.m */,
+				110353481C937F7900D652BA /* TNKAssetCell.h */,
+				110353491C937F7900D652BA /* TNKAssetCell.m */,
+			);
+			name = Collections;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -267,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				110353631C937F7900D652BA /* NSDate+TNKFormattedDay.h in Headers */,
+				11E88D101CDBC5E300E41A33 /* TNKCollectionViewController_Private.h in Headers */,
 				110353691C937F7900D652BA /* PHPhotoLibrary+TNKBlockObservers.h in Headers */,
 				110353711C937F7900D652BA /* TNKAssetViewController.h in Headers */,
 				110353831C937F7900D652BA /* UIImage+TNKAspectDraw.h in Headers */,
@@ -274,15 +310,19 @@
 				110353751C937F7900D652BA /* TNKCollectionPickerController.h in Headers */,
 				1103537F1C937F7900D652BA /* TNKImageZoomView.h in Headers */,
 				11E88CF81CDAEAF800E41A33 /* UIImage+TNKIcons.h in Headers */,
+				11E88D081CDBA5B700E41A33 /* TNKAssetCollectionViewController.h in Headers */,
 				1103537B1C937F7900D652BA /* TNKImagePickerController.h in Headers */,
 				110353771C937F7900D652BA /* TNKCollectionsTitleButton.h in Headers */,
 				1103536D1C937F7900D652BA /* TNKAssetImageView.h in Headers */,
+				11E88D0D1CDBBBE600E41A33 /* TNKAssetSelection.h in Headers */,
 				110353671C937F7900D652BA /* PHImageManager+TNKRequestImages.h in Headers */,
 				110353791C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h in Headers */,
 				110353731C937F7900D652BA /* TNKCollectionCell.h in Headers */,
 				110353811C937F7900D652BA /* TNKMomentHeaderView.h in Headers */,
 				1103536B1C937F7900D652BA /* TNKAssetCell.h in Headers */,
+				11E88D041CDBA5A500E41A33 /* TNKCollectionViewController.h in Headers */,
 				110353651C937F7900D652BA /* PHCollection+TNKThumbnail.h in Headers */,
+				11E88D001CDB9AD800E41A33 /* TNKMomentsViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +390,7 @@
 		1103531C1C937EE300D652BA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = TNK;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Think Ultimate LLC";
 				TargetAttributes = {
@@ -417,16 +458,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				110353801C937F7900D652BA /* TNKImageZoomView.m in Sources */,
+				11E88D051CDBA5A500E41A33 /* TNKCollectionViewController.m in Sources */,
 				110353821C937F7900D652BA /* TNKMomentHeaderView.m in Sources */,
 				110353841C937F7900D652BA /* UIImage+TNKAspectDraw.m in Sources */,
 				110353661C937F7900D652BA /* PHCollection+TNKThumbnail.m in Sources */,
 				110353781C937F7900D652BA /* TNKCollectionsTitleButton.m in Sources */,
+				11E88D0E1CDBBBE600E41A33 /* TNKAssetSelection.m in Sources */,
 				110353681C937F7900D652BA /* PHImageManager+TNKRequestImages.m in Sources */,
+				11E88D011CDB9AD800E41A33 /* TNKMomentsViewController.m in Sources */,
 				1103536A1C937F7900D652BA /* PHPhotoLibrary+TNKBlockObservers.m in Sources */,
 				1103537C1C937F7900D652BA /* TNKImagePickerController.m in Sources */,
 				11E88CF91CDAEAF800E41A33 /* UIImage+TNKIcons.m in Sources */,
 				110353741C937F7900D652BA /* TNKCollectionCell.m in Sources */,
 				1103537A1C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m in Sources */,
+				11E88D091CDBA5B700E41A33 /* TNKAssetCollectionViewController.m in Sources */,
 				110353701C937F7900D652BA /* TNKAssetsDetailViewController.m in Sources */,
 				1103536C1C937F7900D652BA /* TNKAssetCell.m in Sources */,
 				110353641C937F7900D652BA /* NSDate+TNKFormattedDay.m in Sources */,

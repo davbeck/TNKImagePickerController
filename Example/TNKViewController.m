@@ -35,7 +35,7 @@
 {
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
     picker.mediaTypes = @[ (id)kUTTypeImage ];
-	picker.delegate = self;
+	picker.pickerDelegate = self;
 	if (self.singlePhotoModeSwitch.on) {
 		picker.hideSelectAll = YES;
 	}
