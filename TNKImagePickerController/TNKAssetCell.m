@@ -27,9 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize selectedAssetBadgeImage = _selectedAssetBadgeImage;
 
 - (void)setAsset:(nullable PHAsset *)asset {
-	self.imageView.asset = asset;
-	
-	[self _updateAccessibility];
+	if (self.imageView.asset != asset) {
+		self.imageView.asset = asset;
+		
+		[self _updateAccessibility];
+	}
 }
 
 - (nullable PHAsset *)asset {

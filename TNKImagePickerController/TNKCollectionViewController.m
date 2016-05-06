@@ -114,6 +114,15 @@
 	[self.collectionView registerClass:[TNKAssetCell class] forCellWithReuseIdentifier:TNKCollectionViewControllerCellIdentifier];
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+	[super traitCollectionDidChange:previousTraitCollection];
+	
+	NSInteger columns = floor(self.collectionView.bounds.size.width / 100.0);
+	CGFloat width = floor((self.collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
+	
+	((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(width, width);
+}
+
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -127,12 +136,11 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+	TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TNKCollectionViewControllerCellIdentifier forIndexPath:indexPath];
 	PHAsset *asset = [self assetAtIndexPath:indexPath];
 	
 	cell.asset = asset;
 	cell.assetSelected = [self.assetSelection isAssetSelected:asset];
-//	cell.selectedBadgeImageView.image = _selectedAssetBadgeImage;
 	
 	return cell;
 }
@@ -145,13 +153,6 @@
 	} else {
 		[self.assetSelection selectAsset:asset];
 	}
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSInteger columns = floor(collectionView.bounds.size.width / 100.0);
-	CGFloat width = floor((collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
-	
-	return CGSizeMake(width, width);
 }
 
 
