@@ -183,6 +183,7 @@
 - (void)_updateLayoutGuides {
 	if (self.isViewLoaded) {
 		self.collectionViewController.collectionView.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+		self.collectionViewController.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
 	}
 }
 
