@@ -14,7 +14,7 @@
 #import "TNKCollectionPickerController.h"
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
-#import "TNKCollectionViewFloatingHeaderFlowLayout.h"
+#import "TNKCollectionViewInvertedFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
@@ -23,22 +23,68 @@
 #define TNKCollectionViewControllerHeaderIdentifier @"HeaderView"
 
 
+@interface TNKMomentInfo : NSObject
+
+@property (nonatomic, nonnull, readonly) PHAssetCollection *moment;
+@property (nonatomic, readonly) NSUInteger count;
+
+- (instancetype)initWithMoment:(PHAssetCollection *)moment count:(NSUInteger)count;
+
+@end
+
+@implementation TNKMomentInfo
+
+- (instancetype)initWithMoment:(PHAssetCollection *)moment count:(NSUInteger)count {
+	self = [super init];
+	if (self != nil) {
+		_moment = moment;
+		_count = count;
+	}
+	
+	return self;
+}
+
+@end
+
+
 @interface TNKMomentsViewController () {
 	PHFetchResult<PHAssetCollection *> *_moments;
 	NSCache *_momentCache;
-	BOOL _windowLoaded;
+	
+	NSArray<TNKMomentInfo *> *_sections;
+	
+	NSMutableArray<NSIndexSet *> *_sectionIndexQueue;
+	// we don't want to update while scrolling
+	NSArray<TNKMomentInfo *> *_sectionsWaitingToBeInserted;
 }
 
 @end
 
 @implementation TNKMomentsViewController
 
+- (void)setLayoutInsets:(UIEdgeInsets)layoutInsets {
+	[super setLayoutInsets:layoutInsets];
+	
+	// because we invert scrolling our top is actually our bottom and vice versa
+	self.collectionView.contentInset = UIEdgeInsetsMake(layoutInsets.bottom, 0, layoutInsets.top, 0);
+	self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
+}
+
+
+#pragma mark - Initialization
+
 - (instancetype)init
 {
-	self = [super init];
+	UICollectionViewFlowLayout *layout = [[TNKCollectionViewInvertedFlowLayout alloc] init];
+	layout.minimumLineSpacing = TNKObjectSpacing;
+	layout.minimumInteritemSpacing = 0.0;
+	
+	self = [super initWithCollectionViewLayout:layout];
 	if (self != nil) {
 		_moments = [PHAssetCollection fetchMomentsWithOptions:nil];
 		_momentCache = [[NSCache alloc] init];
+		
+		[self _loadMoments];
 	}
 	
 	return self;
@@ -50,35 +96,29 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:TNKCollectionViewControllerHeaderIdentifier];
+	self.collectionView.transform = TNKInvertedTransform;
+	
+	[self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:TNKCollectionViewControllerHeaderIdentifier];
 }
 
-- (void)viewDidLayoutSubviews {
-	if (self.view.window && !_windowLoaded) {
-		_windowLoaded = YES;
-		
-		[self.collectionView reloadData];
-		
-		if (_moments != nil) {
-			[self.collectionView layoutIfNeeded];
-			[self _scrollToBottomAnimated:NO];
-		}
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+	[super traitCollectionDidChange:previousTraitCollection];
+	
+	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	
+	// because we are inverted we want "footers" instead of headers, even though fisually they look and act like headers.
+	flowLayout.headerReferenceSize = CGSizeZero;
+	flowLayout.footerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 44.0);
+	flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 0.0, 0.0, 0.0);
+	if ([flowLayout respondsToSelector:@selector(sectionFootersPinToVisibleBounds)]) {
+		flowLayout.sectionFootersPinToVisibleBounds = YES;
 	}
-}
-
-- (void)_scrollToBottomAnimated:(BOOL)animated {
-	CGPoint contentOffset = self.collectionView.contentOffset;
-	contentOffset.y = self.collectionView.contentSize.height - self.collectionView.bounds.size.height + self.collectionView.contentInset.bottom;
-	contentOffset.y = MAX(contentOffset.y, -self.collectionView.contentInset.top);
-	contentOffset.y = MAX(self.collectionView.contentSize.height - self.collectionView.bounds.size.height + self.collectionView.contentInset.bottom, -self.collectionView.contentInset.top);
-	[self.collectionView setContentOffset:contentOffset animated:animated];
 }
 
 
 #pragma mark - Asset Management
 
-- (PHFetchResult *)_assetsForMoment:(PHAssetCollection *)collection
-{
+- (PHFetchResult *)_assetsForMoment:(PHAssetCollection *)collection {
 	PHFetchResult *result = [_momentCache objectForKey:collection.localIdentifier];
 	if (result == nil) {
 		result = [PHAsset fetchAssetsInAssetCollection:collection options:[self assetFetchOptions]];
@@ -90,14 +130,27 @@
 
 - (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath
 {
-	PHAssetCollection *collection = _moments[indexPath.section];
+	TNKMomentInfo *sectionInfo = _sections[indexPath.section];
+	PHAssetCollection *collection = sectionInfo.moment;
 	PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-	return fetchResult[indexPath.row];
+	
+	// we start by using the estimated count, which may be different from the actual count.
+	if (indexPath.row < fetchResult.count) {
+		return fetchResult[indexPath.row];
+	} else {
+		return nil;
+	}
 }
 
 - (NSIndexPath *)indexPathForAsset:(PHAsset *)asset {
 	PHAssetCollection *collection = [PHAssetCollection fetchAssetCollectionsContainingAsset:asset withType:PHAssetCollectionTypeMoment options:nil].firstObject;
-	NSUInteger section = [_moments indexOfObject:collection];
+	
+	NSUInteger section = NSNotFound;
+	for (TNKMomentInfo *sectionInfo in _sections) {
+		if ([sectionInfo.moment isEqual:collection]) {
+			section = [_sections indexOfObject:sectionInfo];
+		}
+	}
 	
 	PHFetchResult *fetchResult = [self _assetsForMoment:collection];
 	NSUInteger item = [fetchResult indexOfObject:asset];
@@ -110,69 +163,122 @@
 }
 
 
+
+- (void)_loadMoreSections {
+	NSIndexSet *indexSet = [_sectionIndexQueue firstObject];
+	if (indexSet != nil) {
+		[_sectionIndexQueue removeObjectAtIndex:0];
+		PHFetchResult<PHAssetCollection *> *moments = _moments;
+		
+		dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
+			NSMutableArray<TNKMomentInfo *> *sections = [NSMutableArray new];
+			
+			[moments enumerateObjectsAtIndexes:indexSet options:NSEnumerationReverse usingBlock:^(PHAssetCollection * _Nonnull moment, NSUInteger index, BOOL * _Nonnull stop) {
+				NSUInteger count = [self _assetsForMoment:moment].count;
+				
+				// if a moment only has videos and we only display photos (or something similar) we will have empty moments
+				if (count > 0) {
+					TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:count];
+					[sections addObject:info];
+				}
+			}];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if (_moments == moments) {
+					_sectionsWaitingToBeInserted = sections;
+					
+					// we don't want to insert these while the user is interacting with the content because it will cause a freeze
+					if (!self.collectionView.dragging && !self.collectionView.decelerating) {
+						[self _applyChanges];
+					}
+				}
+			});
+		});
+	}
+}
+
+- (void)_loadMoments {
+	PHFetchResult<PHAssetCollection *> *moments = _moments;
+	_sections = [NSArray new];
+	[self.collectionView reloadData];
+	
+	
+	
+	// break up all the indexes in the moments array into groups of 50
+	NSMutableArray<NSIndexSet *> *sectionIndexQueue = [NSMutableArray new];
+	for (NSInteger i = moments.count; i > 0; i -= 50) {
+		NSUInteger length = MIN(50, i);
+		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(i - length, length)];
+		
+		[sectionIndexQueue addObject:indexSet];
+	}
+	_sectionIndexQueue = sectionIndexQueue;
+	
+	
+	
+	[self _loadMoreSections];
+}
+
+
 #pragma mark - UICollectionView
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return _moments.count;
+    return _sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	PHAssetCollection *collection = _moments[section];
-	PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-	return fetchResult.count;
+	TNKMomentInfo *sectionInfo = _sections[section];
+	return sectionInfo.count;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	TNKMomentHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
+	TNKMomentHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
 	
-	if (_moments != nil) {
-		PHAssetCollection *collection = _moments[indexPath.section];
-		
-		
-		NSString *dateString = [collection.startDate tnk_localizedDay];
-		
-		
-		if (collection.localizedTitle != nil) {
-			headerView.primaryLabel.text = collection.localizedTitle;
-			headerView.secondaryLabel.text = [collection.localizedLocationNames componentsJoinedByString:@" & "];
-			headerView.detailLabel.text = dateString;
-		} else {
-			headerView.primaryLabel.text = dateString;
-			headerView.secondaryLabel.text = nil;
-			headerView.detailLabel.text = nil;
-		}
+	TNKMomentInfo *section = _sections[indexPath.section];
+	
+	
+	NSString *dateString = [section.moment.startDate tnk_localizedDay];
+	
+	
+	if (section.moment.localizedTitle != nil) {
+		headerView.primaryLabel.text = section.moment.localizedTitle;
+		headerView.secondaryLabel.text = [section.moment.localizedLocationNames componentsJoinedByString:@" & "];
+		headerView.detailLabel.text = dateString;
+	} else {
+		headerView.primaryLabel.text = dateString;
+		headerView.secondaryLabel.text = nil;
+		headerView.detailLabel.text = nil;
 	}
 	
 	return headerView;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-	if (_moments != nil) {
-		PHAssetCollection *collection = _moments[section];
+// this should only be called if the collection view is not scrolling
+- (void)_applyChanges {
+	if (_sectionsWaitingToBeInserted.count > 0) {
+		NSIndexSet *newIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_sections.count, _sectionsWaitingToBeInserted.count)];
 		
-		PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-		if (fetchResult.count == 0) {
-			return CGSizeZero;
-		}
-		
-		return CGSizeMake(collectionView.bounds.size.width, 44.0);
-	} else {
-		return CGSizeZero;
+		[UIView performWithoutAnimation:^{
+			[self.collectionView performBatchUpdates:^{
+				_sections = [_sections arrayByAddingObjectsFromArray:_sectionsWaitingToBeInserted];
+				[self.collectionView insertSections:newIndexes];
+				
+				_sectionsWaitingToBeInserted = nil;
+				
+				// we don't want to load the next group of sections until we've merged in the last one to avoid having too many inserts at once
+				[self _loadMoreSections];
+			} completion:nil];
+		}];
 	}
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-	if (_moments != nil) {
-		PHAssetCollection *collection = _moments[section];
-		
-		PHFetchResult *fetchResult = [self _assetsForMoment:collection];
-		if (fetchResult.count == 0) {
-			return UIEdgeInsetsZero;
-		}
-		
-		return UIEdgeInsetsMake(0.0, 0.0, 10.0, 0.0);
-	} else {
-		return UIEdgeInsetsZero;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	[self _applyChanges];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	if (!decelerate) {
+		[self _applyChanges];
 	}
 }
 
@@ -185,18 +291,8 @@
 
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
-			BOOL wasEmpty = _moments.count == 0;
-			
 			_moments = [details fetchResultAfterChanges];
-			
-			// incremental updates throw exceptions too often
-			[self.collectionView reloadData];
-			
-			if (wasEmpty) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					[self _scrollToBottomAnimated:NO];
-				});
-			}
+			[self _loadMoments];
 		}
     });
 }

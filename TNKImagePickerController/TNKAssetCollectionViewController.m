@@ -16,7 +16,6 @@
 #import "TNKAssetCell.h"
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
-#import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
@@ -29,11 +28,22 @@
 
 @implementation TNKAssetCollectionViewController
 
+- (void)setLayoutInsets:(UIEdgeInsets)layoutInsets {
+	[super setLayoutInsets:layoutInsets];
+	
+	self.collectionView.contentInset = layoutInsets;
+	self.collectionView.scrollIndicatorInsets = layoutInsets;
+}
+
 #pragma mark - Initialization
 
 - (instancetype)initWithAssetCollection:(PHAssetCollection *)assetCollection
 {
-	self = [super init];
+	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	layout.minimumLineSpacing = TNKObjectSpacing;
+	layout.minimumInteritemSpacing = 0.0;
+	
+	self = [super initWithCollectionViewLayout:layout];
 	if (self != nil) {
 		_assetCollection = assetCollection;
 		_fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self assetFetchOptions]];

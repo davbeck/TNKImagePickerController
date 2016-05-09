@@ -16,7 +16,6 @@
 #import "TNKAssetCell.h"
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
-#import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
@@ -45,11 +44,7 @@
 	[[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
-- (instancetype)init
-{
-	UICollectionViewFlowLayout *layout = [[TNKCollectionViewFloatingHeaderFlowLayout alloc] init];
-	layout.minimumLineSpacing = TNKObjectSpacing;
-	layout.minimumInteritemSpacing = 0.0;
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
 	self = [super initWithCollectionViewLayout:layout];
 	if (self) {
 		[self _init];
@@ -117,10 +112,14 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
 	[super traitCollectionDidChange:previousTraitCollection];
 	
-	NSInteger columns = floor(self.collectionView.bounds.size.width / 100.0);
-	CGFloat width = floor((self.collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
-	
-	((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(width, width);
+	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	if ([flowLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+		// we want our assets to be about 100pts wide, but have a constant margin of 1
+		NSInteger columns = floor(self.collectionView.bounds.size.width / 100.0);
+		CGFloat width = floor((self.collectionView.bounds.size.width + TNKObjectSpacing) / columns) - TNKObjectSpacing;
+		
+		flowLayout.itemSize = CGSizeMake(width, width);
+	}
 }
 
 

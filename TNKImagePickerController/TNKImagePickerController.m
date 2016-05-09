@@ -14,7 +14,6 @@
 #import "TNKCollectionPickerController.h"
 #import "TNKAssetImageView.h"
 #import "TNKMomentHeaderView.h"
-#import "TNKCollectionViewFloatingHeaderFlowLayout.h"
 #import "TNKAssetsDetailViewController.h"
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
@@ -182,8 +181,7 @@
 
 - (void)_updateLayoutGuides {
 	if (self.isViewLoaded) {
-		self.collectionViewController.collectionView.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
-		self.collectionViewController.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+		self.collectionViewController.layoutInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
 	}
 }
 
@@ -238,9 +236,6 @@
 
 - (instancetype)init
 {
-    UICollectionViewFlowLayout *layout = [[TNKCollectionViewFloatingHeaderFlowLayout alloc] init];
-    layout.minimumLineSpacing = TNKObjectSpacing;
-    layout.minimumInteritemSpacing = 0.0;
     self = [super initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
 	if (self) {
 		[self _init];

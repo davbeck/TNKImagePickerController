@@ -31,8 +31,8 @@
 		110353761C937F7900D652BA /* TNKCollectionPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110353531C937F7900D652BA /* TNKCollectionPickerController.m */; };
 		110353771C937F7900D652BA /* TNKCollectionsTitleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 110353541C937F7900D652BA /* TNKCollectionsTitleButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		110353781C937F7900D652BA /* TNKCollectionsTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 110353551C937F7900D652BA /* TNKCollectionsTitleButton.m */; };
-		110353791C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 110353561C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1103537A1C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 110353571C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m */; };
+		110353791C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 110353561C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1103537A1C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 110353571C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.m */; };
 		1103537B1C937F7900D652BA /* TNKImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 110353581C937F7900D652BA /* TNKImagePickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1103537C1C937F7900D652BA /* TNKImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110353591C937F7900D652BA /* TNKImagePickerController.m */; };
 		1103537F1C937F7900D652BA /* TNKImageZoomView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1103535C1C937F7900D652BA /* TNKImageZoomView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,8 +121,8 @@
 		110353531C937F7900D652BA /* TNKCollectionPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKCollectionPickerController.m; sourceTree = "<group>"; };
 		110353541C937F7900D652BA /* TNKCollectionsTitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKCollectionsTitleButton.h; sourceTree = "<group>"; };
 		110353551C937F7900D652BA /* TNKCollectionsTitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKCollectionsTitleButton.m; sourceTree = "<group>"; };
-		110353561C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKCollectionViewFloatingHeaderFlowLayout.h; sourceTree = "<group>"; };
-		110353571C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKCollectionViewFloatingHeaderFlowLayout.m; sourceTree = "<group>"; };
+		110353561C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKCollectionViewInvertedFlowLayout.h; sourceTree = "<group>"; };
+		110353571C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKCollectionViewInvertedFlowLayout.m; sourceTree = "<group>"; };
 		110353581C937F7900D652BA /* TNKImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKImagePickerController.h; sourceTree = "<group>"; };
 		110353591C937F7900D652BA /* TNKImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TNKImagePickerController.m; sourceTree = "<group>"; };
 		1103535C1C937F7900D652BA /* TNKImageZoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNKImageZoomView.h; sourceTree = "<group>"; };
@@ -230,8 +230,6 @@
 				110353531C937F7900D652BA /* TNKCollectionPickerController.m */,
 				110353541C937F7900D652BA /* TNKCollectionsTitleButton.h */,
 				110353551C937F7900D652BA /* TNKCollectionsTitleButton.m */,
-				110353561C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h */,
-				110353571C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m */,
 				1103535C1C937F7900D652BA /* TNKImageZoomView.h */,
 				1103535D1C937F7900D652BA /* TNKImageZoomView.m */,
 				1103535E1C937F7900D652BA /* TNKMomentHeaderView.h */,
@@ -288,6 +286,8 @@
 				11E88D071CDBA5B700E41A33 /* TNKAssetCollectionViewController.m */,
 				11E88CFE1CDB9AD800E41A33 /* TNKMomentsViewController.h */,
 				11E88CFF1CDB9AD800E41A33 /* TNKMomentsViewController.m */,
+				110353561C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.h */,
+				110353571C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.m */,
 				110353481C937F7900D652BA /* TNKAssetCell.h */,
 				110353491C937F7900D652BA /* TNKAssetCell.m */,
 			);
@@ -316,7 +316,7 @@
 				1103536D1C937F7900D652BA /* TNKAssetImageView.h in Headers */,
 				11E88D0D1CDBBBE600E41A33 /* TNKAssetSelection.h in Headers */,
 				110353671C937F7900D652BA /* PHImageManager+TNKRequestImages.h in Headers */,
-				110353791C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.h in Headers */,
+				110353791C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.h in Headers */,
 				110353731C937F7900D652BA /* TNKCollectionCell.h in Headers */,
 				110353811C937F7900D652BA /* TNKMomentHeaderView.h in Headers */,
 				1103536B1C937F7900D652BA /* TNKAssetCell.h in Headers */,
@@ -470,7 +470,7 @@
 				1103537C1C937F7900D652BA /* TNKImagePickerController.m in Sources */,
 				11E88CF91CDAEAF800E41A33 /* UIImage+TNKIcons.m in Sources */,
 				110353741C937F7900D652BA /* TNKCollectionCell.m in Sources */,
-				1103537A1C937F7900D652BA /* TNKCollectionViewFloatingHeaderFlowLayout.m in Sources */,
+				1103537A1C937F7900D652BA /* TNKCollectionViewInvertedFlowLayout.m in Sources */,
 				11E88D091CDBA5B700E41A33 /* TNKAssetCollectionViewController.m in Sources */,
 				110353701C937F7900D652BA /* TNKAssetsDetailViewController.m in Sources */,
 				1103536C1C937F7900D652BA /* TNKAssetCell.m in Sources */,
@@ -681,7 +681,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ThinkUltimate.TNKImagePickerController-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -693,7 +693,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ThinkUltimate.TNKImagePickerController-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";

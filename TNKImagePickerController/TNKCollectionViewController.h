@@ -21,6 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKCollectionViewController : UICollectionViewController
 
+/** The insets for the layout guides.
+ 
+ Normally this would be automatically handled by top and bottomLayoutGuide, but because these view controllers are normally presented inside of a UIPageViewController, those properties do not propogate.
+ */
+@property (nonatomic) UIEdgeInsets layoutInsets;
+
 - (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForAsset:(PHAsset *)asset;
 
