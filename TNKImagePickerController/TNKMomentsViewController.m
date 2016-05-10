@@ -50,12 +50,7 @@
 @interface TNKMomentsViewController () {
 	PHFetchResult<PHAssetCollection *> *_moments;
 	NSCache *_momentCache;
-	
 	NSArray<TNKMomentInfo *> *_sections;
-	
-	NSMutableArray<NSIndexSet *> *_sectionIndexQueue;
-	// we don't want to update while scrolling
-	NSArray<TNKMomentInfo *> *_sectionsWaitingToBeInserted;
 }
 
 @end
@@ -172,76 +167,88 @@
 	}
 }
 
-
-
-- (void)_loadMoreSections {
-	NSIndexSet *indexSet = [_sectionIndexQueue firstObject];
-	if (indexSet != nil) {
-		[_sectionIndexQueue removeObjectAtIndex:0];
-		PHFetchResult<PHAssetCollection *> *moments = _moments;
-		
-		dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
-			NSMutableArray<TNKMomentInfo *> *sections = [NSMutableArray new];
-			
-			[moments enumerateObjectsAtIndexes:indexSet options:NSEnumerationReverse usingBlock:^(PHAssetCollection * _Nonnull moment, NSUInteger index, BOOL * _Nonnull stop) {
-				NSUInteger count = [self _assetsForMoment:moment].count;
-				
-				// if a moment only has videos and we only display photos (or something similar) we will have empty moments
-				if (count > 0) {
-					TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:count];
-					[sections addObject:info];
-					
-					dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-						NSArray *assets = [fetchResult objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, count)]];
-						CGSize size = [self _layout].itemSize;
-						size.width *= self.traitCollection.displayScale;
-						size.height *= self.traitCollection.displayScale;
-						[self.imageManager startCachingImagesForAssets:assets targetSize:size contentMode:PHImageContentModeAspectFill options:[TNKAssetImageView imageRequestOptions]];
-					});
-				}
-			}];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				if (_moments == moments) {
-					_sectionsWaitingToBeInserted = sections;
-					
-					// we don't want to insert these while the user is interacting with the content because it will cause a freeze
-					if (!self.collectionView.dragging && !self.collectionView.decelerating) {
-						[self _applyChanges];
-					}
-				}
-			});
-		});
-	}
-}
-
 - (void)_loadMoments {
+	// first we load the first 20 sections to make sure that we initially show correct data
+	// then we continue to load sections with estimated section counts
+	// if the user scrolls to these sections, there may be mismatches and blank cells, but nothing will crash
+	// then we asyncrounously load the rest of the sections to their final section counts
+	
 	PHFetchResult<PHAssetCollection *> *moments = _moments;
-	_sections = [NSArray new];
+	
+	__block NSInteger momentLoadingIndex = 0;
+	NSMutableArray<TNKMomentInfo *> *sections = [NSMutableArray new];
+	
+	
+	// the size we want to precache
+	CGSize itemSize = [self _layout].itemSize;
+	itemSize.width *= self.traitCollection.displayScale;
+	itemSize.height *= self.traitCollection.displayScale;
+	
+	
+	// because we invert the collection view we need to load moments in reverse order
+	[moments enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PHAssetCollection * _Nonnull moment, NSUInteger index, BOOL * _Nonnull stop) {
+		if (sections.count < 20) {
+			PHFetchResult *fetchResult = [self _assetsForMoment:moment];
+			NSUInteger count = fetchResult.count;
+			
+			if (count > 0) {
+				momentLoadingIndex++;
+				TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:count];
+				[sections addObject:info];
+				
+				// we only precache the first few sections because most user's won't need to scroll past those and we don't want to waste resources
+				dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+					NSArray *assets = [fetchResult objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, count)]];
+					[self.imageManager startCachingImagesForAssets:assets targetSize:itemSize contentMode:PHImageContentModeAspectFill options:[TNKAssetImageView imageRequestOptions]];
+				});
+			}
+		} else {
+			TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:moment.estimatedAssetCount];
+			[sections addObject:info];
+		}
+	}];
+	
+	
+	_sections = [sections copy];
 	[self.collectionView reloadData];
 	
 	
-	
-	// break up all the indexes in the moments array into groups of 50
-	NSMutableArray<NSIndexSet *> *sectionIndexQueue = [NSMutableArray new];
-	for (NSInteger i = moments.count; i > 0; i -= 50) {
-		NSUInteger length = MIN(50, i);
-		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(i - length, length)];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
+		// if _moments change, we might as well cancel because we will be out of date
+		while (momentLoadingIndex < sections.count && _moments == moments) {
+			TNKMomentInfo *oldInfo = [sections objectAtIndex:momentLoadingIndex];
+			PHAssetCollection *moment = oldInfo.moment;
+			
+			PHFetchResult *fetchResult = [self _assetsForMoment:moment];
+			NSUInteger count = fetchResult.count;
+			
+			// if a moment only has videos and we only display photos (or something similar) we will have empty moments
+			if (count == 0) {
+				[sections removeObjectAtIndex:momentLoadingIndex];
+			} else {
+				if (oldInfo.count != count) {
+					TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:count];
+					[sections replaceObjectAtIndex:momentLoadingIndex withObject:info];
+				}
+				
+				momentLoadingIndex++;
+			}
+		}
 		
-		[sectionIndexQueue addObject:indexSet];
-	}
-	_sectionIndexQueue = sectionIndexQueue;
-	
-	
-	
-	[self _loadMoreSections];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (_moments == moments) {
+				_sections = sections;
+				[self.collectionView reloadData];
+			}
+		});
+	});
 }
 
 
 #pragma mark - UICollectionView
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return _sections.count;
+	return _sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -271,48 +278,19 @@
 	return headerView;
 }
 
-// this should only be called if the collection view is not scrolling
-- (void)_applyChanges {
-	if (_sectionsWaitingToBeInserted.count > 0) {
-		NSIndexSet *newIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_sections.count, _sectionsWaitingToBeInserted.count)];
-		
-		[UIView performWithoutAnimation:^{
-			[self.collectionView performBatchUpdates:^{
-				_sections = [_sections arrayByAddingObjectsFromArray:_sectionsWaitingToBeInserted];
-				[self.collectionView insertSections:newIndexes];
-				
-				_sectionsWaitingToBeInserted = nil;
-				
-				// we don't want to load the next group of sections until we've merged in the last one to avoid having too many inserts at once
-				[self _loadMoreSections];
-			} completion:nil];
-		}];
-	}
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	[self _applyChanges];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	if (!decelerate) {
-		[self _applyChanges];
-	}
-}
-
 
 #pragma mark - PHPhotoLibraryChangeObserver
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_momentCache removeAllObjects];
-
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_momentCache removeAllObjects];
+		
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
 			_moments = [details fetchResultAfterChanges];
 			[self _loadMoments];
 		}
-    });
+	});
 }
 
 @end

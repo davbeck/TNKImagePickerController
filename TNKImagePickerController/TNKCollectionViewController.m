@@ -79,7 +79,7 @@
 
 #pragma mark - Asset Management
 
-- (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath
+- (nullable PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath
 {
 	return nil;
 }
@@ -150,10 +150,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	PHAsset *asset = [self assetAtIndexPath:indexPath];
 	
-	if ([self.assetSelection isAssetSelected:asset]) {
-		[self.assetSelection deselectAsset:asset];
-	} else {
-		[self.assetSelection selectAsset:asset];
+	if (asset != nil) {
+		if ([self.assetSelection isAssetSelected:asset]) {
+			[self.assetSelection deselectAsset:asset];
+		} else {
+			[self.assetSelection selectAsset:asset];
+		}
 	}
 }
 

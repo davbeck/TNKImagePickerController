@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) UIEdgeInsets layoutInsets;
 
-- (PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath;
-- (NSIndexPath *)indexPathForAsset:(PHAsset *)asset;
+- (nullable PHAsset *)assetAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSIndexPath *)indexPathForAsset:(PHAsset *)asset;
 
 @property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
 
