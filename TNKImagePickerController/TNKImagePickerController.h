@@ -146,6 +146,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
+/** The view controller used to display the libraries moments.
+ 
+ View controllers for individual collections are generated dynamically, but because the moements view controller is more expensive to create, we keep the single instance around. You can customize the view controller used by subclassing this class and returning  (or modifying) a different value from this property.
+ */
+@property (nonatomic, strong) TNKCollectionViewController *momentsViewController;
+
 /** The currently selected assets.
  
  Instances are `PHAsset` objects. You can set this to provide default assets to be selected, or read them to see what the user has selected. The order will be roughly the same as the order that the user selected them in.

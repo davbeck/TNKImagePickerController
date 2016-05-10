@@ -72,7 +72,7 @@
     _assetCollection = assetCollection;
 	
 	if (_assetCollection == nil) {
-		self.collectionViewController = [[TNKMomentsViewController alloc] init];
+		self.collectionViewController = self.momentsViewController;
 	} else {
 		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection];
 	}
@@ -89,6 +89,14 @@
 	[self setViewControllers:@[ collectionViewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 	
 	[self _updateLayoutGuides];
+}
+
+- (TNKCollectionViewController *)momentsViewController {
+	if (_momentsViewController == nil) {
+		_momentsViewController = [[TNKMomentsViewController alloc] init];
+	}
+	
+	return _momentsViewController;
 }
 
 - (void)_updateForAssetCollection
