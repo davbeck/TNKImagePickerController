@@ -35,6 +35,16 @@
 	self.collectionView.scrollIndicatorInsets = layoutInsets;
 }
 
+- (UICollectionViewFlowLayout *)_layout {
+	UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	
+	if ([layout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+		return layout;
+	}
+	
+	return nil;
+}
+
 #pragma mark - Initialization
 
 - (instancetype)initWithAssetCollection:(PHAssetCollection *)assetCollection
@@ -58,7 +68,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	NSArray *assets = [_fetchResult objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _fetchResult.count)]];
+	CGSize size = [self _layout].itemSize;
+	size.width *= self.traitCollection.displayScale;
+	size.height *= self.traitCollection.displayScale;
 	
+	[self.imageManager startCachingImagesForAssets:assets targetSize:size contentMode:PHImageContentModeAspectFill options:[TNKAssetImageView imageRequestOptions]];
 }
 
 

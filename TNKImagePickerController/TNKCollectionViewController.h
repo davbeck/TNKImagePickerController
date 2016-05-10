@@ -10,6 +10,7 @@
 
 @class PHAsset;
 @class PHFetchOptions;
+@class PHCachingImageManager;
 
 
 #define TNKObjectSpacing 1.0
@@ -31,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSIndexPath *)indexPathForAsset:(PHAsset *)asset;
 
 @property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
+
+@property (nonatomic, strong, readonly, nonnull) PHCachingImageManager *imageManager;
 
 @end
 

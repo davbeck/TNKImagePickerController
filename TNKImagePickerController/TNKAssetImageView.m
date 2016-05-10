@@ -22,6 +22,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TNKAssetImageView
 
++ (PHImageRequestOptions *)imageRequestOptions {
+	static PHImageRequestOptions *options;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		options = [[PHImageRequestOptions alloc] init];
+		options.networkAccessAllowed = YES;
+		options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+	});
+	
+	return options;
+}
+
+- (PHImageManager *)imageManager {
+	if (_imageManager == nil) {
+		return [PHImageManager defaultManager];
+	}
+	
+	return _imageManager;
+}
+
 - (void)setAsset:(nullable PHAsset *)asset
 {
     if (_asset != asset) {
@@ -30,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
         _asset = asset;
         self.image = self.defaultImage;
         
-        [self setNeedsAssetReload];
+        [self loadAssetImage];
     }
 }
 
@@ -51,22 +71,17 @@ NS_ASSUME_NONNULL_BEGIN
 	PHAsset *asset = _asset;
     
     if (asset != nil && self.bounds.size.width > 0.0 && self.bounds.size.height > 0.0) {
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-		options.networkAccessAllowed = YES;
-        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-        options.resizeMode = PHImageRequestOptionsResizeModeExact;
-        
-        CGSize size = self.bounds.size;
+		CGSize size = self.bounds.size;
         size.width *= self.traitCollection.displayScale;
         size.height *= self.traitCollection.displayScale;
-        
-        self.imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:size contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+		
+		self.imageRequestID = [self.imageManager requestImageForAsset:_asset targetSize:size contentMode:PHImageContentModeAspectFill options:[self.class imageRequestOptions] resultHandler:^(UIImage *result, NSDictionary *info) {
 			if (_asset == asset) {
 				self.image = result;
 			}
-        }];
-    }
-    
+		}];
+	}
+	
     _needsAssetReload = NO;
 }
 

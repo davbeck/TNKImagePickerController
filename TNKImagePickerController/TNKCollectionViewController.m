@@ -41,6 +41,8 @@
 
 - (void)_init
 {
+	_imageManager = [[PHCachingImageManager alloc] init];
+	
 	[[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
@@ -138,6 +140,7 @@
 	TNKAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TNKCollectionViewControllerCellIdentifier forIndexPath:indexPath];
 	PHAsset *asset = [self assetAtIndexPath:indexPath];
 	
+	cell.imageView.imageManager = self.imageManager;
 	cell.asset = asset;
 	cell.assetSelected = [self.assetSelection isAssetSelected:asset];
 	

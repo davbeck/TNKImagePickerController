@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKAssetCell ()
 
-@property (nonatomic, strong) TNKAssetImageView *imageView;
 @property (nonatomic, strong) UIImageView *selectedBadgeImageView;
 
 @end

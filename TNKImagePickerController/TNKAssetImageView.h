@@ -19,9 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) PHImageRequestID imageRequestID;
 @property (nonatomic, strong, nullable) PHAsset *asset;
 
+@property (nonatomic, strong, null_resettable) PHImageManager *imageManager;
+
 - (void)setNeedsAssetReload;
 - (void)loadAssetImage;
 - (void)cancelAssetImageRequest;
+
++ (PHImageRequestOptions *)imageRequestOptions;
 
 @end
 

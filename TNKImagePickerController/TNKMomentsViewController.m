@@ -70,6 +70,16 @@
 	self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
 }
 
+- (TNKCollectionViewInvertedFlowLayout *)_layout {
+	TNKCollectionViewInvertedFlowLayout *layout = (TNKCollectionViewInvertedFlowLayout *)self.collectionView.collectionViewLayout;
+	
+	if ([layout isKindOfClass:[TNKCollectionViewInvertedFlowLayout class]]) {
+		return layout;
+	}
+	
+	return nil;
+}
+
 
 #pragma mark - Initialization
 
@@ -104,7 +114,7 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
 	[super traitCollectionDidChange:previousTraitCollection];
 	
-	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	UICollectionViewFlowLayout *flowLayout = [self _layout];
 	
 	// because we are inverted we want "footers" instead of headers, even though fisually they look and act like headers.
 	flowLayout.headerReferenceSize = CGSizeZero;
@@ -180,6 +190,14 @@
 				if (count > 0) {
 					TNKMomentInfo *info = [[TNKMomentInfo alloc] initWithMoment:moment count:count];
 					[sections addObject:info];
+					
+					dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+						NSArray *assets = [fetchResult objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, count)]];
+						CGSize size = [self _layout].itemSize;
+						size.width *= self.traitCollection.displayScale;
+						size.height *= self.traitCollection.displayScale;
+						[self.imageManager startCachingImagesForAssets:assets targetSize:size contentMode:PHImageContentModeAspectFill options:[TNKAssetImageView imageRequestOptions]];
+					});
 				}
 			}];
 			
