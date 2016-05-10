@@ -1,5 +1,16 @@
 # TUMessagePackSerialization CHANGELOG
 
+## 3.3.0
+
+- Fixed loading assets from iCloud.
+- Fixed thumbnail loading.
+- Converted icons to use runtime drawing instead of PNGs.
+
+## 3.2.0
+
+- Added the ability to limit asset count.
+- Fixed `hidesSelectAll`.
+
 ## 3.1.0
 
 - Reorganized the project for better compatibility with Carthage.
