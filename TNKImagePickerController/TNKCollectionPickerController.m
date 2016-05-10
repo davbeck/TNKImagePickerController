@@ -55,7 +55,10 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    self.restorationIdentifier = @"TNKCollectionPickerController";
+	self.restorationIdentifier = @"TNKCollectionPickerController";
+	
+	
+	[self _setNeedsReloadFetch];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -97,9 +100,6 @@
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0, 95.0, 0.0, 0.0);
     self.tableView.estimatedRowHeight = 85.0;
     
-    
-    [self _setNeedsReloadFetch];
-    
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
@@ -124,7 +124,7 @@
     
     PHCollectionList *collectionList = self.collectionList;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         NSArray *fetchResults;
         
         if (collectionList == nil) {

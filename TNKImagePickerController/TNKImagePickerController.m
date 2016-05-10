@@ -214,7 +214,10 @@
     _pasteButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Paste", @"Button to paste a photo") style:UIBarButtonItemStylePlain target:self action:@selector(paste:)];
     
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
-    
+	
+	_collectionPicker = [[TNKCollectionPickerController alloc] init];
+	_collectionPicker.delegate = self;
+	
     self.hidesBottomBarWhenPushed = NO;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -420,11 +423,6 @@
 }
 
 - (IBAction)changeCollection:(id)sender {
-    if (_collectionPicker == nil) {
-        _collectionPicker = [[TNKCollectionPickerController alloc] init];
-        _collectionPicker.delegate = self;
-    }
-    
     _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
     if (_assetSelection.count > 0) {
         PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
