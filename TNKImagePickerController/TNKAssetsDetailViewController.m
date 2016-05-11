@@ -56,7 +56,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     if (_assetCollection != nil) {
         _fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:self.assetFetchOptions];
     } else {
-        _fetchResult = [PHAssetCollection fetchMomentsWithOptions:nil];
+        _fetchResult = [PHAsset fetchAssetsWithOptions:self.assetFetchOptions];
     }
 }
 
@@ -65,8 +65,8 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     
     _assetViewControllerClass = assetViewControllerClass;
     
-    NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
-    [self showAssetAtIndexPath:indexPath];
+    PHAsset *asset = [(TNKAssetViewController *)self.viewControllers.firstObject asset];
+    [self showAsset:asset];
 }
 
 
@@ -230,8 +230,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 }
 
 - (IBAction)toggleSelection {
-	NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
-	PHAsset *asset = [self _assetAtIndexPath:indexPath];
+	PHAsset *asset = [(TNKAssetViewController *)self.viewControllers.firstObject asset];
 	
 	BOOL selected = ![self.assetSelection isAssetSelected:asset];
 	
@@ -259,22 +258,19 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 	return asset;
 }
 
-- (TNKAssetViewController *)_assetViewControllerWithAssetAtIndexPath:(NSIndexPath *)indexPath {
-	PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    
+- (TNKAssetViewController *)_assetViewControllerWithAsset:(PHAsset *)asset {
     TNKAssetViewController *next = [[self.assetViewControllerClass alloc] init];
     next.view.backgroundColor = [UIColor clearColor];
     next.view.frame = self.view.bounds;
     
     next.asset = asset;
-    next.assetIndexPath = indexPath;
     
     return next;
 }
 
-- (void)showAssetAtIndexPath:(NSIndexPath *)indexPath
+- (void)showAsset:(PHAsset *)asset
 {
-    TNKAssetViewController *next = [self _assetViewControllerWithAssetAtIndexPath:indexPath];
+	TNKAssetViewController *next = [self _assetViewControllerWithAsset:asset];
     [self setViewControllers:@[next] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     [self _updateTitle];
     
@@ -289,69 +285,28 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(TNKAssetViewController *)last
 {
-    NSIndexPath *lastIndexPath = last.assetIndexPath;
-    NSIndexPath *nextIndexPath = nil;
-    
-    if (self.assetCollection == nil) {
-        if (lastIndexPath.item > 0) {
-            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item - 1 inSection:lastIndexPath.section];
-        } else {
-            NSInteger section = lastIndexPath.section;
-            while (section - 1 >= 0 && nextIndexPath == nil) {
-                section--;
-                PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:self.assetFetchOptions];
-                
-                if (moment.count > 0) {
-                    nextIndexPath = [NSIndexPath indexPathForItem:moment.count - 1 inSection:section];
-                }
-            }
-        }
-    } else {
-        if (lastIndexPath.item > 0) {
-            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item - 1 inSection:0];
-        }
-    }
-    
-    
-    if (nextIndexPath != nil) {
-        return [self _assetViewControllerWithAssetAtIndexPath:nextIndexPath];
-    }
+	NSInteger lastIndex = [_fetchResult indexOfObject:last.asset];
+	NSInteger nextIndex = lastIndex - 1;
+	if (lastIndex != NSNotFound && nextIndex >= 0) {
+		PHAsset *nextAsset = [_fetchResult objectAtIndex:nextIndex];
+		
+		return [self _assetViewControllerWithAsset:nextAsset];
+	}
     
     return nil;
 }
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(TNKAssetViewController *)last {
-    NSIndexPath *lastIndexPath = last.assetIndexPath;
-    NSIndexPath *nextIndexPath = nil;
-    
-    if (self.assetCollection == nil) {
-        PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[lastIndexPath.section] options:self.assetFetchOptions];
-        
-        if (lastIndexPath.item + 1 < moment.count) {
-            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item + 1 inSection:lastIndexPath.section];
-        } else {
-            NSInteger section = lastIndexPath.section;
-            while (section + 1 < _fetchResult.count && nextIndexPath == nil) {
-                section++;
-                PHFetchResult *moment = [PHAsset fetchAssetsInAssetCollection:_fetchResult[section] options:self.assetFetchOptions];
-                
-                if (moment.count > 0) {
-                    nextIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-                }
-            }
-        }
-    } else {
-        if (lastIndexPath.item + 1 < _fetchResult.count) {
-            nextIndexPath = [NSIndexPath indexPathForItem:lastIndexPath.item + 1 inSection:0];
-        }
-    }
-    
-    
-    if (nextIndexPath != nil) {
-        return [self _assetViewControllerWithAssetAtIndexPath:nextIndexPath];
-    }
-    
-    return nil;
+	
+	NSInteger lastIndex = [_fetchResult indexOfObject:last.asset];
+	NSInteger nextIndex = lastIndex + 1;
+	if (lastIndex != NSNotFound && nextIndex < _fetchResult.count) {
+		PHAsset *nextAsset = [_fetchResult objectAtIndex:nextIndex];
+		
+		return [self _assetViewControllerWithAsset:nextAsset];
+	}
+	
+	return nil;
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {

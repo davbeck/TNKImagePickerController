@@ -37,7 +37,7 @@ extern NSString *const TNKImagePickerControllerAssetViewControllerNotificationKe
  */
 @property (nonatomic, strong, nullable) PHAssetCollection *assetCollection;
 
-- (void)showAssetAtIndexPath:(NSIndexPath *)indexPath;
+- (void)showAsset:(PHAsset *)asset;
 
 @property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
 

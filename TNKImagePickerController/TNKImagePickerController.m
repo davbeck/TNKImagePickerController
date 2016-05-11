@@ -63,6 +63,7 @@
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.predicate = [NSPredicate predicateWithFormat:@"mediaType IN %@", assetMediaTypes];
+	options.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES] ];
     options.includeAllBurstAssets = NO;
     
     return options;
@@ -400,17 +401,16 @@
 	}
 	
 	CGPoint location = [recognizer locationInView:self.collectionViewController.collectionView];
+	PHAsset *asset = [self.collectionViewController assetAtPoint:location];
 	
-	NSIndexPath *indexPath = [self.collectionViewController.collectionView indexPathForItemAtPoint:location];
-	if (indexPath != nil){
+	if (asset != nil){
 		TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
 		detailViewController.assetSelection = _assetSelection;
 		detailViewController.assetCollection = self.assetCollection;
 		detailViewController.assetFetchOptions = [self _assetFetchOptions];
-		[detailViewController showAssetAtIndexPath:indexPath];
+		[detailViewController showAsset:asset];
 		
 		if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
-			PHAsset *asset = [self.collectionViewController assetAtIndexPath:indexPath];
 			UIViewController *viewController = [self.pickerDelegate imagePickerController:self willDisplayDetailViewController:detailViewController forAsset:asset];
 			
 			if (viewController != nil) {

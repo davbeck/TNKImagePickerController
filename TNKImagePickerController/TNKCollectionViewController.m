@@ -124,6 +124,16 @@
 	}
 }
 
+- (nullable PHAsset *)assetAtPoint:(CGPoint)point {
+	NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
+	
+	if (indexPath != nil) {
+		return [self assetAtIndexPath:indexPath];
+	} else {
+		return nil;
+	}
+}
+
 
 #pragma mark <UICollectionViewDataSource>
 

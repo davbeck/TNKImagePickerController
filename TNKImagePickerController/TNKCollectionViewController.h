@@ -35,6 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly, nonnull) PHCachingImageManager *imageManager;
 
+/** Find the asset displayed at the given point.
+ 
+ @param point A point in the collectionView's coordinate space.
+ @return An asset at that point.
+ */
+- (nullable PHAsset *)assetAtPoint:(CGPoint)point;
+
 @end
 
 NS_ASSUME_NONNULL_END
