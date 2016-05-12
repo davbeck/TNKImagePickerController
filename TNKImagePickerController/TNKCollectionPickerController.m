@@ -16,12 +16,16 @@
 #import "UIImage+TNKIcons.h"
 
 
+NSString * const TNKMomentsSection = @"Moments";
+
+
 @interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver, UIViewControllerRestoration>
 {
+	NSArray *_sections;
     NSArray *_collectionsFetchResults;
     
-    NSCache *_collectionHiddenCache;
-    NSCache *_assetCountCache;
+    NSCache<NSString *, NSNumber *> *_collectionHiddenCache;
+    NSCache<NSString *, NSNumber *> *_assetCountCache;
     BOOL _needsRefetch;
 }
 
@@ -35,15 +39,18 @@
 {
     _additionalAssetCollections = [additionalAssetCollections copy];
     
-    [self _setNeedsReloadFetch];
+    [self _reloadSections];
 }
 
-- (void)setCollectionList:(PHCollectionList *)collectionList
-{
-    _collectionList = collectionList;
-    
-    self.title = _collectionList.localizedTitle;
-    [self _setNeedsReloadFetch];
+- (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+	[_collectionHiddenCache removeAllObjects];
+	[_assetCountCache removeAllObjects];
+	
+	if (self.isViewLoaded && self.view.window != nil) {
+		[self.tableView reloadData];
+	} else {
+		[self _preheatAssetCountCache];
+	}
 }
 
 
@@ -58,7 +65,18 @@
 	self.restorationIdentifier = @"TNKCollectionPickerController";
 	
 	
-	[self _setNeedsReloadFetch];
+	[self _reloadFetch:NO];
+}
+
+- (instancetype)initWithCollectionList:(PHCollectionList *)collectionList {
+	_collectionList = collectionList;
+	
+	self = [self init];
+	if (self != nil) {
+		self.title = _collectionList.localizedTitle;
+	}
+	
+	return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -110,22 +128,15 @@
     self.navigationController.navigationBarHidden = self.collectionList == nil;
 }
 
-- (void)_setNeedsReloadFetch {
-    if (!_needsRefetch) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self _reloadFetch];
-        });
-    }
-}
 
-- (void)_reloadFetch
+#pragma mark - Photos Management
+
+- (void)_reloadFetch:(BOOL)priority
 {
-    NSArray *additionalAssetCollections = [self.additionalAssetCollections copy];
-    
     PHCollectionList *collectionList = self.collectionList;
     
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-        NSArray *fetchResults;
+	dispatch_async(dispatch_get_global_queue(priority ? QOS_CLASS_USER_INITIATED : QOS_CLASS_UTILITY, 0), ^{
+        NSArray<PHFetchResult<PHCollection *> *> *fetchResults;
         
         if (collectionList == nil) {
 			fetchResults = @[
@@ -161,18 +172,105 @@
             fetchResults = @[ [PHAssetCollection fetchCollectionsInCollectionList:collectionList options:options] ];
         }
         
-        if (additionalAssetCollections != nil) {
-            fetchResults = [additionalAssetCollections arrayByAddingObjectsFromArray:fetchResults];
-        }
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             _collectionsFetchResults = fetchResults;
-            [self.tableView reloadData];
+			[self _reloadSections];
         });
+		
+		
+		[self _preheatAssetCountCache];
     });
     
     _needsRefetch = NO;
 }
+
+- (void)_reloadSections {
+	NSMutableArray *sections = [NSMutableArray new];
+	
+	if (self.collectionList == nil) {
+		[sections addObject:TNKMomentsSection];
+	}
+	
+	if (_additionalAssetCollections != nil) {
+		[sections addObjectsFromArray:_additionalAssetCollections];
+	}
+	
+	[sections addObjectsFromArray:_collectionsFetchResults];
+	
+	_sections = [sections copy];
+	[self.tableView reloadData];
+}
+
+- (void)_preheatAssetCountCache {
+	 NSArray<PHFetchResult<PHCollection *> *> *fetchResults = [_collectionsFetchResults copy];
+	
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+		for (PHFetchResult *fetchResult in fetchResults) {
+			[fetchResult enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(PHCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
+				[self _isCollectionHidden:collection];
+				
+				if ([collection isKindOfClass:[PHAssetCollection class]]) {
+					[self _assetCountForAssetCollection:(PHAssetCollection *)collection];
+				}
+			}];
+		}
+	});
+}
+
+- (BOOL)_isCollectionHidden:(PHCollection *)collection {
+	NSNumber *hidden = [_collectionHiddenCache objectForKey:collection.localIdentifier];
+	if (hidden == nil) {
+		if ([collection isKindOfClass:[PHAssetCollection class]]) {
+			PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
+			
+			if (assetCollection.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+				hidden = @([self _assetCountForAssetCollection:assetCollection] <= 0);
+			}
+		} else if ([collection isKindOfClass:[PHCollectionList class]]) {
+			PHCollectionList *assetCollectionList = (PHCollectionList *)collection;
+			
+			PHFetchResult *result = [PHCollection fetchCollectionsInCollectionList:assetCollectionList options:nil];
+			hidden = @(result.count <= 0);
+		}
+		
+		[_collectionHiddenCache setObject:hidden ?: @NO forKey:collection.localIdentifier];
+	}
+	
+	return hidden.boolValue;
+}
+
+- (NSInteger)_assetCountForAssetCollection:(PHAssetCollection *)assetCollection {
+	NSInteger count = assetCollection.estimatedAssetCount;
+	
+	if (count == NSNotFound) {
+		NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
+		if (countNumber == nil) {
+			PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
+			countNumber = @(result.count);
+			[_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
+		}
+		
+		count = [countNumber integerValue];
+	}
+	
+	return count;
+}
+
+- (PHCollection *)_collectionAtIndexPath:(NSIndexPath *)indexPath {
+	id section = _sections[indexPath.section];
+	
+	PHCollection *collection = nil;
+	
+	if ([section isKindOfClass:[PHFetchResult class]]) {
+		PHFetchResult *fetchResult = (PHFetchResult *)section;
+		collection = fetchResult[indexPath.row];
+	} else if ([section isKindOfClass:[PHCollection class]]) {
+		collection = (PHCollection *)section;
+	}
+	
+	return collection;
+}
+
 
 #pragma mark - Actions
 
@@ -183,62 +281,28 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)_momentsSections
-{
-    if (self.collectionList != nil) {
-        return 0;
-    }
-    
-    return 1;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _collectionsFetchResults.count + [self _momentsSections];
+    return _sections.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section < [self _momentsSections]) {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
+	id section = [_sections objectAtIndex:sectionIndex];
+	
+    if (section == TNKMomentsSection) {
         return 1;
     }
-    
-    id collection = _collectionsFetchResults[section - [self _momentsSections]];
-    if ([collection isKindOfClass:[PHFetchResult class]]) {
-        return [_collectionsFetchResults[section - [self _momentsSections]] count];
+	
+    if ([section isKindOfClass:[PHFetchResult class]]) {
+        return [section count];
 	}
 	
     return 1;
 }
 
-- (BOOL)_isCollectionHidden:(PHCollection *)collection
-{
-    NSNumber *hidden = [_collectionHiddenCache objectForKey:collection.localIdentifier];
-    if (hidden == nil) {
-        if ([collection isKindOfClass:[PHAssetCollection class]]) {
-            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
-            
-            if (assetCollection.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                if (assetCollection.estimatedAssetCount == NSNotFound) {
-                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
-                    hidden = @(result.count <= 0);
-                } else {
-                    hidden = @(assetCollection.estimatedAssetCount <= 0);
-                }
-            }
-		} else if ([collection isKindOfClass:[PHCollectionList class]]) {
-			PHCollectionList *assetCollectionList = (PHCollectionList *)collection;
-			
-			PHFetchResult *result = [PHCollection fetchCollectionsInCollectionList:assetCollectionList options:nil];
-			hidden = @(result.count <= 0);
-		}
-		
-        [_collectionHiddenCache setObject:hidden ?: @NO forKey:collection.localIdentifier];
-    }
-    
-    return hidden.boolValue;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section < [self _momentsSections]) {
+	id section = [_sections objectAtIndex:indexPath.section];
+	
+    if (section == TNKMomentsSection) {
         TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
 		cell.collection = nil;
         
@@ -254,14 +318,8 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         return cell;
-    } else {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
-        PHCollection *collection;
-        if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
-            collection = fetchResult[indexPath.row];
-        } else {
-            collection = (PHCollection *)fetchResult;
-		}
+	} else {
+		PHCollection *collection = [self _collectionAtIndexPath:indexPath];
 		
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
 			TNKCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
@@ -270,18 +328,8 @@
             
             cell.titleLabel.text = collection.localizedTitle;
             
-            NSInteger count = assetCollection.estimatedAssetCount;
-            if (count == NSNotFound) {
-                NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
-                if (countNumber == nil) {
-                    PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
-                    countNumber = @(result.count);
-                    [_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
-                }
-                
-                count = [countNumber integerValue];
-            }
-            
+			NSInteger count = [self _assetCountForAssetCollection:assetCollection];
+			
             static NSNumberFormatter *numberFormatter = nil;
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
@@ -323,52 +371,27 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL hidden = NO;
-    
-    if (indexPath.section >= [self _momentsSections]) {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
-        PHCollection *collection;
-        if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
-            collection = fetchResult[indexPath.row];
-        } else {
-            collection = (PHCollection *)fetchResult;
-        }
-        
-        hidden = [self _isCollectionHidden:collection];
-    }
-    
-    
-    if (hidden) {
-        return 0.0;
-    } else {
-        return 85.0;
-    }
+	
+    PHCollection *collection = [self _collectionAtIndexPath:indexPath];
+	if (collection != nil) {
+		hidden = [self _isCollectionHidden:collection];
+	}
+	
+	return hidden ? 0 : 85;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section < [self _momentsSections]) {
-        [self.delegate collectionPicker:self didSelectCollection:nil];
-    } else {
-        PHFetchResult *fetchResult = _collectionsFetchResults[indexPath.section - [self _momentsSections]];
-        PHCollection *collection;
-        if ([fetchResult isKindOfClass:[PHFetchResult class]]) {
-            collection = fetchResult[indexPath.row];
-        } else {
-            collection = (PHCollection *)fetchResult;
-        }
-        
-        if ([collection isKindOfClass:[PHAssetCollection class]]) {
-            PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
-            
-            [self.delegate collectionPicker:self didSelectCollection:assetCollection];
-        } else {
-            TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] init];
-            picker.delegate = self.delegate;
-            picker.collectionList = (PHCollectionList *)collection;
-            picker.restorationClass = [self class];
-            
-            [self.navigationController pushViewController:picker animated:YES];
-        }
-    }
+	PHCollection *collection = [self _collectionAtIndexPath:indexPath];
+	
+	if ([collection isKindOfClass:[PHCollectionList class]]) {
+		TNKCollectionPickerController *picker = [[TNKCollectionPickerController alloc] initWithCollectionList:(PHCollectionList *)collection];
+		picker.delegate = self.delegate;
+		picker.restorationClass = [self class];
+		
+		[self.navigationController pushViewController:picker animated:YES];
+	} else {
+		[self.delegate collectionPicker:self didSelectCollection:(PHAssetCollection *)collection];
+	}
 }
 
 
@@ -378,7 +401,7 @@
     [_assetCountCache removeAllObjects];
     [_collectionHiddenCache removeAllObjects];
     
-    [self _setNeedsReloadFetch];
+    [self _reloadFetch:NO];
 }
 
 
@@ -403,7 +426,9 @@
     
     NSString *collectionListIdentifier = [coder decodeObjectForKey:@"collectionList"];
     if (collectionListIdentifier != nil) {
-        self.collectionList = [PHCollectionList fetchCollectionListsWithLocalIdentifiers:@[ collectionListIdentifier ] options:nil].firstObject;
+		_collectionList = [PHCollectionList fetchCollectionListsWithLocalIdentifiers:@[ collectionListIdentifier ] options:nil].firstObject;
+		self.title = _collectionList.localizedTitle;
+		[self _reloadFetch:YES];
     }
 }
 

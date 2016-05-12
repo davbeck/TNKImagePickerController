@@ -27,6 +27,7 @@
 
 @interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration>
 {
+	PHFetchOptions *_assetFetchOptions;
 	TNKAssetSelection *_assetSelection;
     
     UIButton *_collectionButton;
@@ -49,7 +50,13 @@
 	[self _updateDoneButton];
 }
 
-- (PHFetchOptions *)_assetFetchOptions {
+- (void)setMediaTypes:(NSArray<NSString *> *)mediaTypes {
+	_mediaTypes = mediaTypes;
+	
+	[self _reloadAssetFetchOptions];
+}
+
+- (void)_reloadAssetFetchOptions {
     NSMutableArray *assetMediaTypes = [NSMutableArray new];
     if ([self.mediaTypes containsObject:(id)kUTTypeImage]) {
         [assetMediaTypes addObject:@(PHAssetMediaTypeImage)];
@@ -66,7 +73,10 @@
 	options.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES] ];
     options.includeAllBurstAssets = NO;
     
-    return options;
+    _assetFetchOptions = options;
+	
+	_collectionViewController.assetFetchOptions = _assetFetchOptions;
+	_collectionPicker.assetFetchOptions = _assetFetchOptions;
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -84,7 +94,7 @@
 
 - (void)setCollectionViewController:(TNKCollectionViewController *)collectionViewController {
 	_collectionViewController = collectionViewController;
-	_collectionViewController.assetFetchOptions = [self _assetFetchOptions];
+	_collectionViewController.assetFetchOptions = _assetFetchOptions;
 	_collectionViewController.assetSelection = _assetSelection;
 	
 	[self setViewControllers:@[ collectionViewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
@@ -202,8 +212,9 @@
 	_assetSelection = [[TNKAssetSelection alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetSelectionDidChange:) name:TNKAssetSelectionDidChangeNotification object:_assetSelection];
 	
-    _mediaTypes = @[ (NSString *)kUTTypeImage ];
-    
+	_mediaTypes = @[ (NSString *)kUTTypeImage ];
+	[self _reloadAssetFetchOptions];
+	
     _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = _cancelButton;
     
@@ -217,6 +228,7 @@
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
 	
 	_collectionPicker = [[TNKCollectionPickerController alloc] init];
+	_collectionPicker.assetFetchOptions = _assetFetchOptions;
 	_collectionPicker.delegate = self;
 	
     self.hidesBottomBarWhenPushed = NO;
@@ -407,7 +419,7 @@
 		TNKAssetsDetailViewController *detailViewController = [[TNKAssetsDetailViewController alloc] init];
 		detailViewController.assetSelection = _assetSelection;
 		detailViewController.assetCollection = self.assetCollection;
-		detailViewController.assetFetchOptions = [self _assetFetchOptions];
+		detailViewController.assetFetchOptions = _assetFetchOptions;
 		[detailViewController showAsset:asset];
 		
 		if ([self.pickerDelegate respondsToSelector:@selector(imagePickerController:willDisplayDetailViewController:forAsset:)]) {
@@ -423,7 +435,6 @@
 }
 
 - (IBAction)changeCollection:(id)sender {
-    _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
     if (_assetSelection.count > 0) {
         PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
         _collectionPicker.additionalAssetCollections = @[ collection ];
@@ -591,7 +602,7 @@
     TNKCollectionPickerController *collectionPicker = [coder decodeObjectForKey:@"collectionPicker"];
     if (collectionPicker != nil) {
         _collectionPicker = collectionPicker;
-        _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
+        _collectionPicker.assetFetchOptions = _assetFetchOptions;
         if (_assetSelection.count > 0) {
             PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
             _collectionPicker.additionalAssetCollections = @[ collection ];
