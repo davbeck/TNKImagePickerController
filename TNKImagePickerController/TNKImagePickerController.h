@@ -129,15 +129,56 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(nullable NSDictionary<NSString *, id> *)options NS_UNAVAILABLE;
 
+/** The picker's delegate.
+ 
+ When set, callbacks will be sent to the delegate as needed. It is important that you set this property in order to get the assets the user picked.
+ */
 @property (nonatomic, weak, nullable) id<TNKImagePickerControllerDelegate> pickerDelegate;
 
+/** The default cancel button.
+ 
+ You can use this property to customize the button.
+ */
 @property (nonatomic, readonly) UIBarButtonItem *cancelButton;
+
+/** The default done button.
+ 
+ You can use this property to customize the button. By default the title is set to be "Next (n)" each time selection changes. To properly customize the title of this button your `pickerDelegate` should responde to `imagePickerControllerTitleForDoneButton:`.
+ */
 @property (nonatomic, readonly) UIBarButtonItem *doneButton;
+
+/** The default camera button to take a new photo.
+ 
+ When the camera is available this is displayed in the view controller's toolbar.
+ 
+ You can use this property to customize the button.
+ */
 @property (nonatomic, readonly) UIBarButtonItem *cameraButton;
+
+/** The default paste button.
+ 
+ When there is an image on the default pasteboard this button is shown in the view controller's toolbar. Pasted images are added to the user's library automatically.
+ 
+ You can use this property to customize the button.
+ */
 @property (nonatomic, readonly) UIBarButtonItem *pasteButton;
+
+/** The default select all button.
+ 
+ You can use this property to customize the button. Use `hideSelectAll` to customize whether this button is shown at all.
+ */
 @property (nonatomic, readonly) UIBarButtonItem *selectAllButton;
+
+/** When `YES`, don't show the `selectAllButton`.
+ 
+ If you want to discourage a user from selecting too many photos, set this to `YES`.
+ */
 @property (nonatomic) BOOL hideSelectAll;
 
+/** An array indicating the media types to be accessed by the media picker controller.
+ 
+ Use this to show videos and other content types. This is set to `kUTTypeImage` by default.
+ */
 @property (nonatomic, copy) NSArray<NSString *> *mediaTypes;
 
 /** The asset collection the picker will display to the user.
@@ -157,7 +198,17 @@ NS_ASSUME_NONNULL_BEGIN
  Instances are `PHAsset` objects. You can set this to provide default assets to be selected, or read them to see what the user has selected. The order will be roughly the same as the order that the user selected them in.
  */
 @property (nonatomic, copy) NSArray<PHAsset *> *selectedAssets;
+
+/** Add an asset to the selected assets manually.
+ 
+ @param asset The asset to select.
+ */
 - (void)selectAsset:(PHAsset *)asset;
+
+/** Remove an asset from the selected assets manually.
+ 
+ @param asset The asset to deselect.
+ */
 - (void)deselectAsset:(PHAsset *)asset;
 
 @end
