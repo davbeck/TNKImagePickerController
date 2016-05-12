@@ -75,6 +75,17 @@
 	return nil;
 }
 
+- (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+	[super setAssetFetchOptions:assetFetchOptions];
+	
+	if (![self.assetFetchOptions.predicate isEqual:assetFetchOptions.predicate]) {
+		if (self.isViewLoaded) {
+			[_momentCache removeAllObjects];
+			[self _loadMoments];
+		}
+	}
+}
+
 
 #pragma mark - Initialization
 
@@ -88,8 +99,6 @@
 	if (self != nil) {
 		_moments = [PHAssetCollection fetchMomentsWithOptions:nil];
 		_momentCache = [[NSCache alloc] init];
-		
-		[self _loadMoments];
 	}
 	
 	return self;
@@ -104,6 +113,9 @@
 	self.collectionView.transform = TNKInvertedTransform;
 	
 	[self.collectionView registerClass:[TNKMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:TNKCollectionViewControllerHeaderIdentifier];
+	
+	
+	[self _loadMoments];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -126,7 +138,7 @@
 - (PHFetchResult *)_assetsForMoment:(PHAssetCollection *)collection {
 	PHFetchResult *result = [_momentCache objectForKey:collection.localIdentifier];
 	if (result == nil) {
-		result = [PHAsset fetchAssetsInAssetCollection:collection options:[self assetFetchOptions]];
+		result = [PHAsset fetchAssetsInAssetCollection:collection options:self.assetFetchOptions];
 		[_momentCache setObject:result forKey:collection.localIdentifier];
 	}
 	
@@ -283,8 +295,6 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_momentCache removeAllObjects];
-		
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
 			_moments = [details fetchResultAfterChanges];

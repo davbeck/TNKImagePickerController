@@ -43,6 +43,8 @@ NSString * const TNKMomentsSection = @"Moments";
 }
 
 - (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+	_assetFetchOptions = assetFetchOptions;
+	
 	[_collectionHiddenCache removeAllObjects];
 	[_assetCountCache removeAllObjects];
 	
@@ -240,20 +242,14 @@ NSString * const TNKMomentsSection = @"Moments";
 }
 
 - (NSInteger)_assetCountForAssetCollection:(PHAssetCollection *)assetCollection {
-	NSInteger count = assetCollection.estimatedAssetCount;
-	
-	if (count == NSNotFound) {
-		NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
-		if (countNumber == nil) {
-			PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
-			countNumber = @(result.count);
-			[_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
-		}
-		
-		count = [countNumber integerValue];
+	NSNumber *countNumber = [_assetCountCache objectForKey:assetCollection.localIdentifier];
+	if (countNumber == nil) {
+		PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:assetCollection options:self.assetFetchOptions];
+		countNumber = @(result.count);
+		[_assetCountCache setObject:countNumber forKey:assetCollection.localIdentifier];
 	}
 	
-	return count;
+	return [countNumber integerValue];
 }
 
 - (PHCollection *)_collectionAtIndexPath:(NSIndexPath *)indexPath {

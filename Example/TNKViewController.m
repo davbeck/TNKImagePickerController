@@ -14,6 +14,8 @@
 @interface TNKViewController () <TNKImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *singlePhotoModeSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *photoSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *videoSwitch;
 
 @end
 
@@ -34,8 +36,18 @@
 - (IBAction)pickPhotos:(id)sender
 {
     TNKImagePickerController *picker = [[TNKImagePickerController alloc] init];
-    picker.mediaTypes = @[ (id)kUTTypeImage ];
+	
+	NSMutableArray *mediaTypes = [NSMutableArray new];
+	if (self.photoSwitch.on) {
+		[mediaTypes addObject:(id)kUTTypeImage];
+	}
+	if (self.videoSwitch.on) {
+		[mediaTypes addObject:(id)kUTTypeVideo];
+	}
+    picker.mediaTypes = mediaTypes;
+	
 	picker.pickerDelegate = self;
+	
 	if (self.singlePhotoModeSwitch.on) {
 		picker.hideSelectAll = YES;
 	}

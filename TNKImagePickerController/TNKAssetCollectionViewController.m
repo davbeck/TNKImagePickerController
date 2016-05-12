@@ -28,6 +28,8 @@
 
 @implementation TNKAssetCollectionViewController
 
+@synthesize fetchResult = _fetchResult;
+
 - (void)setLayoutInsets:(UIEdgeInsets)layoutInsets {
 	[super setLayoutInsets:layoutInsets];
 	
@@ -45,6 +47,21 @@
 	return nil;
 }
 
+- (PHFetchResult *)fetchResult {
+	[self loadViewIfNeeded];
+	
+	return _fetchResult;
+}
+
+- (void)setAssetFetchOptions:(PHFetchOptions *)assetFetchOptions {
+	[super setAssetFetchOptions:assetFetchOptions];
+	
+	if (self.isViewLoaded) {
+		_fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self assetFetchOptions]];
+		[self.collectionView reloadData];
+	}
+}
+
 #pragma mark - Initialization
 
 - (instancetype)initWithAssetCollection:(PHAssetCollection *)assetCollection
@@ -56,7 +73,6 @@
 	self = [super initWithCollectionViewLayout:layout];
 	if (self != nil) {
 		_assetCollection = assetCollection;
-		_fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self assetFetchOptions]];
 	}
 	
 	return self;
@@ -67,6 +83,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	_fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self assetFetchOptions]];
 	
 	NSArray *assets = [_fetchResult objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _fetchResult.count)]];
 	CGSize size = [self _layout].itemSize;

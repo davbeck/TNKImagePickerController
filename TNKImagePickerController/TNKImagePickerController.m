@@ -254,8 +254,6 @@
 	
 	
 	self.automaticallyAdjustsScrollViewInsets = false;
-	
-	self.assetCollection = nil;
 }
 
 - (instancetype)init
@@ -283,6 +281,8 @@
 	UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showAsset:)];
 	recognizer.minimumPressDuration = 0.5;
 	[self.view addGestureRecognizer:recognizer];
+	
+	self.assetCollection = nil;
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent {

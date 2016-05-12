@@ -209,7 +209,7 @@ NS_ASSUME_NONNULL_BEGIN
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
     
-    PHFetchResult *keyResult = [PHAsset fetchKeyAssetsInAssetCollection:self options:nil];
+    PHFetchResult *keyResult = [PHAsset fetchKeyAssetsInAssetCollection:self options:assetFetchOptions];
     if (keyResult.count <= 0) {
         PHFetchOptions *fetchOptions = [assetFetchOptions copy];
         fetchOptions.sortDescriptors = @[
