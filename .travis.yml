@@ -4,7 +4,7 @@ install:
 - brew update
 - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 script:
-- xctool -workspace Example/TNKImagePickerController.xcworkspace -scheme TNKImagePickerController-Example -sdk iphonesimulator9.2 build
+- xctool -project TNKImagePickerController.xcodeproj -scheme TNKImagePickerController -sdk iphonesimulator9.2 build
 - pod lib lint --quick
 - carthage build --no-skip-current
 env:
