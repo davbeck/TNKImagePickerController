@@ -295,11 +295,15 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
 	dispatch_async(dispatch_get_main_queue(), ^{
+		// at this time we can't update our fetch requests for each moment since NSCache doesn't give us access to all it's members
+		[_momentCache removeAllObjects];
+		
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
 			_moments = [details fetchResultAfterChanges];
-			[self _loadMoments];
 		}
+		
+		[self _loadMoments];
 	});
 }
 
