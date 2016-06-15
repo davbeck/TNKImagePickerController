@@ -34,6 +34,8 @@
     NSInteger _pasteChangeCount;
     
     TNKCollectionPickerController *_collectionPicker;
+	
+	NSMutableDictionary <NSString *, NSData *>*_originalGIFData;
 }
 
 @property (nonatomic, nonnull) TNKCollectionViewController *collectionViewController;
@@ -204,11 +206,21 @@
 	}
 }
 
+- (nullable NSData *)originalGIFDataForAsset:(PHAsset *)asset {
+	return _originalGIFData[asset.localIdentifier];
+}
+
+- (void)_setOriginalGIFData:(NSData *)data forAssetIdentifier:(NSString *)localIdentifier {
+	_originalGIFData[localIdentifier] = data;
+}
+
 
 #pragma mark - Initialization
 
 - (void)_init
 {
+	_originalGIFData = [NSMutableDictionary new];
+	
 	_assetSelection = [[TNKAssetSelection alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetSelectionDidChange:) name:TNKAssetSelectionDidChangeNotification object:_assetSelection];
 	
@@ -338,30 +350,53 @@
 
 - (IBAction)paste:(id)sender {
     _pasteChangeCount = [UIPasteboard generalPasteboard].changeCount;
-    
-    BOOL validAsset = NO;
-    
-    // this is a private type, so we need to double and tripple check that everything is valid
-    NSData *data = [[UIPasteboard generalPasteboard] dataForPasteboardType:@"com.apple.mobileslideshow.asset.localidentifier"];
-    NSString *localIdentifier = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    if (localIdentifier != nil) {
-        PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
-        
-        if (result.firstObject != nil) {
-            [self selectAsset:result.firstObject];
-            validAsset = YES;
-        }
-    }
-    
-    
-    if (!validAsset) {
-        // we can't reference the asset directly, either because of an internal change or because it was coppied from somewhere else
-        // create an asset and add it to the library
-        NSArray *images = [[UIPasteboard generalPasteboard] images];
-        
-        [self _addImages:images];
-    }
+	
+	for (NSInteger index = 0; index < [UIPasteboard generalPasteboard].numberOfItems; index++) {
+		NSIndexSet *itemSet = [NSIndexSet indexSetWithIndex:index];
+		
+		BOOL validAsset = NO;
+		
+		NSData *data = [[UIPasteboard generalPasteboard] dataForPasteboardType:@"com.apple.mobileslideshow.asset.localidentifier" inItemSet:itemSet].firstObject;
+		if ([data isKindOfClass:[NSData class]]) {
+			NSString *localIdentifier = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+			if (localIdentifier != nil) {
+				PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
+				
+				if (result.firstObject != nil) {
+					[self selectAsset:result.firstObject];
+					validAsset = YES;
+				}
+			}
+		}
+		
+		
+		if (!validAsset) {
+			NSData *gifData = [[UIPasteboard generalPasteboard] dataForPasteboardType:(NSString *)kUTTypeGIF inItemSet:itemSet].firstObject;
+			if ([gifData isKindOfClass:[NSData class]]) {
+				UIImage *image = [[UIImage alloc] initWithData:gifData];
+				__weak __typeof(self)self_weak = self;
+				[self _addImages:@[ image ] completion:^(NSArray *localIdentifiers) {
+					NSString *identifier = localIdentifiers.firstObject;
+					if (identifier != nil) {
+						[self_weak _setOriginalGIFData:gifData forAssetIdentifier:identifier];
+					}
+				}];
+				
+				validAsset = YES;
+			}
+		}
+		
+		
+		if (!validAsset) {
+			NSData *imageData = [[UIPasteboard generalPasteboard] dataForPasteboardType:(NSString *)kUTTypeImage inItemSet:itemSet].firstObject;
+			if ([imageData isKindOfClass:[NSData class]]) {
+				UIImage *image = [[UIImage alloc] initWithData:imageData];
+				[self _addImages:@[ image ] completion:nil];
+				
+				validAsset = YES;
+			}
+		}
+	}
     
     [self _updateToolbarItems:YES];
 }
@@ -455,7 +490,7 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)_addImages:(NSArray<UIImage *> *)images {
+- (void)_addImages:(NSArray<UIImage *> *)images completion:(nullable void(^)(NSArray *localIdentifiers))completion {
     NSMutableArray *localIdentifiers = [NSMutableArray new];
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -467,6 +502,9 @@
     } completionHandler:^(BOOL success, NSError *error) {
         if (error != nil) {
             NSLog(@"Error creating asset from pasteboard: %@", error);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completion(nil);
+			});
         } else if (success) {
             PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:localIdentifiers options:nil];
             
@@ -478,8 +516,13 @@
             if (assets.count > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [_assetSelection addAssets:assets];
+					completion(localIdentifiers);
                 });
-            }
+			} else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completion(nil);
+				});
+			}
         }
     }];
 }
@@ -554,7 +597,7 @@
     NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     
     if (image != nil) {
-        [self _addImages:@[image]];
+        [self _addImages:@[image] completion:nil];
     } else if (videoURL != nil) {
         [self _addVideos:@[videoURL]];
     }

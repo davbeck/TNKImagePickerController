@@ -211,6 +211,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)deselectAsset:(PHAsset *)asset;
 
+/** Get the original data for a pasted GIF.
+ 
+ The photos library does not support animated GIFs. When an image gets pasted into the picker, it gets added as an asset and it's animation is lost. You can recover the original file using this method for images that were pasted into the picker.
+ 
+ Note that this only works for assets that were specifically pasted into *this* picker. If the user closes the picker and selects the image from the library, this method will return nil.
+ 
+ @param asset The asset that was pasted from a GIF.
+ @return The original file data, or nil if the asset was not a pasted GIF.
+ */
+- (nullable NSData *)originalGIFDataForAsset:(PHAsset *)asset;
+
 @end
 
 NS_ASSUME_NONNULL_END
