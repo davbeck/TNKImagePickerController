@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) PHFetchOptions *assetFetchOptions;
 
-@property (nonatomic, strong, readonly, nonnull) PHCachingImageManager *imageManager;
+@property (nonatomic, strong, readonly, nullable) PHCachingImageManager *imageManager;
 
 /** Find the asset displayed at the given point.
  

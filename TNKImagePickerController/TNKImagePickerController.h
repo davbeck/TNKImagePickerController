@@ -35,6 +35,7 @@ FOUNDATION_EXPORT const unsigned char TNKImagePickerControllerVersionString[];
 #import <TNKImagePickerController/TNKAssetCollectionViewController.h>
 #import <TNKImagePickerController/TNKMomentsViewController.h>
 #import <TNKImagePickerController/TNKAssetSelection.h>
+#import <TNKImagePickerController/TNKUnauthorizedViewController.h>
 
 @class PHAssetCollection;
 @class TNKImagePickerController;

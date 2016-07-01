@@ -20,6 +20,7 @@
 #import "TNKAssetSelection.h"
 #import "TNKCollectionViewController.h"
 #import "TNKCollectionViewController_Private.h"
+#import "TNKUnauthorizedViewController.h"
 
 
 #define TNKObjectSpacing 1.0
@@ -38,6 +39,8 @@
 	NSMutableDictionary <NSString *, NSData *>*_originalGIFData;
 }
 
+@property (nonatomic, nullable) TNKCollectionPickerController *collectionPicker;
+
 @property (nonatomic, nonnull) TNKCollectionViewController *collectionViewController;
 
 @end
@@ -45,6 +48,19 @@
 @implementation TNKImagePickerController
 
 #pragma mark - Properties
+
+- (TNKCollectionPickerController *)collectionPicker {
+	if (_collectionPicker != nil) {
+		return _collectionPicker;
+	} else if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
+		_collectionPicker = [[TNKCollectionPickerController alloc] init];
+		_collectionPicker.assetFetchOptions = _assetFetchOptions;
+		_collectionPicker.delegate = self;
+		return _collectionPicker;
+	} else {
+		return nil;
+	}
+}
 
 - (void)setPickerDelegate:(id<TNKImagePickerControllerDelegate>)delegate {
 	_pickerDelegate = delegate;
@@ -78,7 +94,7 @@
     _assetFetchOptions = options;
 	
 	_collectionViewController.assetFetchOptions = _assetFetchOptions;
-	_collectionPicker.assetFetchOptions = _assetFetchOptions;
+	self.collectionPicker.assetFetchOptions = _assetFetchOptions;
 }
 
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
@@ -114,13 +130,19 @@
 
 - (void)_updateForAssetCollection
 {
-    if (_assetCollection == nil) {
-        self.title = NSLocalizedString(@"Moments", nil);
-    } else {
-        self.title = _assetCollection.localizedTitle;
-    }
-    [_collectionButton setTitle:self.title forState:UIControlStateNormal];
-    [_collectionButton sizeToFit];
+	if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
+		if (_assetCollection == nil) {
+			self.title = NSLocalizedString(@"Moments", nil);
+		} else {
+			self.title = _assetCollection.localizedTitle;
+		}
+		[_collectionButton setTitle:self.title forState:UIControlStateNormal];
+		[_collectionButton sizeToFit];
+		self.navigationItem.titleView = _collectionButton;
+	} else {
+		self.title = nil;
+		self.navigationItem.titleView = nil;
+	}
 }
 
 - (void)setHideSelectAll:(BOOL)hideSelectAll {
@@ -239,9 +261,7 @@
     
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
 	
-	_collectionPicker = [[TNKCollectionPickerController alloc] init];
-	_collectionPicker.assetFetchOptions = _assetFetchOptions;
-	_collectionPicker.delegate = self;
+	[self collectionPicker]; // agressively load the picker if we can
 	
     self.hidesBottomBarWhenPushed = NO;
     
@@ -294,7 +314,24 @@
 	recognizer.minimumPressDuration = 0.5;
 	[self.view addGestureRecognizer:recognizer];
 	
-	self.assetCollection = nil;
+	
+	if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized) {
+		UIViewController *viewController = [[UIViewController alloc] init];
+		viewController.view.backgroundColor = [UIColor whiteColor];
+		[self setViewControllers:@[ viewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+	}
+	
+	[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (status == PHAuthorizationStatusAuthorized) {
+				self.assetCollection = nil;
+			} else {
+				TNKUnauthorizedViewController *viewController = [[TNKUnauthorizedViewController alloc] init];
+				
+				[self setViewControllers:@[ viewController ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+			}
+		});
+	}];
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent {
@@ -472,12 +509,12 @@
 - (IBAction)changeCollection:(id)sender {
     if (_assetSelection.count > 0) {
         PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
-        _collectionPicker.additionalAssetCollections = @[ collection ];
+        self.collectionPicker.additionalAssetCollections = @[ collection ];
     } else {
-        _collectionPicker.additionalAssetCollections = @[];
+        self.collectionPicker.additionalAssetCollections = @[];
     }
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_collectionPicker];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.collectionPicker];
     navigationController.restorationIdentifier = @"TNKCollectionPickerController.NavigationController";
     navigationController.restorationClass = [self class];
     navigationController.navigationBarHidden = YES;
@@ -619,7 +656,7 @@
     [coder encodeObject:self.mediaTypes forKey:@"mediaTypes"];
     [coder encodeObject:self.assetCollection.localIdentifier forKey:@"assetCollection"];
     [coder encodeObject:[_assetSelection.assets valueForKey:@"localIdentifier"] forKey:@"selectedAssets"];
-    [coder encodeObject:_collectionPicker forKey:@"collectionPicker"];
+    [coder encodeObject:self.collectionPicker forKey:@"collectionPicker"];
     [coder encodeObject:_collectionPicker.navigationController forKey:@"collectionPickerNavigationController"];
 }
 
@@ -645,12 +682,12 @@
     TNKCollectionPickerController *collectionPicker = [coder decodeObjectForKey:@"collectionPicker"];
     if (collectionPicker != nil) {
         _collectionPicker = collectionPicker;
-        _collectionPicker.assetFetchOptions = _assetFetchOptions;
+        self.collectionPicker.assetFetchOptions = _assetFetchOptions;
         if (_assetSelection.count > 0) {
             PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_assetSelection.assets title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
-            _collectionPicker.additionalAssetCollections = @[ collection ];
+            self.collectionPicker.additionalAssetCollections = @[ collection ];
         }
-        _collectionPicker.delegate = self;
+        self.collectionPicker.delegate = self;
     }
     
     UINavigationController *navigationController = [coder decodeObjectForKey:@"collectionPickerNavigationController"];
