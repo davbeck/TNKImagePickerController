@@ -380,7 +380,7 @@
     }
     
     if (viewController != nil) {
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        [self presentViewController:viewController animated:YES completion:nil];
     }
 }
 
