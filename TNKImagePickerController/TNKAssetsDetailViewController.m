@@ -202,7 +202,9 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     titleFrame.size = [_titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     _titleView.frame = titleFrame;
 	
-	
+    // Fix detail title view jumping
+    self.navigationItem.titleView = nil;
+    self.navigationItem.titleView = _titleView;
 	
 	NSIndexPath *indexPath = [self.viewControllers.firstObject assetIndexPath];
 	BOOL selected = [self.assetDelegate assetsDetailViewController:self isAssetSelectedAtIndexPath:indexPath];
