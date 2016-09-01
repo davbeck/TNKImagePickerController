@@ -26,7 +26,7 @@
 #define TNKObjectSpacing 1.0
 
 
-@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration>
+@interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration, TNKAssetSelectionDelegate>
 {
 	PHFetchOptions *_assetFetchOptions;
 	TNKAssetSelection *_assetSelection;
@@ -244,6 +244,7 @@
 	_originalGIFData = [NSMutableDictionary new];
 	
 	_assetSelection = [[TNKAssetSelection alloc] init];
+	_assetSelection.delegate = self;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetSelectionDidChange:) name:TNKAssetSelectionDidChangeNotification object:_assetSelection];
 	
 	_mediaTypes = @[ (NSString *)kUTTypeImage ];
