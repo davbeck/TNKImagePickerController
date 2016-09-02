@@ -325,6 +325,16 @@
 	[self.collectionView addGestureRecognizer:recognizer];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    UIFont *font = self.navigationController.navigationBar.titleTextAttributes[NSFontAttributeName];
+    if (font != nil) {
+        _collectionButton.titleLabel.font = font;
+        [_collectionButton sizeToFit];
+    }
+}
+
 - (void)viewDidLayoutSubviews {
     if (self.view.window && !_windowLoaded) {
         _windowLoaded = YES;
@@ -337,18 +347,6 @@
         }
     }
 }
-
-- (void)didMoveToParentViewController:(UIViewController *)parent
-{
-    [super didMoveToParentViewController:parent];
-    
-    UIFont *font = self.navigationController.navigationBar.titleTextAttributes[NSFontAttributeName];
-    if (font != nil) {
-        _collectionButton.titleLabel.font = font;
-        [_collectionButton sizeToFit];
-    }
-}
-
 
 #pragma mark - Actions
 
