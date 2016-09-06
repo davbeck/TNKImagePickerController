@@ -551,15 +551,20 @@
                 [assets addObject:obj];
             }];
             
-            if (assets.count > 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [_assetSelection addAssets:assets];
-					completion(localIdentifiers);
-                });
-			} else {
+			if (assets.count > 0) {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(nil);
+					[_assetSelection addAssets:assets];
+					
+					if (completion != nil) {
+						completion(localIdentifiers);
+					}
 				});
+			} else {
+				if (completion != nil) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completion(nil);
+					});
+				}
 			}
         }
     }];
