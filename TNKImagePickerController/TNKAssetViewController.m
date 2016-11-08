@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     PHImageRequestOptions *options = [PHImageRequestOptions new];
     options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
     options.resizeMode = PHImageRequestOptionsResizeModeNone;
-    options.networkAccessAllowed = NO;
+    options.networkAccessAllowed = YES;
     
     CGSize targetSize = _scrollView.bounds.size;
     targetSize.width *= [UIScreen mainScreen].scale;

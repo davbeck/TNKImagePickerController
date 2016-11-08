@@ -76,7 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
         size.height *= self.traitCollection.displayScale;
 		
 		self.imageRequestID = [self.imageManager requestImageForAsset:_asset targetSize:size contentMode:PHImageContentModeAspectFill options:[self.class imageRequestOptions] resultHandler:^(UIImage *result, NSDictionary *info) {
-			if (_asset == asset) {
+			NSAssert([NSThread isMainThread], @"isMainThread");
+			if (_asset == asset && result != nil) {
 				self.image = result;
 			}
 		}];

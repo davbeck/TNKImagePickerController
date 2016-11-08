@@ -41,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This allows you to create posts using photos from your camera roll.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This allows you to take and share new photos.</string>
 </dict>
 </plist>
