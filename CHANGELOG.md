@@ -1,5 +1,13 @@
 # TUMessagePackSerialization CHANGELOG
 
+## 3.4.0
+
+- Turned on network loading of assets.
+- Fixed thumbnail loading wrong images.
+- Converted icons to use native drawing code.
+- Converted picker to use sub view controllers.
+- Added basic support for pasted animated GIFs.
+
 ## 3.3.0
 
 - Fixed loading assets from iCloud.
