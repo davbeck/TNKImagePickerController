@@ -103,7 +103,19 @@
 	if (_assetCollection == nil) {
 		self.collectionViewController = self.momentsViewController;
 	} else {
-		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection];
+		
+		TNKAssetCollectionViewFlowLayoutType assetCollectionFlowType;
+		
+		switch (assetCollection.assetCollectionType) {
+			case PHAssetCollectionTypeSmartAlbum:
+				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeInverted;
+				break;
+			default:
+				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeDefault;
+				break;
+		}
+		
+		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection flowlayoutType:assetCollectionFlowType];
 	}
     
     [self _updateForAssetCollection];

@@ -20,6 +20,7 @@
 #import "NSDate+TNKFormattedDay.h"
 #import "UIImage+TNKIcons.h"
 #import "TNKAssetSelection.h"
+#import "TNKCollectionViewInvertedFlowLayout.h"
 
 
 @interface TNKAssetCollectionViewController ()
@@ -29,12 +30,20 @@
 @implementation TNKAssetCollectionViewController
 
 @synthesize fetchResult = _fetchResult;
+@synthesize flowlayoutType = _flowlayoutType;
 
 - (void)setLayoutInsets:(UIEdgeInsets)layoutInsets {
 	[super setLayoutInsets:layoutInsets];
-	
-	self.collectionView.contentInset = layoutInsets;
-	self.collectionView.scrollIndicatorInsets = layoutInsets;
+
+	if (_flowlayoutType == TNKAssetCollectionViewFlowLayoutTypeInverted) {
+		// because we invert scrolling our top is actually our bottom and vice versa
+		self.collectionView.contentInset = UIEdgeInsetsMake(layoutInsets.bottom, 0, layoutInsets.top, 0);
+		self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
+	}
+	else {
+		self.collectionView.contentInset = layoutInsets;
+		self.collectionView.scrollIndicatorInsets = layoutInsets;
+	}
 }
 
 - (UICollectionViewFlowLayout *)_layout {
@@ -64,15 +73,24 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithAssetCollection:(PHAssetCollection *)assetCollection
+- (nonnull instancetype)initWithAssetCollection:(nonnull PHAssetCollection *)assetCollection flowlayoutType:(TNKAssetCollectionViewFlowLayoutType)flowlayoutType
 {
-	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	UICollectionViewFlowLayout *layout = nil;
+	
+	if (flowlayoutType == TNKAssetCollectionViewFlowLayoutTypeInverted) {
+		layout = [[TNKCollectionViewInvertedFlowLayout alloc] init];
+	}
+	else {
+		layout = [[UICollectionViewFlowLayout alloc] init];
+	}
+	
 	layout.minimumLineSpacing = TNKObjectSpacing;
 	layout.minimumInteritemSpacing = 0.0;
 	
 	self = [super initWithCollectionViewLayout:layout];
 	if (self != nil) {
 		_assetCollection = assetCollection;
+		_flowlayoutType = flowlayoutType;
 	}
 	
 	return self;
@@ -83,6 +101,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	if (_flowlayoutType == TNKAssetCollectionViewFlowLayoutTypeInverted) {
+		self.collectionView.transform = TNKInvertedTransform;
+	}
 	
 	_fetchResult = [PHAsset fetchAssetsInAssetCollection:_assetCollection options:[self assetFetchOptions]];
 	

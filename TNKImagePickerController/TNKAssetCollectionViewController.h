@@ -11,12 +11,17 @@
 @class PHAssetCollection;
 @class PHFetchResult;
 
+typedef NS_ENUM(NSInteger, TNKAssetCollectionViewFlowLayoutType) {
+	TNKAssetCollectionViewFlowLayoutTypeDefault,
+	TNKAssetCollectionViewFlowLayoutTypeInverted
+};
 
 @interface TNKAssetCollectionViewController : TNKCollectionViewController
 
 @property (nonatomic, nonnull, readonly) PHAssetCollection *assetCollection;
 @property (nonatomic, nonnull, readonly) PHFetchResult *fetchResult;
+@property (nonatomic, readonly) TNKAssetCollectionViewFlowLayoutType flowlayoutType;
 
-- (nonnull instancetype)initWithAssetCollection:(nonnull PHAssetCollection *)assetCollection;
+- (nonnull instancetype)initWithAssetCollection:(nonnull PHAssetCollection *)assetCollection flowlayoutType:(TNKAssetCollectionViewFlowLayoutType)flowlayoutType;
 
 @end
