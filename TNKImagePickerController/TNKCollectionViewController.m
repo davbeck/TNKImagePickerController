@@ -107,6 +107,10 @@
 	
 	self.collectionView.backgroundColor = [UIColor whiteColor];
 	self.collectionView.alwaysBounceVertical = YES;
+	if (@available(iOS 11.0, *)) {
+		// we set our insets ourselves and adjust for inverted layouts
+		self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+	}
 	
 	[self.collectionView registerClass:[TNKAssetCell class] forCellWithReuseIdentifier:TNKCollectionViewControllerCellIdentifier];
 }
