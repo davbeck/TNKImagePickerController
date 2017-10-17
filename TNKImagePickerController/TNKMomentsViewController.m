@@ -61,7 +61,12 @@
 	[super setLayoutInsets:layoutInsets];
 	
 	// because we invert scrolling our top is actually our bottom and vice versa
-	self.collectionView.contentInset = UIEdgeInsetsMake(layoutInsets.bottom, 0, layoutInsets.top, 0);
+	self.collectionView.contentInset = UIEdgeInsetsMake(
+														layoutInsets.bottom,
+														layoutInsets.left,
+														layoutInsets.top,
+														layoutInsets.right
+														);
 	self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
 }
 
@@ -123,7 +128,7 @@
 	
 	UICollectionViewFlowLayout *flowLayout = [self _layout];
 	
-	// because we are inverted we want "footers" instead of headers, even though fisually they look and act like headers.
+	// because we are inverted we want "footers" instead of headers, even though visually they look and act like headers.
 	flowLayout.headerReferenceSize = CGSizeZero;
 	flowLayout.footerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 44.0);
 	flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 0.0, 0.0, 0.0);

@@ -79,8 +79,7 @@
 	
 	if (flowlayoutType == TNKAssetCollectionViewFlowLayoutTypeInverted) {
 		layout = [[TNKCollectionViewInvertedFlowLayout alloc] init];
-	}
-	else {
+	} else {
 		layout = [[UICollectionViewFlowLayout alloc] init];
 	}
 	

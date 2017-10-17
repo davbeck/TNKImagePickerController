@@ -236,7 +236,11 @@
 
 - (void)_updateLayoutGuides {
 	if (self.isViewLoaded) {
-		self.collectionViewController.layoutInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+		if (@available(iOS 11.0, *)) {
+			self.collectionViewController.layoutInsets = self.view.safeAreaInsets;
+		} else {
+			self.collectionViewController.layoutInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+		}
 	}
 }
 

@@ -46,9 +46,12 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	UICollectionViewLayoutAttributes *attributes = [[super layoutAttributesForSupplementaryViewOfKind:kind atIndexPath:indexPath] copy];
-	
+
+	// for iPhone X, we want to extend our background to the edges
+	CGFloat gutter = (self.collectionView.frame.size.width - self.collectionViewContentSize.width) / 2;
+	attributes.frame = CGRectInset(attributes.frame, -gutter, 0);
 	attributes.transform = TNKInvertedTransform;
-	
+
 	return attributes;
 }
 
@@ -73,6 +76,9 @@
 			[answer removeObject:attributes];
 			
 			[sections addIndex:attributes.indexPath.section];
+		} else if (attributes.representedElementCategory == UICollectionElementCategorySupplementaryView) {
+			[answer removeObject:attributes];
+			[answer addObject:[self layoutAttributesForSupplementaryViewOfKind:attributes.representedElementKind atIndexPath:attributes.indexPath]];
 		}
 	}
 	
