@@ -100,26 +100,7 @@
 - (void)setAssetCollection:(PHAssetCollection *)assetCollection {
     _assetCollection = assetCollection;
 	
-	if (_assetCollection == nil) {
-		self.collectionViewController = self.momentsViewController;
-	} else {
-		
-		TNKAssetCollectionViewFlowLayoutType assetCollectionFlowType;
-		
-		switch (assetCollection.assetCollectionType) {
-			case PHAssetCollectionTypeSmartAlbum:
-				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeInverted;
-				break;
-			default:
-				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeDefault;
-				break;
-		}
-		
-		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection flowlayoutType:assetCollectionFlowType];
-	}
-    
-    [self _updateForAssetCollection];
-    [self _updateSelectAllButton];
+	[self _updateForAssetCollection];
 }
 
 - (void)setCollectionViewController:(TNKCollectionViewController *)collectionViewController {
@@ -142,6 +123,23 @@
 
 - (void)_updateForAssetCollection
 {
+	if (_assetCollection == nil) {
+		self.collectionViewController = self.momentsViewController;
+	} else {
+		TNKAssetCollectionViewFlowLayoutType assetCollectionFlowType;
+		
+		switch (_assetCollection.assetCollectionType) {
+			case PHAssetCollectionTypeSmartAlbum:
+				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeInverted;
+				break;
+			default:
+				assetCollectionFlowType = TNKAssetCollectionViewFlowLayoutTypeDefault;
+				break;
+		}
+		
+		self.collectionViewController = [[TNKAssetCollectionViewController alloc] initWithAssetCollection:_assetCollection flowlayoutType:assetCollectionFlowType];
+	}
+	
 	if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
 		if (_assetCollection == nil) {
 			self.title = NSLocalizedString(@"Moments", nil);
@@ -155,6 +153,8 @@
 		self.title = nil;
 		self.navigationItem.titleView = nil;
 	}
+	
+	[self _updateSelectAllButton];
 }
 
 - (void)setHideSelectAll:(BOOL)hideSelectAll {
@@ -290,7 +290,6 @@
     
     [self _updateForAssetCollection];
     [self _updateDoneButton];
-    [self _updateSelectAllButton];
     [self _updateToolbarItems:NO];
     
     
