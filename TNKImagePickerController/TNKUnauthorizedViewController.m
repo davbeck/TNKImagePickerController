@@ -46,9 +46,13 @@
 											  ]];
 }
 
-- (IBAction)openSettings:(id)sender {
+- (IBAction)openSettings:(id)sender NS_EXTENSION_UNAVAILABLE_IOS("Use view controller based solutions where appropriate instead.") {
 	NSURL *url = [[NSURL alloc] initWithString:UIApplicationOpenSettingsURLString];
-	[[UIApplication sharedApplication] openURL:url];
+	if (self.extensionContext) {
+		[self.extensionContext openURL:url completionHandler:nil];
+	} else {
+		[[UIApplication sharedApplication] openURL:url];
+	}
 }
 
 @end
