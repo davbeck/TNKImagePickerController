@@ -49,7 +49,7 @@
 
 @interface TNKMomentsViewController () {
 	PHFetchResult<PHAssetCollection *> *_moments;
-	NSCache *_momentCache;
+	NSMutableDictionary<NSString *, PHFetchResult *> *_momentCache;
 	NSArray<TNKMomentInfo *> *_sections;
 }
 
@@ -103,10 +103,15 @@
 	self = [super initWithCollectionViewLayout:layout];
 	if (self != nil) {
 		_moments = [PHAssetCollection fetchMomentsWithOptions:nil];
-		_momentCache = [[NSCache alloc] init];
+		_momentCache = [[NSMutableDictionary alloc] init];
 	}
 	
 	return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+	[_momentCache removeAllObjects];
 }
 
 
@@ -300,15 +305,23 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		// at this time we can't update our fetch requests for each moment since NSCache doesn't give us access to all it's members
-		[_momentCache removeAllObjects];
+		for (NSString *identifier in [_momentCache allKeys]) {
+			PHFetchResult *fetchResult = _momentCache[identifier];
+			
+			PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:fetchResult];
+			if (details != nil) {
+				_momentCache[identifier] = [details fetchResultAfterChanges];
+			}
+		}
 		
 		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
 		if (details != nil) {
 			_moments = [details fetchResultAfterChanges];
+			
+			[self _loadMoments];
 		}
 		
-		[self _loadMoments];
+		[self.collectionView reloadData];
 	});
 }
 
