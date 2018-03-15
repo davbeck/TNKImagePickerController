@@ -138,7 +138,7 @@ NSString * const TNKMomentsSection = @"Moments";
     PHCollectionList *collectionList = self.collectionList;
     
 	dispatch_async(dispatch_get_global_queue(priority ? QOS_CLASS_USER_INITIATED : QOS_CLASS_UTILITY, 0), ^{
-        NSArray<PHFetchResult<PHCollection *> *> *fetchResults;
+        NSArray<PHFetchResult<PHAssetCollection *> *> *fetchResults;
         
         if (collectionList == nil) {
 			fetchResults = @[
