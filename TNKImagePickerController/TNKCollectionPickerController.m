@@ -22,12 +22,13 @@ NSString * const TNKMomentsSection = @"Moments";
 @interface TNKCollectionPickerController () <PHPhotoLibraryChangeObserver, UIViewControllerRestoration>
 {
 	NSArray *_sections;
-    NSArray *_collectionsFetchResults;
     
     NSCache<NSString *, NSNumber *> *_collectionHiddenCache;
     NSCache<NSString *, NSNumber *> *_assetCountCache;
     BOOL _needsRefetch;
 }
+	
+@property (nonatomic) NSArray *collectionsFetchResults;
 
 @end
 
@@ -138,7 +139,7 @@ NSString * const TNKMomentsSection = @"Moments";
     PHCollectionList *collectionList = self.collectionList;
     
 	dispatch_async(dispatch_get_global_queue(priority ? QOS_CLASS_USER_INITIATED : QOS_CLASS_UTILITY, 0), ^{
-        NSArray<PHFetchResult<PHAssetCollection *> *> *fetchResults;
+        NSArray *fetchResults;
         
         if (collectionList == nil) {
 			fetchResults = @[
@@ -174,7 +175,7 @@ NSString * const TNKMomentsSection = @"Moments";
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            _collectionsFetchResults = fetchResults;
+            self.collectionsFetchResults = fetchResults;
 			[self _reloadSections];
         });
 		

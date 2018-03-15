@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 		
 		self.imageRequestID = [self.imageManager requestImageForAsset:_asset targetSize:size contentMode:PHImageContentModeAspectFill options:[self.class imageRequestOptions] resultHandler:^(UIImage *result, NSDictionary *info) {
 			NSAssert([NSThread isMainThread], @"isMainThread");
-			if (_asset == asset && result != nil) {
+			if (self.asset == asset && result != nil) {
 				self.image = result;
 			}
 		}];

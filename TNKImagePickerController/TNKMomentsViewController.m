@@ -47,11 +47,11 @@
 @end
 
 
-@interface TNKMomentsViewController () {
-	PHFetchResult<PHAssetCollection *> *_moments;
-	NSMutableDictionary<NSString *, PHFetchResult *> *_momentCache;
-	NSArray<TNKMomentInfo *> *_sections;
-}
+@interface TNKMomentsViewController ()
+
+@property (nonatomic) PHFetchResult<PHAssetCollection *> *moments;
+@property (nonatomic) NSArray<TNKMomentInfo *> *sections;
+@property (nonatomic) NSMutableDictionary<NSString *, PHFetchResult *> *momentCache;
 
 @end
 
@@ -111,6 +111,8 @@
 
 - (void)didReceiveMemoryWarning
 {
+	[super didReceiveMemoryWarning];
+	
 	[_momentCache removeAllObjects];
 }
 
@@ -237,7 +239,7 @@
 	
 	dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
 		// if _moments change, we might as well cancel because we will be out of date
-		while (momentLoadingIndex < sections.count && _moments == moments) {
+		while (momentLoadingIndex < sections.count && self.moments == moments) {
 			TNKMomentInfo *oldInfo = [sections objectAtIndex:momentLoadingIndex];
 			PHAssetCollection *moment = oldInfo.moment;
 			
@@ -258,8 +260,8 @@
 		}
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if (_moments == moments) {
-				_sections = sections;
+			if (self.moments == moments) {
+				self.sections = sections;
 				[self.collectionView reloadData];
 			}
 		});
@@ -305,18 +307,18 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		for (NSString *identifier in [_momentCache allKeys]) {
-			PHFetchResult *fetchResult = _momentCache[identifier];
+		for (NSString *identifier in [self.momentCache allKeys]) {
+			PHFetchResult *fetchResult = self.momentCache[identifier];
 			
 			PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:fetchResult];
 			if (details != nil) {
-				_momentCache[identifier] = [details fetchResultAfterChanges];
+				self.momentCache[identifier] = [details fetchResultAfterChanges];
 			}
 		}
 		
-		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
+		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:self.moments];
 		if (details != nil) {
-			_moments = [details fetchResultAfterChanges];
+			self.moments = [details fetchResultAfterChanges];
 			
 			[self _loadMoments];
 		}

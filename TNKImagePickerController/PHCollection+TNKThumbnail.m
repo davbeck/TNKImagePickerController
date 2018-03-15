@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIImage *thumbnail = [[PHCollection _tnk_thumbnailImageCache] objectForKey:cacheKey];
     if (thumbnail == nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            [self _tnk_requestThumbnailWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *result) {
+            [self _tnk_requestThumbnailWithAssetsFetchOptions:assetFetchOptions completion:^(UIImage *__nullable result) {
                 if (result == nil) {
                     [[PHCollection _tnk_thumbnailImageCache] setObject:[NSNull null] forKey:cacheKey];
                 } else {

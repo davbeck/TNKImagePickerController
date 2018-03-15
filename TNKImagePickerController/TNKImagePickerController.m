@@ -29,7 +29,6 @@
 @interface TNKImagePickerController () <UIPopoverPresentationControllerDelegate, TNKCollectionPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration, TNKAssetSelectionDelegate>
 {
 	PHFetchOptions *_assetFetchOptions;
-	TNKAssetSelection *_assetSelection;
     
     UIButton *_collectionButton;
     NSInteger _pasteChangeCount;
@@ -38,6 +37,8 @@
 	
 	NSMutableDictionary <NSString *, NSData *>*_originalGIFData;
 }
+	
+@property (nonatomic) TNKAssetSelection *assetSelection;
 
 @property (nonatomic, nullable) TNKCollectionPickerController *collectionPicker;
 
@@ -194,11 +195,11 @@
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				if (allSelected) {
-					_selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
-					_selectAllButton.action = @selector(deselectAll:);
+					self.selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
+					self.selectAllButton.action = @selector(deselectAll:);
 				} else {
-					_selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
-					_selectAllButton.action = @selector(selectAll:);
+					self.selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
+					self.selectAllButton.action = @selector(selectAll:);
 				}
 			});
 		});
@@ -445,8 +446,6 @@
 			if ([imageData isKindOfClass:[NSData class]]) {
 				UIImage *image = [[UIImage alloc] initWithData:imageData];
 				[self _addImages:@[ image ] completion:nil];
-				
-				validAsset = YES;
 			}
 		}
 	}
@@ -468,7 +467,7 @@
 			}];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[_assetSelection addAssets:assets];
+				[self.assetSelection addAssets:assets];
 			});
 		});
 	}
@@ -489,7 +488,7 @@
 			}];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[_assetSelection removeAssets:assets];
+				[self.assetSelection removeAssets:assets];
 			});
 		});
 	}
@@ -568,7 +567,7 @@
             
 			if (assets.count > 0) {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					[_assetSelection addAssets:assets];
+					[self.assetSelection addAssets:assets];
 					
 					if (completion != nil) {
 						completion(localIdentifiers);
@@ -607,7 +606,7 @@
             
             if (assets.count > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [_assetSelection addAssets:assets];
+                    [self.assetSelection addAssets:assets];
                 });
             }
         }

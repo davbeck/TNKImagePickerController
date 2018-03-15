@@ -25,14 +25,14 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
 {
     PHFetchResult *_fetchResult;
     
-    BOOL _fullscreen;
-    
     UIView *_titleView;
     UILabel *_titleLabel;
 	UILabel *_subtitleLabel;
 	UIBarButtonItem *_selectButton;
 	UIBarButtonItem *_deselectButton;
 }
+	
+@property (nonatomic) BOOL fullscreen;
 
 @end
 
@@ -223,7 +223,7 @@ NSString *const TNKImagePickerControllerAssetViewControllerNotificationKey = @"A
     [self.navigationController setNavigationBarHidden:_fullscreen animated:YES];
     
     [UIView animateWithDuration:0.2 animations:^{
-        if (_fullscreen) {
+        if (self.fullscreen) {
             self.view.backgroundColor = [UIColor blackColor];
         } else {
             self.view.backgroundColor = [UIColor whiteColor];

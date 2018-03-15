@@ -16,9 +16,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TNKAssetViewController ()
-{
-    TNKImageZoomView *_scrollView;
-}
+	
+@property (nonatomic) TNKImageZoomView *scrollView;
 
 @end
 
@@ -42,13 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
     targetSize.height *= [UIScreen mainScreen].scale;
     
     [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-        _scrollView.image = result;
+        self.scrollView.image = result;
         
         if (![info[PHImageResultIsDegradedKey] boolValue] && !CGSizeEqualToSize(assetSize, result.size)) {
             options.networkAccessAllowed = YES;
             
-            [[PHImageManager defaultManager] requestImageForAsset:_asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-                _scrollView.image = result;
+            [[PHImageManager defaultManager] requestImageForAsset:self.asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+                self.scrollView.image = result;
             }];
         }
     }];

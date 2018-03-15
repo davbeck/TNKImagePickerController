@@ -24,7 +24,7 @@
 
 
 @interface TNKAssetCollectionViewController ()
-
+@property (nonatomic, nonnull, readwrite) PHFetchResult *fetchResult;
 @end
 
 @implementation TNKAssetCollectionViewController
@@ -148,9 +148,9 @@
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     dispatch_async(dispatch_get_main_queue(), ^{
-		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_fetchResult];
+		PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:self.fetchResult];
 		if (details != nil) {
-			_fetchResult = [details fetchResultAfterChanges];
+			self.fetchResult = [details fetchResultAfterChanges];
 			
 			if (details.hasIncrementalChanges) {
 				[self.collectionView performBatchUpdates:^{
