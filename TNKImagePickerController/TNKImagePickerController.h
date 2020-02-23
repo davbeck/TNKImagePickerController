@@ -6,7 +6,7 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 //! Project version number for TNKImagePickerController.
 FOUNDATION_EXPORT double TNKImagePickerControllerVersionNumber;
@@ -17,25 +17,25 @@ FOUNDATION_EXPORT const unsigned char TNKImagePickerControllerVersionString[];
 
 @import MobileCoreServices;
 
-#import <TNKImagePickerController/NSDate+TNKFormattedDay.h>
-#import <TNKImagePickerController/PHCollection+TNKThumbnail.h>
-#import <TNKImagePickerController/PHImageManager+TNKRequestImages.h>
-#import <TNKImagePickerController/PHPhotoLibrary+TNKBlockObservers.h>
-#import <TNKImagePickerController/TNKAssetCell.h>
-#import <TNKImagePickerController/TNKAssetImageView.h>
-#import <TNKImagePickerController/TNKAssetsDetailViewController.h>
-#import <TNKImagePickerController/TNKAssetViewController.h>
-#import <TNKImagePickerController/TNKCollectionCell.h>
-#import <TNKImagePickerController/TNKCollectionPickerController.h>
-#import <TNKImagePickerController/TNKCollectionsTitleButton.h>
-#import <TNKImagePickerController/TNKImageZoomView.h>
-#import <TNKImagePickerController/TNKMomentHeaderView.h>
-#import <TNKImagePickerController/UIImage+TNKAspectDraw.h>
-#import <TNKImagePickerController/TNKCollectionViewController.h>
-#import <TNKImagePickerController/TNKAssetCollectionViewController.h>
-#import <TNKImagePickerController/TNKMomentsViewController.h>
-#import <TNKImagePickerController/TNKAssetSelection.h>
-#import <TNKImagePickerController/TNKUnauthorizedViewController.h>
+#import "NSDate+TNKFormattedDay.h"
+#import "PHCollection+TNKThumbnail.h"
+#import "PHImageManager+TNKRequestImages.h"
+#import "PHPhotoLibrary+TNKBlockObservers.h"
+#import "TNKAssetCell.h"
+#import "TNKAssetImageView.h"
+#import "TNKAssetsDetailViewController.h"
+#import "TNKAssetViewController.h"
+#import "TNKCollectionCell.h"
+#import "TNKCollectionPickerController.h"
+#import "TNKCollectionsTitleButton.h"
+#import "TNKImageZoomView.h"
+#import "TNKMomentHeaderView.h"
+#import "UIImage+TNKAspectDraw.h"
+#import "TNKCollectionViewController.h"
+#import "TNKAssetCollectionViewController.h"
+#import "TNKMomentsViewController.h"
+#import "TNKAssetSelection.h"
+#import "TNKUnauthorizedViewController.h"
 
 @class PHAssetCollection;
 @class TNKImagePickerController;

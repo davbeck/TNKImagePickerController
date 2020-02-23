@@ -6,7 +6,7 @@
 //  Copyright © 2016 Think Ultimate LLC. All rights reserved.
 //
 
-#import <TNKImagePickerController/TNKImagePickerController.h>
+#import "TNKImagePickerController.h"
 
 @class TNKAssetSelection;
 

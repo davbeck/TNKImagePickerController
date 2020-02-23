@@ -6,7 +6,7 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 
 #define TNKInvertedTransform CGAffineTransformMake(1, 0, 0, -1, 0, 0)
